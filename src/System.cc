@@ -23,6 +23,13 @@
 #include <thread>
 #include <pangolin/pangolin.h>
 #include <iomanip>
+#include <fstream>
+#include <sstream>
+#include <limits>
+#include <cerrno>
+#include <cmath>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <openssl/md5.h>
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/string.hpp>
@@ -37,6 +44,126 @@ namespace ORB_SLAM3
 {
 
 Verbose::eLevel Verbose::th = Verbose::VERBOSITY_NORMAL;
+
+namespace
+{
+
+bool EnsureDirectory(const string &path)
+{
+    if(path.empty())
+        return false;
+
+    string normalized = path;
+    while(normalized.size() > 1 && normalized[normalized.size() - 1] == '/')
+        normalized.erase(normalized.size() - 1);
+
+    string current;
+    size_t start = 0;
+    if(normalized[0] == '/')
+    {
+        current = "/";
+        start = 1;
+    }
+
+    while(start <= normalized.size())
+    {
+        size_t end = normalized.find('/', start);
+        string part = normalized.substr(start, end == string::npos ? string::npos : end - start);
+        if(!part.empty())
+        {
+            if(current.empty() || current == "/")
+                current += part;
+            else
+                current += "/" + part;
+
+            if(mkdir(current.c_str(), 0755) != 0 && errno != EEXIST)
+                return false;
+        }
+
+        if(end == string::npos)
+            break;
+        start = end + 1;
+    }
+
+    return true;
+}
+
+string JoinPath(const string &dir, const string &name)
+{
+    if(dir.empty() || dir[dir.size() - 1] == '/')
+        return dir + name;
+    return dir + "/" + name;
+}
+
+string BaseName(const string &path)
+{
+    const size_t pos = path.find_last_of("/\\");
+    if(pos == string::npos)
+        return path;
+    return path.substr(pos + 1);
+}
+
+string JsonEscape(const string &value)
+{
+    ostringstream oss;
+    for(unsigned char c : value)
+    {
+        switch(c)
+        {
+            case '"': oss << "\\\""; break;
+            case '\\': oss << "\\\\"; break;
+            case '\b': oss << "\\b"; break;
+            case '\f': oss << "\\f"; break;
+            case '\n': oss << "\\n"; break;
+            case '\r': oss << "\\r"; break;
+            case '\t': oss << "\\t"; break;
+            default:
+                if(c < 0x20)
+                    oss << "\\u" << hex << setw(4) << setfill('0') << static_cast<int>(c) << dec << setfill(' ');
+                else
+                    oss << c;
+        }
+    }
+    return oss.str();
+}
+
+void WriteMatrixJson(ostream &os, const Eigen::Matrix4f &m)
+{
+    os << "[";
+    for(int r = 0; r < 4; ++r)
+    {
+        for(int c = 0; c < 4; ++c)
+        {
+            if(r != 0 || c != 0)
+                os << ",";
+            os << m(r, c);
+        }
+    }
+    os << "]";
+}
+
+Map* SelectLargestUsableMap(const vector<Map*> &maps)
+{
+    Map* pBestMap = static_cast<Map*>(NULL);
+    size_t nBestKFs = 0;
+
+    for(Map* pMap : maps)
+    {
+        if(!pMap || pMap->IsBad())
+            continue;
+
+        const size_t nKFs = pMap->GetAllKeyFrames().size();
+        if(nKFs > nBestKFs)
+        {
+            pBestMap = pMap;
+            nBestKFs = nKFs;
+        }
+    }
+
+    return pBestMap;
+}
+
+} // namespace
 
 System::System(const string &strVocFile, const string &strSettingsFile, const eSensor sensor,
                const bool bUseViewer, const int initFr, const string &strSequence):
@@ -1150,6 +1277,199 @@ void System::SaveKeyFrameTrajectoryEuRoC(const string &filename, Map* pMap)
     f.close();
 }
 
+void System::ExportSemanticMapData(const string &outputDir)
+{
+    cout << endl << "Exporting semantic map data to " << outputDir << " ..." << endl;
+
+    if(!EnsureDirectory(outputDir))
+    {
+        cerr << "ERROR: could not create semantic export directory: " << outputDir << endl;
+        return;
+    }
+
+    vector<Map*> vpMaps = mpAtlas->GetAllMaps();
+    Map* pMap = SelectLargestUsableMap(vpMaps);
+    if(!pMap)
+    {
+        cerr << "ERROR: no usable map for semantic export." << endl;
+        return;
+    }
+
+    vector<KeyFrame*> vpKFs = pMap->GetAllKeyFrames();
+    vector<MapPoint*> vpMPs = pMap->GetAllMapPoints();
+    sort(vpKFs.begin(), vpKFs.end(), KeyFrame::lId);
+    sort(vpMPs.begin(), vpMPs.end(), [](MapPoint* a, MapPoint* b) {
+        if(!a || !b)
+            return a < b;
+        return a->mnId < b->mnId;
+    });
+
+    const string keyframesPath = JoinPath(outputDir, "keyframes.jsonl");
+    const string mapPointsPath = JoinPath(outputDir, "map_points.jsonl");
+    const string observationsPath = JoinPath(outputDir, "observations.jsonl");
+    const string plyPath = JoinPath(outputDir, "map_points.ply");
+    const string summaryPath = JoinPath(outputDir, "summary.json");
+
+    ofstream fKFs(keyframesPath.c_str());
+    ofstream fMPs(mapPointsPath.c_str());
+    ofstream fObs(observationsPath.c_str());
+    ofstream fPly(plyPath.c_str());
+    ofstream fSummary(summaryPath.c_str());
+
+    if(!fKFs.is_open() || !fMPs.is_open() || !fObs.is_open() || !fPly.is_open() || !fSummary.is_open())
+    {
+        cerr << "ERROR: could not open one or more semantic export files." << endl;
+        return;
+    }
+
+    fKFs << fixed << setprecision(9);
+    fMPs << fixed << setprecision(9);
+    fObs << fixed << setprecision(9);
+    fPly << fixed << setprecision(9);
+    fSummary << fixed << setprecision(9);
+
+    size_t nValidMaps = 0;
+    size_t nMapsWithKeyFrames = 0;
+    for(Map* pCandidate : vpMaps)
+    {
+        if(!pCandidate || pCandidate->IsBad())
+            continue;
+        if(!pCandidate->GetAllKeyFrames().empty())
+            nMapsWithKeyFrames++;
+        nValidMaps++;
+    }
+
+    size_t nExportedKFs = 0;
+    for(KeyFrame* pKF : vpKFs)
+    {
+        if(!pKF || pKF->isBad())
+            continue;
+
+        const Sophus::SE3f Tcw = pKF->GetPose();
+        const Sophus::SE3f Twc = pKF->GetPoseInverse();
+
+        fKFs << "{"
+             << "\"keyframe_id\":" << pKF->mnId
+             << ",\"frame_id\":" << pKF->mnFrameId
+             << ",\"map_id\":" << pMap->GetId()
+             << ",\"timestamp\":" << pKF->mTimeStamp
+             << ",\"timestamp_ns\":" << setprecision(0) << fixed << pKF->mTimeStamp * 1e9 << setprecision(9)
+             << ",\"image_path\":\"" << JsonEscape(pKF->mNameFile) << "\""
+             << ",\"image_name\":\"" << JsonEscape(BaseName(pKF->mNameFile)) << "\""
+             << ",\"num_keypoints\":" << pKF->N
+             << ",\"camera\":{\"fx\":" << pKF->fx
+             << ",\"fy\":" << pKF->fy
+             << ",\"cx\":" << pKF->cx
+             << ",\"cy\":" << pKF->cy
+             << ",\"min_x\":" << pKF->mnMinX
+             << ",\"min_y\":" << pKF->mnMinY
+             << ",\"max_x\":" << pKF->mnMaxX
+             << ",\"max_y\":" << pKF->mnMaxY << "}"
+             << ",\"Tcw\":";
+        WriteMatrixJson(fKFs, Tcw.matrix());
+        fKFs << ",\"Twc\":";
+        WriteMatrixJson(fKFs, Twc.matrix());
+        fKFs << "}" << endl;
+
+        nExportedKFs++;
+    }
+
+    vector<pair<MapPoint*, Eigen::Vector3f> > vValidMPs;
+    vValidMPs.reserve(vpMPs.size());
+
+    for(MapPoint* pMP : vpMPs)
+    {
+        if(!pMP || pMP->isBad())
+            continue;
+
+        const Eigen::Vector3f pos = pMP->GetWorldPos();
+        if(!std::isfinite(pos(0)) || !std::isfinite(pos(1)) || !std::isfinite(pos(2)))
+            continue;
+
+        vValidMPs.push_back(make_pair(pMP, pos));
+
+        fMPs << "{"
+             << "\"map_point_id\":" << pMP->mnId
+             << ",\"map_id\":" << pMap->GetId()
+             << ",\"first_keyframe_id\":" << pMP->mnFirstKFid
+             << ",\"first_frame_id\":" << pMP->mnFirstFrame
+             << ",\"observations\":" << pMP->Observations()
+             << ",\"position\":[" << pos(0) << "," << pos(1) << "," << pos(2) << "]"
+             << "}" << endl;
+    }
+
+    size_t nExportedObs = 0;
+    for(const pair<MapPoint*, Eigen::Vector3f> &entry : vValidMPs)
+    {
+        MapPoint* pMP = entry.first;
+        const map<KeyFrame*, tuple<int,int> > observations = pMP->GetObservations();
+
+        for(map<KeyFrame*, tuple<int,int> >::const_iterator it = observations.begin(); it != observations.end(); ++it)
+        {
+            KeyFrame* pKF = it->first;
+            if(!pKF || pKF->isBad() || pKF->GetMap() != pMap)
+                continue;
+
+            const int leftIdx = get<0>(it->second);
+            if(leftIdx < 0 || leftIdx >= static_cast<int>(pKF->mvKeysUn.size()))
+                continue;
+
+            const cv::KeyPoint &kp = pKF->mvKeysUn[leftIdx];
+            fObs << "{"
+                 << "\"map_point_id\":" << pMP->mnId
+                 << ",\"keyframe_id\":" << pKF->mnId
+                 << ",\"frame_id\":" << pKF->mnFrameId
+                 << ",\"timestamp\":" << pKF->mTimeStamp
+                 << ",\"timestamp_ns\":" << setprecision(0) << fixed << pKF->mTimeStamp * 1e9 << setprecision(9)
+                 << ",\"camera\":\"left\""
+                 << ",\"keypoint_index\":" << leftIdx
+                 << ",\"u\":" << kp.pt.x
+                 << ",\"v\":" << kp.pt.y
+                 << ",\"octave\":" << kp.octave
+                 << ",\"response\":" << kp.response
+                 << ",\"right_u\":" << ((leftIdx < static_cast<int>(pKF->mvuRight.size())) ? pKF->mvuRight[leftIdx] : -1.0f)
+                 << ",\"depth\":" << ((leftIdx < static_cast<int>(pKF->mvDepth.size())) ? pKF->mvDepth[leftIdx] : -1.0f)
+                 << ",\"image_path\":\"" << JsonEscape(pKF->mNameFile) << "\""
+                 << "}" << endl;
+
+            nExportedObs++;
+        }
+    }
+
+    fPly << "ply" << endl;
+    fPly << "format ascii 1.0" << endl;
+    fPly << "element vertex " << vValidMPs.size() << endl;
+    fPly << "property float x" << endl;
+    fPly << "property float y" << endl;
+    fPly << "property float z" << endl;
+    fPly << "end_header" << endl;
+    for(const pair<MapPoint*, Eigen::Vector3f> &entry : vValidMPs)
+    {
+        const Eigen::Vector3f &pos = entry.second;
+        fPly << pos(0) << " " << pos(1) << " " << pos(2) << endl;
+    }
+
+    fSummary << "{"
+             << "\"selected_map_id\":" << pMap->GetId()
+             << ",\"atlas_map_count\":" << vpMaps.size()
+             << ",\"valid_map_count\":" << nValidMaps
+             << ",\"maps_with_keyframes\":" << nMapsWithKeyFrames
+             << ",\"single_complete_map\":" << (nMapsWithKeyFrames == 1 ? "true" : "false")
+             << ",\"keyframes_exported\":" << nExportedKFs
+             << ",\"map_points_exported\":" << vValidMPs.size()
+             << ",\"observations_exported\":" << nExportedObs
+             << ",\"keyframes_file\":\"keyframes.jsonl\""
+             << ",\"map_points_file\":\"map_points.jsonl\""
+             << ",\"observations_file\":\"observations.jsonl\""
+             << ",\"ply_file\":\"map_points.ply\""
+             << "}" << endl;
+
+    cout << "Semantic export finished: "
+         << nExportedKFs << " keyframes, "
+         << vValidMPs.size() << " map points, "
+         << nExportedObs << " left-camera observations." << endl;
+}
+
 /*void System::SaveTrajectoryKITTI(const string &filename)
 {
     cout << endl << "Saving camera trajectory to " << filename << " ..." << endl;
@@ -1546,4 +1866,3 @@ string System::CalculateCheckSum(string filename, int type)
 }
 
 } //namespace ORB_SLAM
-

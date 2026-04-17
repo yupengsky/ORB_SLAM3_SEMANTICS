@@ -157,6 +157,7 @@ public:
 
     void SaveTrajectoryEuRoC(const string &filename, Map* pMap);
     void SaveKeyFrameTrajectoryEuRoC(const string &filename, Map* pMap);
+    void ExportSemanticMapData(const string &outputDir);
 
     // Save data used for initialization debug
     void SaveDebugData(const int &iniIdx);

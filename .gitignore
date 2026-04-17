@@ -7,6 +7,8 @@
 # Unignore all dirs
 !*/
 
+!off-line_test
+
 CMakeLists.txt.user
 CMakeLists_modified.txt
 
@@ -68,6 +70,10 @@ Vocabulary/ORBvoc.txt
 build/
 
 lib/
+
+results/
+semantics/checkpoints/
+semantics/__pycache__/
 
 cmake_modules/
 cmake-build-debug/

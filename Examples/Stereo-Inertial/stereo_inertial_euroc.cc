@@ -23,6 +23,7 @@
 #include<chrono>
 #include <ctime>
 #include <sstream>
+#include <cstdlib>
 
 #include <opencv2/core/core.hpp>
 
@@ -182,7 +183,7 @@ int main(int argc, char **argv)
     #endif
 
             // Pass the images to the SLAM system
-            SLAM.TrackStereo(imLeft,imRight,tframe,vImuMeas);
+            SLAM.TrackStereo(imLeft,imRight,tframe,vImuMeas,vstrImageLeft[seq][ni]);
 
     #ifdef COMPILEDWITHC11
             std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
@@ -222,6 +223,9 @@ int main(int argc, char **argv)
     // Stop all threads
     SLAM.Shutdown();
 
+    const char* semanticExportDir = std::getenv("ORB_SLAM3_SEMANTIC_EXPORT_DIR");
+    if(semanticExportDir && string(semanticExportDir).size() > 0)
+        SLAM.ExportSemanticMapData(string(semanticExportDir));
 
     // Save camera trajectory
     if (bFileName)
