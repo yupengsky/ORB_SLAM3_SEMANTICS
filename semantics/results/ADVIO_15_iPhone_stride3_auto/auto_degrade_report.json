@@ -1,0 +1,52 @@
+{
+  "dataset_key": "advio_15",
+  "dataset_name": "ADVIO_15_iPhone_stride3",
+  "dataset_kind": "advio",
+  "capabilities": {
+    "dataset_path": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/advio/euroc_like/advio-15-iphone-stride3",
+    "has_monocular": true,
+    "has_stereo": false,
+    "has_imu_file": true,
+    "cam0_images": 1035,
+    "cam1_images": 0,
+    "imu_rows": 5176
+  },
+  "candidate_modes": [
+    "mono_imu",
+    "mono"
+  ],
+  "attempts": [
+    {
+      "mode": "mono_imu",
+      "status": "failed",
+      "return_code": 1,
+      "result_dir": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/ORB_SLAM3_SEMANTICS_outputs/ADVIO_15_iPhone_stride3_auto_mono_imu",
+      "final_json_dir": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/ADVIO_15_iPhone_stride3_auto_mono_imu",
+      "semantic_json": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/ADVIO_15_iPhone_stride3_auto_mono_imu/semantic_map.json",
+      "navigation_json": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/ADVIO_15_iPhone_stride3_auto_mono_imu/semantic_navigation_map.json"
+    },
+    {
+      "mode": "mono",
+      "status": "ok",
+      "return_code": 0,
+      "result_dir": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/ORB_SLAM3_SEMANTICS_outputs/ADVIO_15_iPhone_stride3_auto_mono",
+      "final_json_dir": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/ADVIO_15_iPhone_stride3_auto_mono",
+      "semantic_json": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/ADVIO_15_iPhone_stride3_auto_mono/semantic_map.json",
+      "navigation_json": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/ADVIO_15_iPhone_stride3_auto_mono/semantic_navigation_map.json",
+      "quality_status": "ok",
+      "quality_reason": "ok"
+    }
+  ],
+  "selected": {
+    "mode": "mono",
+    "status": "ok",
+    "return_code": 0,
+    "result_dir": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/ORB_SLAM3_SEMANTICS_outputs/ADVIO_15_iPhone_stride3_auto_mono",
+    "final_json_dir": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/ADVIO_15_iPhone_stride3_auto_mono",
+    "semantic_json": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/ADVIO_15_iPhone_stride3_auto_mono/semantic_map.json",
+    "navigation_json": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/ADVIO_15_iPhone_stride3_auto_mono/semantic_navigation_map.json",
+    "quality_status": "ok",
+    "quality_reason": "ok"
+  },
+  "final_json_dir": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/ADVIO_15_iPhone_stride3_auto"
+}

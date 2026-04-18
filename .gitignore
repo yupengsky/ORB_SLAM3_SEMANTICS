@@ -8,6 +8,13 @@
 !*/
 
 !off-line_test
+!off-line_test_advio
+!off-line_auto_degrade
+
+# Local agent/tooling metadata
+.codex
+**/__pycache__/
+*.pyc
 
 CMakeLists.txt.user
 CMakeLists_modified.txt
@@ -72,8 +79,10 @@ build/
 lib/
 
 results/
+!semantics/results/
+!semantics/results/**/
+!semantics/results/**/*.json
 semantics/checkpoints/
-semantics/__pycache__/
 
 cmake_modules/
 cmake-build-debug/
@@ -89,7 +98,6 @@ time*
 Time*
 Table_Euroc
 Table_TUMVI_rooms/
-*.pyc
 *.osa
 .idea/
 my_settings.txt

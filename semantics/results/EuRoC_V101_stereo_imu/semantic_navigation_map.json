@@ -1,0 +1,3270 @@
+{
+  "physical_scale_unit": "米",
+  "has_metric_scale": true,
+  "map_form": "full_map",
+  "dataset_name": "EuRoC_V101",
+  "slam_mode": "stereo_imu",
+  "coordinate_frame": {
+    "unit": "meter",
+    "origin": "ORB-SLAM3 world origin",
+    "axes": "ORB-SLAM3 world frame"
+  },
+  "scene_summary": {
+    "map_points_total": 8417,
+    "semantic_objects_total": 28,
+    "path_nodes_total": 30,
+    "path_edges_total": 37,
+    "path_network_length_m": 42.2091,
+    "recorded_trajectory_length_m": 51.516,
+    "semantic_objects_by_label": {
+      "refrigerator": 5,
+      "couch": 3,
+      "remote": 3,
+      "bed": 2,
+      "bench": 2,
+      "chair": 2,
+      "dining table": 2,
+      "suitcase": 2,
+      "tv": 2,
+      "book": 1,
+      "keyboard": 1,
+      "skis": 1,
+      "tie": 1,
+      "traffic light": 1
+    },
+    "map_points_by_label": {
+      "unknown": 5365,
+      "couch": 1055,
+      "bed": 1026,
+      "book": 257,
+      "refrigerator": 183,
+      "remote": 125,
+      "bench": 124,
+      "tv": 73,
+      "suitcase": 55,
+      "skis": 43,
+      "tie": 35,
+      "chair": 33,
+      "dining table": 20,
+      "traffic light": 16,
+      "keyboard": 7
+    }
+  },
+  "global_bounds": {
+    "min": [
+      -3.8972,
+      -9.8507,
+      -1.7327
+    ],
+    "max": [
+      4.812,
+      -0.4103,
+      1.1195
+    ],
+    "extent": [
+      8.7092,
+      9.4404,
+      2.8522
+    ]
+  },
+  "semantic_objects": [
+    {
+      "id": "traffic_light_001",
+      "label": "traffic light",
+      "center": [
+        3.1139,
+        -6.4765,
+        0.2639
+      ],
+      "bbox_3d": {
+        "min": [
+          2.985,
+          -6.5389,
+          0.1388
+        ],
+        "max": [
+          3.1686,
+          -6.3223,
+          0.3559
+        ]
+      },
+      "extent": [
+        0.1836,
+        0.2166,
+        0.2171
+      ],
+      "confidence": 0.2976,
+      "support_points": 16,
+      "semantic_observation_hits": 29,
+      "distance_to_path_network_m": 0.4054,
+      "clearance_to_path_network_m": 0.2818,
+      "nearest_path_node_id": "path_node_016",
+      "nearest_path_edge_id": "path_edge_024"
+    },
+    {
+      "id": "bench_002",
+      "label": "bench",
+      "center": [
+        -0.4994,
+        -4.9043,
+        -0.5378
+      ],
+      "bbox_3d": {
+        "min": [
+          -0.8119,
+          -5.7947,
+          -1.1248
+        ],
+        "max": [
+          -0.2083,
+          -4.1943,
+          -0.3588
+        ]
+      },
+      "extent": [
+        0.6036,
+        1.6003,
+        0.7661
+      ],
+      "confidence": 0.2758,
+      "support_points": 15,
+      "semantic_observation_hits": 15,
+      "distance_to_path_network_m": 0.4235,
+      "clearance_to_path_network_m": 0.2139,
+      "nearest_path_node_id": "path_node_001",
+      "nearest_path_edge_id": "path_edge_001"
+    },
+    {
+      "id": "dining_table_002",
+      "label": "dining table",
+      "center": [
+        -0.0399,
+        -4.2598,
+        -0.3777
+      ],
+      "bbox_3d": {
+        "min": [
+          -0.2179,
+          -4.3334,
+          -0.3787
+        ],
+        "max": [
+          0.0473,
+          -4.1137,
+          -0.376
+        ]
+      },
+      "extent": [
+        0.2653,
+        0.2198,
+        0.0027
+      ],
+      "confidence": 0.3476,
+      "support_points": 5,
+      "semantic_observation_hits": 5,
+      "distance_to_path_network_m": 0.4687,
+      "clearance_to_path_network_m": 0.3258,
+      "nearest_path_node_id": "path_node_030",
+      "nearest_path_edge_id": "path_edge_037"
+    },
+    {
+      "id": "refrigerator_005",
+      "label": "refrigerator",
+      "center": [
+        3.0673,
+        -6.4329,
+        0.1749
+      ],
+      "bbox_3d": {
+        "min": [
+          2.7103,
+          -6.5188,
+          -0.4382
+        ],
+        "max": [
+          3.246,
+          -6.0261,
+          0.3847
+        ]
+      },
+      "extent": [
+        0.5357,
+        0.4927,
+        0.823
+      ],
+      "confidence": 0.3288,
+      "support_points": 17,
+      "semantic_observation_hits": 17,
+      "distance_to_path_network_m": 0.4828,
+      "clearance_to_path_network_m": 0.1283,
+      "nearest_path_node_id": "path_node_016",
+      "nearest_path_edge_id": "path_edge_024"
+    },
+    {
+      "id": "bed_001",
+      "label": "bed",
+      "center": [
+        0.0109,
+        -4.9673,
+        -0.5375
+      ],
+      "bbox_3d": {
+        "min": [
+          -0.8832,
+          -6.0445,
+          -1.644
+        ],
+        "max": [
+          3.4031,
+          -0.4103,
+          0.0358
+        ]
+      },
+      "extent": [
+        4.2863,
+        5.6342,
+        1.6798
+      ],
+      "confidence": 0.5842,
+      "support_points": 991,
+      "semantic_observation_hits": 2536,
+      "distance_to_path_network_m": 0.7061,
+      "clearance_to_path_network_m": 0.0,
+      "nearest_path_node_id": "path_node_001",
+      "nearest_path_edge_id": "path_edge_001"
+    },
+    {
+      "id": "keyboard_001",
+      "label": "keyboard",
+      "center": [
+        0.4724,
+        -4.3487,
+        -0.4587
+      ],
+      "bbox_3d": {
+        "min": [
+          0.4068,
+          -4.4587,
+          -0.5549
+        ],
+        "max": [
+          0.6018,
+          -4.2812,
+          -0.4208
+        ]
+      },
+      "extent": [
+        0.195,
+        0.1775,
+        0.1342
+      ],
+      "confidence": 0.4873,
+      "support_points": 6,
+      "semantic_observation_hits": 11,
+      "distance_to_path_network_m": 0.7566,
+      "clearance_to_path_network_m": 0.6958,
+      "nearest_path_node_id": "path_node_006",
+      "nearest_path_edge_id": "path_edge_012"
+    },
+    {
+      "id": "suitcase_001",
+      "label": "suitcase",
+      "center": [
+        0.4494,
+        -4.4515,
+        -0.5103
+      ],
+      "bbox_3d": {
+        "min": [
+          0.2821,
+          -4.5559,
+          -0.9025
+        ],
+        "max": [
+          0.6038,
+          -4.336,
+          -0.4251
+        ]
+      },
+      "extent": [
+        0.3217,
+        0.2199,
+        0.4775
+      ],
+      "confidence": 0.4458,
+      "support_points": 30,
+      "semantic_observation_hits": 72,
+      "distance_to_path_network_m": 0.8227,
+      "clearance_to_path_network_m": 0.6996,
+      "nearest_path_node_id": "path_node_006",
+      "nearest_path_edge_id": "path_edge_012"
+    },
+    {
+      "id": "suitcase_002",
+      "label": "suitcase",
+      "center": [
+        3.847,
+        -6.2264,
+        -0.2528
+      ],
+      "bbox_3d": {
+        "min": [
+          2.9469,
+          -6.4679,
+          -0.4593
+        ],
+        "max": [
+          4.8066,
+          -5.9967,
+          -0.1943
+        ]
+      },
+      "extent": [
+        1.8596,
+        0.4713,
+        0.265
+      ],
+      "confidence": 0.3901,
+      "support_points": 24,
+      "semantic_observation_hits": 26,
+      "distance_to_path_network_m": 0.8422,
+      "clearance_to_path_network_m": 0.6613,
+      "nearest_path_node_id": "path_node_016",
+      "nearest_path_edge_id": "path_edge_024"
+    },
+    {
+      "id": "couch_002",
+      "label": "couch",
+      "center": [
+        0.3635,
+        -4.8671,
+        -0.642
+      ],
+      "bbox_3d": {
+        "min": [
+          -0.1073,
+          -5.578,
+          -1.2526
+        ],
+        "max": [
+          0.6103,
+          -3.9032,
+          -0.3733
+        ]
+      },
+      "extent": [
+        0.7176,
+        1.6748,
+        0.8792
+      ],
+      "confidence": 0.3906,
+      "support_points": 40,
+      "semantic_observation_hits": 42,
+      "distance_to_path_network_m": 0.9994,
+      "clearance_to_path_network_m": 0.3769,
+      "nearest_path_node_id": "path_node_030",
+      "nearest_path_edge_id": "path_edge_037"
+    },
+    {
+      "id": "bed_002",
+      "label": "bed",
+      "center": [
+        -1.8504,
+        -4.7273,
+        -0.5475
+      ],
+      "bbox_3d": {
+        "min": [
+          -2.0567,
+          -5.0606,
+          -0.5824
+        ],
+        "max": [
+          -1.6711,
+          -4.3717,
+          -0.5151
+        ]
+      },
+      "extent": [
+        0.3856,
+        0.6889,
+        0.0673
+      ],
+      "confidence": 0.765,
+      "support_points": 15,
+      "semantic_observation_hits": 35,
+      "distance_to_path_network_m": 1.0593,
+      "clearance_to_path_network_m": 0.7961,
+      "nearest_path_node_id": "path_node_002",
+      "nearest_path_edge_id": "path_edge_004"
+    },
+    {
+      "id": "tv_002",
+      "label": "tv",
+      "center": [
+        2.317,
+        -8.0361,
+        -0.3911
+      ],
+      "bbox_3d": {
+        "min": [
+          2.0353,
+          -8.3303,
+          -0.6037
+        ],
+        "max": [
+          2.601,
+          -7.807,
+          -0.241
+        ]
+      },
+      "extent": [
+        0.5657,
+        0.5232,
+        0.3626
+      ],
+      "confidence": 0.4153,
+      "support_points": 34,
+      "semantic_observation_hits": 71,
+      "distance_to_path_network_m": 1.1695,
+      "clearance_to_path_network_m": 0.852,
+      "nearest_path_node_id": "path_node_014",
+      "nearest_path_edge_id": "path_edge_022"
+    },
+    {
+      "id": "bench_001",
+      "label": "bench",
+      "center": [
+        3.4936,
+        -5.9357,
+        -0.719
+      ],
+      "bbox_3d": {
+        "min": [
+          2.7052,
+          -6.4191,
+          -1.2371
+        ],
+        "max": [
+          4.812,
+          -5.3593,
+          -0.1874
+        ]
+      },
+      "extent": [
+        2.1068,
+        1.0598,
+        1.0497
+      ],
+      "confidence": 0.4187,
+      "support_points": 106,
+      "semantic_observation_hits": 145,
+      "distance_to_path_network_m": 1.1972,
+      "clearance_to_path_network_m": 0.444,
+      "nearest_path_node_id": "path_node_026",
+      "nearest_path_edge_id": "path_edge_027"
+    },
+    {
+      "id": "couch_001",
+      "label": "couch",
+      "center": [
+        -0.0875,
+        -1.969,
+        -0.898
+      ],
+      "bbox_3d": {
+        "min": [
+          -3.0123,
+          -3.8321,
+          -1.7327
+        ],
+        "max": [
+          1.8721,
+          -0.9167,
+          0.6886
+        ]
+      },
+      "extent": [
+        4.8844,
+        2.9154,
+        2.4213
+      ],
+      "confidence": 0.5708,
+      "support_points": 991,
+      "semantic_observation_hits": 2355,
+      "distance_to_path_network_m": 1.2374,
+      "clearance_to_path_network_m": 0.0,
+      "nearest_path_node_id": "path_node_001",
+      "nearest_path_edge_id": "path_edge_001"
+    },
+    {
+      "id": "chair_001",
+      "label": "chair",
+      "center": [
+        2.4251,
+        -3.7587,
+        -1.2575
+      ],
+      "bbox_3d": {
+        "min": [
+          1.9747,
+          -4.1288,
+          -1.3552
+        ],
+        "max": [
+          3.2823,
+          -3.1124,
+          -1.1715
+        ]
+      },
+      "extent": [
+        1.3076,
+        1.0163,
+        0.1838
+      ],
+      "confidence": 0.7948,
+      "support_points": 21,
+      "semantic_observation_hits": 22,
+      "distance_to_path_network_m": 1.3418,
+      "clearance_to_path_network_m": 1.1272,
+      "nearest_path_node_id": "path_node_010",
+      "nearest_path_edge_id": "path_edge_018"
+    },
+    {
+      "id": "refrigerator_002",
+      "label": "refrigerator",
+      "center": [
+        2.3743,
+        -7.8985,
+        -0.8134
+      ],
+      "bbox_3d": {
+        "min": [
+          2.1116,
+          -8.2161,
+          -1.242
+        ],
+        "max": [
+          2.5806,
+          -7.7697,
+          -0.601
+        ]
+      },
+      "extent": [
+        0.469,
+        0.4463,
+        0.641
+      ],
+      "confidence": 0.6317,
+      "support_points": 27,
+      "semantic_observation_hits": 27,
+      "distance_to_path_network_m": 1.3717,
+      "clearance_to_path_network_m": 1.1074,
+      "nearest_path_node_id": "path_node_014",
+      "nearest_path_edge_id": "path_edge_022"
+    },
+    {
+      "id": "skis_001",
+      "label": "skis",
+      "center": [
+        3.5546,
+        -3.428,
+        -1.2431
+      ],
+      "bbox_3d": {
+        "min": [
+          2.8974,
+          -3.7995,
+          -1.2828
+        ],
+        "max": [
+          4.4359,
+          -3.0913,
+          -1.1548
+        ]
+      },
+      "extent": [
+        1.5386,
+        0.7082,
+        0.1279
+      ],
+      "confidence": 0.2963,
+      "support_points": 43,
+      "semantic_observation_hits": 43,
+      "distance_to_path_network_m": 1.374,
+      "clearance_to_path_network_m": 1.148,
+      "nearest_path_node_id": "path_node_010",
+      "nearest_path_edge_id": "path_edge_018"
+    },
+    {
+      "id": "dining_table_001",
+      "label": "dining table",
+      "center": [
+        3.5236,
+        -3.4472,
+        -1.2557
+      ],
+      "bbox_3d": {
+        "min": [
+          3.353,
+          -3.5647,
+          -1.2888
+        ],
+        "max": [
+          3.8328,
+          -3.2624,
+          -1.2068
+        ]
+      },
+      "extent": [
+        0.4799,
+        0.3023,
+        0.082
+      ],
+      "confidence": 0.2511,
+      "support_points": 8,
+      "semantic_observation_hits": 8,
+      "distance_to_path_network_m": 1.3782,
+      "clearance_to_path_network_m": 1.2876,
+      "nearest_path_node_id": "path_node_011",
+      "nearest_path_edge_id": "path_edge_020"
+    },
+    {
+      "id": "tie_001",
+      "label": "tie",
+      "center": [
+        1.318,
+        -3.2732,
+        -1.261
+      ],
+      "bbox_3d": {
+        "min": [
+          0.7361,
+          -3.6644,
+          -1.3059
+        ],
+        "max": [
+          1.7345,
+          -2.6727,
+          -1.198
+        ]
+      },
+      "extent": [
+        0.9985,
+        0.9917,
+        0.1079
+      ],
+      "confidence": 0.3654,
+      "support_points": 35,
+      "semantic_observation_hits": 36,
+      "distance_to_path_network_m": 1.4298,
+      "clearance_to_path_network_m": 1.1878,
+      "nearest_path_node_id": "path_node_005",
+      "nearest_path_edge_id": "path_edge_006"
+    },
+    {
+      "id": "remote_003",
+      "label": "remote",
+      "center": [
+        0.6133,
+        -4.5886,
+        -1.2699
+      ],
+      "bbox_3d": {
+        "min": [
+          0.5454,
+          -4.802,
+          -1.2894
+        ],
+        "max": [
+          0.6837,
+          -4.5163,
+          -1.2424
+        ]
+      },
+      "extent": [
+        0.1383,
+        0.2857,
+        0.047
+      ],
+      "confidence": 0.4451,
+      "support_points": 10,
+      "semantic_observation_hits": 10,
+      "distance_to_path_network_m": 1.5064,
+      "clearance_to_path_network_m": 1.4342,
+      "nearest_path_node_id": "path_node_006",
+      "nearest_path_edge_id": "path_edge_007"
+    },
+    {
+      "id": "remote_001",
+      "label": "remote",
+      "center": [
+        -1.6545,
+        -3.0548,
+        -1.2627
+      ],
+      "bbox_3d": {
+        "min": [
+          -1.9177,
+          -3.5231,
+          -1.4156
+        ],
+        "max": [
+          -0.7509,
+          -1.9814,
+          -1.0291
+        ]
+      },
+      "extent": [
+        1.1668,
+        1.5417,
+        0.3865
+      ],
+      "confidence": 0.2852,
+      "support_points": 105,
+      "semantic_observation_hits": 106,
+      "distance_to_path_network_m": 1.5231,
+      "clearance_to_path_network_m": 0.8861,
+      "nearest_path_node_id": "path_node_002",
+      "nearest_path_edge_id": "path_edge_002"
+    },
+    {
+      "id": "refrigerator_001",
+      "label": "refrigerator",
+      "center": [
+        2.5823,
+        -2.5891,
+        -0.3447
+      ],
+      "bbox_3d": {
+        "min": [
+          1.7874,
+          -3.0009,
+          -1.2847
+        ],
+        "max": [
+          3.1803,
+          -1.7992,
+          0.6509
+        ]
+      },
+      "extent": [
+        1.393,
+        1.2017,
+        1.9356
+      ],
+      "confidence": 0.8079,
+      "support_points": 81,
+      "semantic_observation_hits": 326,
+      "distance_to_path_network_m": 1.5602,
+      "clearance_to_path_network_m": 0.9664,
+      "nearest_path_node_id": "path_node_011",
+      "nearest_path_edge_id": "path_edge_020"
+    },
+    {
+      "id": "book_001",
+      "label": "book",
+      "center": [
+        2.1959,
+        -3.3603,
+        -1.2566
+      ],
+      "bbox_3d": {
+        "min": [
+          -0.6768,
+          -4.61,
+          -1.4646
+        ],
+        "max": [
+          4.0268,
+          -2.0052,
+          -0.9368
+        ]
+      },
+      "extent": [
+        4.7036,
+        2.6048,
+        0.5278
+      ],
+      "confidence": 0.3336,
+      "support_points": 256,
+      "semantic_observation_hits": 373,
+      "distance_to_path_network_m": 1.5773,
+      "clearance_to_path_network_m": 0.6889,
+      "nearest_path_node_id": "path_node_001",
+      "nearest_path_edge_id": "path_edge_001"
+    },
+    {
+      "id": "couch_003",
+      "label": "couch",
+      "center": [
+        -2.9515,
+        -4.251,
+        -0.8086
+      ],
+      "bbox_3d": {
+        "min": [
+          -3.1217,
+          -4.4024,
+          -1.2373
+        ],
+        "max": [
+          -2.7353,
+          -3.618,
+          -0.3671
+        ]
+      },
+      "extent": [
+        0.3864,
+        0.7843,
+        0.8702
+      ],
+      "confidence": 0.2627,
+      "support_points": 24,
+      "semantic_observation_hits": 24,
+      "distance_to_path_network_m": 1.6081,
+      "clearance_to_path_network_m": 1.1589,
+      "nearest_path_node_id": "path_node_002",
+      "nearest_path_edge_id": "path_edge_004"
+    },
+    {
+      "id": "remote_002",
+      "label": "remote",
+      "center": [
+        0.6122,
+        -2.4863,
+        -1.2617
+      ],
+      "bbox_3d": {
+        "min": [
+          0.4379,
+          -2.6339,
+          -1.329
+        ],
+        "max": [
+          0.821,
+          -2.2004,
+          -1.1612
+        ]
+      },
+      "extent": [
+        0.3831,
+        0.4334,
+        0.1679
+      ],
+      "confidence": 0.455,
+      "support_points": 10,
+      "semantic_observation_hits": 10,
+      "distance_to_path_network_m": 1.6371,
+      "clearance_to_path_network_m": 1.4195,
+      "nearest_path_node_id": "path_node_003",
+      "nearest_path_edge_id": "path_edge_005"
+    },
+    {
+      "id": "refrigerator_004",
+      "label": "refrigerator",
+      "center": [
+        4.0449,
+        -2.2198,
+        -0.4974
+      ],
+      "bbox_3d": {
+        "min": [
+          3.9796,
+          -2.3562,
+          -1.2212
+        ],
+        "max": [
+          4.2765,
+          -1.9528,
+          0.5191
+        ]
+      },
+      "extent": [
+        0.2969,
+        0.4034,
+        1.7404
+      ],
+      "confidence": 0.3797,
+      "support_points": 25,
+      "semantic_observation_hits": 26,
+      "distance_to_path_network_m": 1.7347,
+      "clearance_to_path_network_m": 1.4912,
+      "nearest_path_node_id": "path_node_009",
+      "nearest_path_edge_id": "path_edge_017"
+    },
+    {
+      "id": "refrigerator_003",
+      "label": "refrigerator",
+      "center": [
+        4.0344,
+        -9.0505,
+        0.1716
+      ],
+      "bbox_3d": {
+        "min": [
+          3.6549,
+          -9.8507,
+          -0.3889
+        ],
+        "max": [
+          4.4945,
+          -8.2948,
+          1.1195
+        ]
+      },
+      "extent": [
+        0.8396,
+        1.5559,
+        1.5085
+      ],
+      "confidence": 0.4105,
+      "support_points": 26,
+      "semantic_observation_hits": 35,
+      "distance_to_path_network_m": 1.9325,
+      "clearance_to_path_network_m": 1.0749,
+      "nearest_path_node_id": "path_node_014",
+      "nearest_path_edge_id": "path_edge_022"
+    },
+    {
+      "id": "chair_002",
+      "label": "chair",
+      "center": [
+        -2.1539,
+        -8.2554,
+        -0.7441
+      ],
+      "bbox_3d": {
+        "min": [
+          -2.2876,
+          -8.3621,
+          -1.106
+        ],
+        "max": [
+          -2.0889,
+          -8.1328,
+          -0.3365
+        ]
+      },
+      "extent": [
+        0.1987,
+        0.2293,
+        0.7695
+      ],
+      "confidence": 0.3866,
+      "support_points": 9,
+      "semantic_observation_hits": 9,
+      "distance_to_path_network_m": 2.64,
+      "clearance_to_path_network_m": 2.4047,
+      "nearest_path_node_id": "path_node_027",
+      "nearest_path_edge_id": "path_edge_035"
+    },
+    {
+      "id": "tv_001",
+      "label": "tv",
+      "center": [
+        -3.3063,
+        -8.5416,
+        0.2887
+      ],
+      "bbox_3d": {
+        "min": [
+          -3.8972,
+          -9.1243,
+          -0.0766
+        ],
+        "max": [
+          -2.9954,
+          -7.9846,
+          0.5597
+        ]
+      },
+      "extent": [
+        0.9018,
+        1.1397,
+        0.6364
+      ],
+      "confidence": 0.6714,
+      "support_points": 38,
+      "semantic_observation_hits": 133,
+      "distance_to_path_network_m": 3.4845,
+      "clearance_to_path_network_m": 2.8794,
+      "nearest_path_node_id": "path_node_027",
+      "nearest_path_edge_id": "path_edge_035"
+    }
+  ],
+  "spatial_relations": [
+    {
+      "from": "dining_table_001",
+      "to": "skis_001",
+      "distance_m": 0.0386,
+      "relation": "near"
+    },
+    {
+      "from": "refrigerator_005",
+      "to": "traffic_light_001",
+      "distance_m": 0.1095,
+      "relation": "near"
+    },
+    {
+      "from": "keyboard_001",
+      "to": "suitcase_001",
+      "distance_m": 0.1173,
+      "relation": "near"
+    },
+    {
+      "from": "bed_001",
+      "to": "couch_002",
+      "distance_m": 0.3812,
+      "relation": "near"
+    },
+    {
+      "from": "couch_002",
+      "to": "suitcase_001",
+      "distance_m": 0.4444,
+      "relation": "near"
+    },
+    {
+      "from": "refrigerator_002",
+      "to": "tv_002",
+      "distance_m": 0.4478,
+      "relation": "near"
+    },
+    {
+      "from": "book_001",
+      "to": "chair_001",
+      "distance_m": 0.4596,
+      "relation": "near"
+    },
+    {
+      "from": "bed_001",
+      "to": "bench_002",
+      "distance_m": 0.5142,
+      "relation": "near"
+    },
+    {
+      "from": "dining_table_002",
+      "to": "keyboard_001",
+      "distance_m": 0.5262,
+      "relation": "near"
+    },
+    {
+      "from": "dining_table_002",
+      "to": "suitcase_001",
+      "distance_m": 0.542,
+      "relation": "near"
+    },
+    {
+      "from": "couch_002",
+      "to": "keyboard_001",
+      "distance_m": 0.5605,
+      "relation": "near"
+    },
+    {
+      "from": "bench_001",
+      "to": "suitcase_002",
+      "distance_m": 0.6533,
+      "relation": "near"
+    },
+    {
+      "from": "bed_001",
+      "to": "suitcase_001",
+      "distance_m": 0.6775,
+      "relation": "near"
+    },
+    {
+      "from": "bed_001",
+      "to": "dining_table_002",
+      "distance_m": 0.7271,
+      "relation": "near"
+    },
+    {
+      "from": "couch_002",
+      "to": "remote_003",
+      "distance_m": 0.7309,
+      "relation": "near"
+    },
+    {
+      "from": "remote_003",
+      "to": "suitcase_001",
+      "distance_m": 0.7891,
+      "relation": "near"
+    },
+    {
+      "from": "bench_002",
+      "to": "dining_table_002",
+      "distance_m": 0.8076,
+      "relation": "near"
+    },
+    {
+      "from": "keyboard_001",
+      "to": "remote_003",
+      "distance_m": 0.8576,
+      "relation": "near"
+    },
+    {
+      "from": "bench_002",
+      "to": "couch_002",
+      "distance_m": 0.87,
+      "relation": "near"
+    },
+    {
+      "from": "book_001",
+      "to": "tie_001",
+      "distance_m": 0.8822,
+      "relation": "near"
+    },
+    {
+      "from": "refrigerator_005",
+      "to": "suitcase_002",
+      "distance_m": 0.913,
+      "relation": "near"
+    },
+    {
+      "from": "suitcase_002",
+      "to": "traffic_light_001",
+      "distance_m": 0.9311,
+      "relation": "near"
+    },
+    {
+      "from": "couch_001",
+      "to": "remote_002",
+      "distance_m": 0.9431,
+      "relation": "near"
+    },
+    {
+      "from": "remote_002",
+      "to": "tie_001",
+      "distance_m": 1.0571,
+      "relation": "medium"
+    },
+    {
+      "from": "bench_001",
+      "to": "refrigerator_005",
+      "distance_m": 1.1082,
+      "relation": "medium"
+    },
+    {
+      "from": "chair_001",
+      "to": "dining_table_001",
+      "distance_m": 1.1418,
+      "relation": "medium"
+    },
+    {
+      "from": "chair_001",
+      "to": "skis_001",
+      "distance_m": 1.177,
+      "relation": "medium"
+    },
+    {
+      "from": "bench_001",
+      "to": "traffic_light_001",
+      "distance_m": 1.1844,
+      "relation": "medium"
+    },
+    {
+      "from": "chair_001",
+      "to": "tie_001",
+      "distance_m": 1.2089,
+      "relation": "medium"
+    },
+    {
+      "from": "bed_002",
+      "to": "couch_003",
+      "distance_m": 1.2278,
+      "relation": "medium"
+    },
+    {
+      "from": "book_001",
+      "to": "refrigerator_001",
+      "distance_m": 1.2552,
+      "relation": "medium"
+    },
+    {
+      "from": "book_001",
+      "to": "dining_table_001",
+      "distance_m": 1.3305,
+      "relation": "medium"
+    },
+    {
+      "from": "book_001",
+      "to": "skis_001",
+      "distance_m": 1.3605,
+      "relation": "medium"
+    },
+    {
+      "from": "bed_002",
+      "to": "bench_002",
+      "distance_m": 1.3626,
+      "relation": "medium"
+    },
+    {
+      "from": "chair_001",
+      "to": "refrigerator_001",
+      "distance_m": 1.4919,
+      "relation": "medium"
+    },
+    {
+      "from": "refrigerator_004",
+      "to": "skis_001",
+      "distance_m": 1.5021,
+      "relation": "medium"
+    },
+    {
+      "from": "refrigerator_001",
+      "to": "refrigerator_004",
+      "distance_m": 1.5162,
+      "relation": "medium"
+    },
+    {
+      "from": "dining_table_001",
+      "to": "refrigerator_004",
+      "distance_m": 1.534,
+      "relation": "medium"
+    },
+    {
+      "from": "chair_002",
+      "to": "tv_001",
+      "distance_m": 1.5737,
+      "relation": "medium"
+    },
+    {
+      "from": "book_001",
+      "to": "remote_002",
+      "distance_m": 1.8089,
+      "relation": "medium"
+    },
+    {
+      "from": "couch_003",
+      "to": "remote_001",
+      "distance_m": 1.8219,
+      "relation": "medium"
+    },
+    {
+      "from": "bed_002",
+      "to": "remote_001",
+      "distance_m": 1.8295,
+      "relation": "medium"
+    },
+    {
+      "from": "refrigerator_005",
+      "to": "tv_002",
+      "distance_m": 1.8584,
+      "relation": "medium"
+    },
+    {
+      "from": "traffic_light_001",
+      "to": "tv_002",
+      "distance_m": 1.8699,
+      "relation": "medium"
+    },
+    {
+      "from": "refrigerator_002",
+      "to": "refrigerator_005",
+      "distance_m": 1.8987,
+      "relation": "medium"
+    },
+    {
+      "from": "refrigerator_002",
+      "to": "traffic_light_001",
+      "distance_m": 1.9312,
+      "relation": "medium"
+    },
+    {
+      "from": "couch_001",
+      "to": "remote_001",
+      "distance_m": 1.941,
+      "relation": "medium"
+    },
+    {
+      "from": "couch_001",
+      "to": "tie_001",
+      "distance_m": 1.9514,
+      "relation": "medium"
+    },
+    {
+      "from": "refrigerator_003",
+      "to": "tv_002",
+      "distance_m": 2.0725,
+      "relation": "far"
+    },
+    {
+      "from": "refrigerator_002",
+      "to": "refrigerator_003",
+      "distance_m": 2.2479,
+      "relation": "far"
+    },
+    {
+      "from": "bench_002",
+      "to": "couch_003",
+      "distance_m": 2.552,
+      "relation": "far"
+    },
+    {
+      "from": "refrigerator_003",
+      "to": "traffic_light_001",
+      "distance_m": 2.7352,
+      "relation": "far"
+    }
+  ],
+  "traversable_path_network": {
+    "nodes": [
+      {
+        "id": "path_node_001",
+        "position": [
+          -0.6219,
+          -4.0114,
+          -0.2479
+        ],
+        "observed_keyframes_count": 2,
+        "nearby_objects": [
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 0.6459
+          },
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 0.9467
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.1643
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.1824
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.1875
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.3633
+          },
+          {
+            "object_id": "bed_002",
+            "label": "bed",
+            "distance_m": 1.4531
+          },
+          {
+            "object_id": "remote_003",
+            "label": "remote",
+            "distance_m": 1.7039
+          },
+          {
+            "object_id": "remote_001",
+            "label": "remote",
+            "distance_m": 1.7353
+          }
+        ]
+      },
+      {
+        "id": "path_node_002",
+        "position": [
+          -0.9214,
+          -3.792,
+          0.1148
+        ],
+        "observed_keyframes_count": 5,
+        "nearby_objects": [
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 1.1129
+          },
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 1.3569
+          },
+          {
+            "object_id": "bed_002",
+            "label": "bed",
+            "distance_m": 1.4753
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.6067
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.6359
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.6446
+          },
+          {
+            "object_id": "remote_001",
+            "label": "remote",
+            "distance_m": 1.7258
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.8384
+          }
+        ]
+      },
+      {
+        "id": "path_node_003",
+        "position": [
+          -0.6072,
+          -2.8108,
+          -0.1547
+        ],
+        "observed_keyframes_count": 2,
+        "nearby_objects": [
+          {
+            "object_id": "couch_001",
+            "label": "couch",
+            "distance_m": 1.2374
+          },
+          {
+            "object_id": "remote_001",
+            "label": "remote",
+            "distance_m": 1.544
+          },
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 1.572
+          },
+          {
+            "object_id": "remote_002",
+            "label": "remote",
+            "distance_m": 1.6786
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.9034
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.9836
+          }
+        ]
+      },
+      {
+        "id": "path_node_004",
+        "position": [
+          0.1674,
+          -3.354,
+          0.2006
+        ],
+        "observed_keyframes_count": 3,
+        "nearby_objects": [
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 1.0944
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.2317
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.3377
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.7429
+          },
+          {
+            "object_id": "remote_002",
+            "label": "remote",
+            "distance_m": 1.7575
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.781
+          },
+          {
+            "object_id": "couch_001",
+            "label": "couch",
+            "distance_m": 1.7861
+          },
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 1.8421
+          },
+          {
+            "object_id": "tie_001",
+            "label": "tie",
+            "distance_m": 1.8619
+          },
+          {
+            "object_id": "remote_003",
+            "label": "remote",
+            "distance_m": 1.9711
+          }
+        ]
+      },
+      {
+        "id": "path_node_005",
+        "position": [
+          0.7572,
+          -3.6809,
+          -0.0103
+        ],
+        "observed_keyframes_count": 6,
+        "nearby_objects": [
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 0.8533
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 0.9688
+          },
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 1.0515
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.4004
+          },
+          {
+            "object_id": "tie_001",
+            "label": "tie",
+            "distance_m": 1.43
+          },
+          {
+            "object_id": "remote_003",
+            "label": "remote",
+            "distance_m": 1.5592
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.5779
+          },
+          {
+            "object_id": "remote_002",
+            "label": "remote",
+            "distance_m": 1.7361
+          },
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 1.8314
+          },
+          {
+            "object_id": "book_001",
+            "label": "book",
+            "distance_m": 1.9302
+          }
+        ]
+      },
+      {
+        "id": "path_node_006",
+        "position": [
+          1.6629,
+          -4.5224,
+          0.0963
+        ],
+        "observed_keyframes_count": 7,
+        "nearby_objects": [
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.3249
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.3585
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.5337
+          },
+          {
+            "object_id": "remote_003",
+            "label": "remote",
+            "distance_m": 1.7241
+          },
+          {
+            "object_id": "chair_001",
+            "label": "chair",
+            "distance_m": 1.7311
+          },
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 1.7869
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.8245
+          },
+          {
+            "object_id": "book_001",
+            "label": "book",
+            "distance_m": 1.8614
+          },
+          {
+            "object_id": "tie_001",
+            "label": "tie",
+            "distance_m": 1.8766
+          }
+        ]
+      },
+      {
+        "id": "path_node_007",
+        "position": [
+          2.0955,
+          -4.9974,
+          -0.1416
+        ],
+        "observed_keyframes_count": 4,
+        "nearby_objects": [
+          {
+            "object_id": "chair_001",
+            "label": "chair",
+            "distance_m": 1.6995
+          },
+          {
+            "object_id": "refrigerator_005",
+            "label": "refrigerator",
+            "distance_m": 1.7621
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.773
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.7765
+          },
+          {
+            "object_id": "bench_001",
+            "label": "bench",
+            "distance_m": 1.78
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.8075
+          },
+          {
+            "object_id": "traffic_light_001",
+            "label": "traffic light",
+            "distance_m": 1.841
+          },
+          {
+            "object_id": "remote_003",
+            "label": "remote",
+            "distance_m": 1.9071
+          },
+          {
+            "object_id": "book_001",
+            "label": "book",
+            "distance_m": 1.9833
+          }
+        ]
+      },
+      {
+        "id": "path_node_008",
+        "position": [
+          1.8336,
+          -5.3848,
+          -0.017
+        ],
+        "observed_keyframes_count": 4,
+        "nearby_objects": [
+          {
+            "object_id": "refrigerator_005",
+            "label": "refrigerator",
+            "distance_m": 1.6302
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.6792
+          },
+          {
+            "object_id": "traffic_light_001",
+            "label": "traffic light",
+            "distance_m": 1.7059
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.7408
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.7667
+          },
+          {
+            "object_id": "bench_001",
+            "label": "bench",
+            "distance_m": 1.8847
+          },
+          {
+            "object_id": "remote_003",
+            "label": "remote",
+            "distance_m": 1.9216
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.9409
+          }
+        ]
+      },
+      {
+        "id": "path_node_009",
+        "position": [
+          2.891,
+          -4.8427,
+          0.1092
+        ],
+        "observed_keyframes_count": 3,
+        "nearby_objects": [
+          {
+            "object_id": "bench_001",
+            "label": "bench",
+            "distance_m": 1.4979
+          },
+          {
+            "object_id": "refrigerator_005",
+            "label": "refrigerator",
+            "distance_m": 1.6013
+          },
+          {
+            "object_id": "traffic_light_001",
+            "label": "traffic light",
+            "distance_m": 1.6562
+          },
+          {
+            "object_id": "suitcase_002",
+            "label": "suitcase",
+            "distance_m": 1.7204
+          },
+          {
+            "object_id": "chair_001",
+            "label": "chair",
+            "distance_m": 1.8056
+          }
+        ]
+      },
+      {
+        "id": "path_node_010",
+        "position": [
+          3.3058,
+          -4.3528,
+          0.2971
+        ],
+        "observed_keyframes_count": 4,
+        "nearby_objects": [
+          {
+            "object_id": "dining_table_001",
+            "label": "dining table",
+            "distance_m": 1.8107
+          },
+          {
+            "object_id": "skis_001",
+            "label": "skis",
+            "distance_m": 1.8137
+          },
+          {
+            "object_id": "chair_001",
+            "label": "chair",
+            "distance_m": 1.8829
+          },
+          {
+            "object_id": "bench_001",
+            "label": "bench",
+            "distance_m": 1.8903
+          }
+        ]
+      },
+      {
+        "id": "path_node_011",
+        "position": [
+          2.8924,
+          -4.0905,
+          -0.0443
+        ],
+        "observed_keyframes_count": 1,
+        "nearby_objects": [
+          {
+            "object_id": "chair_001",
+            "label": "chair",
+            "distance_m": 1.3418
+          },
+          {
+            "object_id": "dining_table_001",
+            "label": "dining table",
+            "distance_m": 1.5099
+          },
+          {
+            "object_id": "skis_001",
+            "label": "skis",
+            "distance_m": 1.5214
+          },
+          {
+            "object_id": "refrigerator_001",
+            "label": "refrigerator",
+            "distance_m": 1.5623
+          },
+          {
+            "object_id": "book_001",
+            "label": "book",
+            "distance_m": 1.5773
+          }
+        ]
+      },
+      {
+        "id": "path_node_012",
+        "position": [
+          3.7768,
+          -3.8335,
+          0.0799
+        ],
+        "observed_keyframes_count": 3,
+        "nearby_objects": [
+          {
+            "object_id": "skis_001",
+            "label": "skis",
+            "distance_m": 1.4015
+          },
+          {
+            "object_id": "dining_table_001",
+            "label": "dining table",
+            "distance_m": 1.4132
+          },
+          {
+            "object_id": "refrigerator_004",
+            "label": "refrigerator",
+            "distance_m": 1.7347
+          },
+          {
+            "object_id": "refrigerator_001",
+            "label": "refrigerator",
+            "distance_m": 1.7764
+          },
+          {
+            "object_id": "chair_001",
+            "label": "chair",
+            "distance_m": 1.903
+          }
+        ]
+      },
+      {
+        "id": "path_node_013",
+        "position": [
+          1.586,
+          -5.8009,
+          0.2552
+        ],
+        "observed_keyframes_count": 1,
+        "nearby_objects": [
+          {
+            "object_id": "refrigerator_005",
+            "label": "refrigerator",
+            "distance_m": 1.6125
+          },
+          {
+            "object_id": "traffic_light_001",
+            "label": "traffic light",
+            "distance_m": 1.6706
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.7809
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.9232
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.9505
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.9644
+          }
+        ]
+      },
+      {
+        "id": "path_node_014",
+        "position": [
+          2.0314,
+          -6.9519,
+          0.2446
+        ],
+        "observed_keyframes_count": 2,
+        "nearby_objects": [
+          {
+            "object_id": "refrigerator_005",
+            "label": "refrigerator",
+            "distance_m": 1.1607
+          },
+          {
+            "object_id": "traffic_light_001",
+            "label": "traffic light",
+            "distance_m": 1.1824
+          },
+          {
+            "object_id": "tv_002",
+            "label": "tv",
+            "distance_m": 1.2889
+          },
+          {
+            "object_id": "refrigerator_002",
+            "label": "refrigerator",
+            "distance_m": 1.4605
+          }
+        ]
+      },
+      {
+        "id": "path_node_015",
+        "position": [
+          3.1631,
+          -7.339,
+          0.3868
+        ],
+        "observed_keyframes_count": 4,
+        "nearby_objects": [
+          {
+            "object_id": "traffic_light_001",
+            "label": "traffic light",
+            "distance_m": 0.8726
+          },
+          {
+            "object_id": "refrigerator_005",
+            "label": "refrigerator",
+            "distance_m": 0.9355
+          },
+          {
+            "object_id": "tv_002",
+            "label": "tv",
+            "distance_m": 1.3442
+          },
+          {
+            "object_id": "suitcase_002",
+            "label": "suitcase",
+            "distance_m": 1.4542
+          },
+          {
+            "object_id": "refrigerator_002",
+            "label": "refrigerator",
+            "distance_m": 1.5413
+          },
+          {
+            "object_id": "bench_001",
+            "label": "bench",
+            "distance_m": 1.817
+          },
+          {
+            "object_id": "refrigerator_003",
+            "label": "refrigerator",
+            "distance_m": 1.9325
+          }
+        ]
+      },
+      {
+        "id": "path_node_016",
+        "position": [
+          3.6027,
+          -6.9309,
+          0.4839
+        ],
+        "observed_keyframes_count": 1,
+        "nearby_objects": [
+          {
+            "object_id": "traffic_light_001",
+            "label": "traffic light",
+            "distance_m": 0.7028
+          },
+          {
+            "object_id": "refrigerator_005",
+            "label": "refrigerator",
+            "distance_m": 0.7938
+          },
+          {
+            "object_id": "suitcase_002",
+            "label": "suitcase",
+            "distance_m": 1.0482
+          },
+          {
+            "object_id": "bench_001",
+            "label": "bench",
+            "distance_m": 1.565
+          },
+          {
+            "object_id": "tv_002",
+            "label": "tv",
+            "distance_m": 1.9079
+          }
+        ]
+      },
+      {
+        "id": "path_node_017",
+        "position": [
+          3.1562,
+          -5.3521,
+          0.4556
+        ],
+        "observed_keyframes_count": 4,
+        "nearby_objects": [
+          {
+            "object_id": "refrigerator_005",
+            "label": "refrigerator",
+            "distance_m": 1.1202
+          },
+          {
+            "object_id": "traffic_light_001",
+            "label": "traffic light",
+            "distance_m": 1.1414
+          },
+          {
+            "object_id": "suitcase_002",
+            "label": "suitcase",
+            "distance_m": 1.3204
+          },
+          {
+            "object_id": "bench_001",
+            "label": "bench",
+            "distance_m": 1.3543
+          }
+        ]
+      },
+      {
+        "id": "path_node_018",
+        "position": [
+          -1.7052,
+          -3.956,
+          0.1639
+        ],
+        "observed_keyframes_count": 2,
+        "nearby_objects": [
+          {
+            "object_id": "bed_002",
+            "label": "bed",
+            "distance_m": 1.0593
+          },
+          {
+            "object_id": "couch_003",
+            "label": "couch",
+            "distance_m": 1.6081
+          },
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 1.6869
+          },
+          {
+            "object_id": "remote_001",
+            "label": "remote",
+            "distance_m": 1.6882
+          },
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 1.7773
+          }
+        ]
+      },
+      {
+        "id": "path_node_019",
+        "position": [
+          -1.1645,
+          -4.3347,
+          0.4955
+        ],
+        "observed_keyframes_count": 1,
+        "nearby_objects": [
+          {
+            "object_id": "bed_002",
+            "label": "bed",
+            "distance_m": 1.3086
+          },
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 1.3544
+          },
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 1.4257
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.6878
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.8947
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.9052
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.9779
+          }
+        ]
+      },
+      {
+        "id": "path_node_020",
+        "position": [
+          0.0182,
+          -5.6311,
+          0.5758
+        ],
+        "observed_keyframes_count": 1,
+        "nearby_objects": [
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.2963
+          },
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 1.427
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.4786
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.6605
+          },
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 1.6713
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.7092
+          }
+        ]
+      },
+      {
+        "id": "path_node_021",
+        "position": [
+          1.1481,
+          -6.0434,
+          0.5284
+        ],
+        "observed_keyframes_count": 1,
+        "nearby_objects": [
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.8355
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.894
+          },
+          {
+            "object_id": "refrigerator_005",
+            "label": "refrigerator",
+            "distance_m": 1.99
+          }
+        ]
+      },
+      {
+        "id": "path_node_022",
+        "position": [
+          -0.1801,
+          -4.1521,
+          0.4254
+        ],
+        "observed_keyframes_count": 2,
+        "nearby_objects": [
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 0.8224
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.1163
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.1668
+          },
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 1.2632
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.276
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.395
+          },
+          {
+            "object_id": "remote_003",
+            "label": "remote",
+            "distance_m": 1.922
+          }
+        ]
+      },
+      {
+        "id": "path_node_023",
+        "position": [
+          -0.6869,
+          -3.1889,
+          0.3431
+        ],
+        "observed_keyframes_count": 1,
+        "nearby_objects": [
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 1.444
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.8254
+          },
+          {
+            "object_id": "couch_001",
+            "label": "couch",
+            "distance_m": 1.8405
+          },
+          {
+            "object_id": "remote_001",
+            "label": "remote",
+            "distance_m": 1.8795
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.901
+          },
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 1.9375
+          }
+        ]
+      },
+      {
+        "id": "path_node_024",
+        "position": [
+          0.6066,
+          -5.4459,
+          0.3078
+        ],
+        "observed_keyframes_count": 1,
+        "nearby_objects": [
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.1386
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.1395
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.2973
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.3452
+          },
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 1.4939
+          },
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 1.5149
+          },
+          {
+            "object_id": "remote_003",
+            "label": "remote",
+            "distance_m": 1.7956
+          }
+        ]
+      },
+      {
+        "id": "path_node_025",
+        "position": [
+          2.6622,
+          -5.3003,
+          0.4625
+        ],
+        "observed_keyframes_count": 1,
+        "nearby_objects": [
+          {
+            "object_id": "refrigerator_005",
+            "label": "refrigerator",
+            "distance_m": 1.2368
+          },
+          {
+            "object_id": "traffic_light_001",
+            "label": "traffic light",
+            "distance_m": 1.2755
+          },
+          {
+            "object_id": "bench_001",
+            "label": "bench",
+            "distance_m": 1.5783
+          },
+          {
+            "object_id": "suitcase_002",
+            "label": "suitcase",
+            "distance_m": 1.6652
+          }
+        ]
+      },
+      {
+        "id": "path_node_026",
+        "position": [
+          2.1077,
+          -5.5485,
+          0.0618
+        ],
+        "observed_keyframes_count": 3,
+        "nearby_objects": [
+          {
+            "object_id": "refrigerator_005",
+            "label": "refrigerator",
+            "distance_m": 1.3099
+          },
+          {
+            "object_id": "traffic_light_001",
+            "label": "traffic light",
+            "distance_m": 1.3836
+          },
+          {
+            "object_id": "bench_001",
+            "label": "bench",
+            "distance_m": 1.6371
+          },
+          {
+            "object_id": "suitcase_002",
+            "label": "suitcase",
+            "distance_m": 1.893
+          }
+        ]
+      },
+      {
+        "id": "path_node_027",
+        "position": [
+          0.3851,
+          -6.8012,
+          0.1712
+        ],
+        "observed_keyframes_count": 5,
+        "nearby_objects": []
+      },
+      {
+        "id": "path_node_028",
+        "position": [
+          -0.7504,
+          -6.1815,
+          0.0919
+        ],
+        "observed_keyframes_count": 6,
+        "nearby_objects": [
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 1.4459
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.5652
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.8727
+          },
+          {
+            "object_id": "bed_002",
+            "label": "bed",
+            "distance_m": 1.9322
+          }
+        ]
+      },
+      {
+        "id": "path_node_029",
+        "position": [
+          -0.9195,
+          -5.6998,
+          -0.1258
+        ],
+        "observed_keyframes_count": 2,
+        "nearby_objects": [
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 0.9895
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 1.2537
+          },
+          {
+            "object_id": "bed_002",
+            "label": "bed",
+            "distance_m": 1.4108
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.6143
+          },
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 1.7061
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 1.8921
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 1.9682
+          }
+        ]
+      },
+      {
+        "id": "path_node_030",
+        "position": [
+          -0.385,
+          -4.4425,
+          -0.1185
+        ],
+        "observed_keyframes_count": 22,
+        "nearby_objects": [
+          {
+            "object_id": "dining_table_002",
+            "label": "dining table",
+            "distance_m": 0.4686
+          },
+          {
+            "object_id": "bench_002",
+            "label": "bench",
+            "distance_m": 0.6342
+          },
+          {
+            "object_id": "bed_001",
+            "label": "bed",
+            "distance_m": 0.7795
+          },
+          {
+            "object_id": "suitcase_001",
+            "label": "suitcase",
+            "distance_m": 0.9218
+          },
+          {
+            "object_id": "keyboard_001",
+            "label": "keyboard",
+            "distance_m": 0.9271
+          },
+          {
+            "object_id": "couch_002",
+            "label": "couch",
+            "distance_m": 1.0072
+          },
+          {
+            "object_id": "remote_003",
+            "label": "remote",
+            "distance_m": 1.5308
+          },
+          {
+            "object_id": "bed_002",
+            "label": "bed",
+            "distance_m": 1.5533
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "path_edge_001",
+        "from": "path_node_001",
+        "to": "path_node_002",
+        "distance_m": 0.519,
+        "heading_vector": [
+          -0.5771,
+          0.4229,
+          0.6987
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_002",
+        "from": "path_node_002",
+        "to": "path_node_003",
+        "distance_m": 1.0649,
+        "heading_vector": [
+          0.2951,
+          0.9214,
+          -0.2531
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_003",
+        "from": "path_node_002",
+        "to": "path_node_004",
+        "distance_m": 1.1767,
+        "heading_vector": [
+          0.9253,
+          0.3722,
+          0.0729
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_004",
+        "from": "path_node_002",
+        "to": "path_node_018",
+        "distance_m": 0.8023,
+        "heading_vector": [
+          -0.977,
+          -0.2045,
+          0.0613
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_005",
+        "from": "path_node_003",
+        "to": "path_node_004",
+        "distance_m": 1.0106,
+        "heading_vector": [
+          0.7665,
+          -0.5375,
+          0.3516
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_006",
+        "from": "path_node_004",
+        "to": "path_node_005",
+        "distance_m": 0.7066,
+        "heading_vector": [
+          0.8348,
+          -0.4626,
+          -0.2985
+        ],
+        "traversal_count": 2,
+        "bidirectional_observed": true
+      },
+      {
+        "id": "path_edge_007",
+        "from": "path_node_005",
+        "to": "path_node_006",
+        "distance_m": 1.2409,
+        "heading_vector": [
+          0.7299,
+          -0.6782,
+          0.0859
+        ],
+        "traversal_count": 2,
+        "bidirectional_observed": true
+      },
+      {
+        "id": "path_edge_008",
+        "from": "path_node_006",
+        "to": "path_node_007",
+        "distance_m": 0.6851,
+        "heading_vector": [
+          0.6314,
+          -0.6934,
+          -0.3472
+        ],
+        "traversal_count": 4,
+        "bidirectional_observed": true
+      },
+      {
+        "id": "path_edge_009",
+        "from": "path_node_006",
+        "to": "path_node_010",
+        "distance_m": 1.6638,
+        "heading_vector": [
+          0.9874,
+          0.1019,
+          0.1207
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_010",
+        "from": "path_node_006",
+        "to": "path_node_013",
+        "distance_m": 1.2907,
+        "heading_vector": [
+          -0.0596,
+          -0.9906,
+          0.1232
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_011",
+        "from": "path_node_006",
+        "to": "path_node_017",
+        "distance_m": 1.7457,
+        "heading_vector": [
+          0.8554,
+          -0.4753,
+          0.2058
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_012",
+        "from": "path_node_006",
+        "to": "path_node_022",
+        "distance_m": 1.9084,
+        "heading_vector": [
+          -0.9657,
+          0.194,
+          0.1725
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_013",
+        "from": "path_node_007",
+        "to": "path_node_008",
+        "distance_m": 0.4839,
+        "heading_vector": [
+          -0.5413,
+          -0.8005,
+          0.2574
+        ],
+        "traversal_count": 2,
+        "bidirectional_observed": true
+      },
+      {
+        "id": "path_edge_014",
+        "from": "path_node_007",
+        "to": "path_node_009",
+        "distance_m": 0.8483,
+        "heading_vector": [
+          0.9377,
+          0.1824,
+          0.2957
+        ],
+        "traversal_count": 2,
+        "bidirectional_observed": true
+      },
+      {
+        "id": "path_edge_015",
+        "from": "path_node_008",
+        "to": "path_node_026",
+        "distance_m": 0.3289,
+        "heading_vector": [
+          0.8336,
+          -0.4977,
+          0.2396
+        ],
+        "traversal_count": 2,
+        "bidirectional_observed": true
+      },
+      {
+        "id": "path_edge_016",
+        "from": "path_node_009",
+        "to": "path_node_010",
+        "distance_m": 0.6688,
+        "heading_vector": [
+          0.6202,
+          0.7324,
+          0.2809
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_017",
+        "from": "path_node_009",
+        "to": "path_node_012",
+        "distance_m": 1.3431,
+        "heading_vector": [
+          0.6595,
+          0.7514,
+          -0.0218
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_018",
+        "from": "path_node_010",
+        "to": "path_node_011",
+        "distance_m": 0.5969,
+        "heading_vector": [
+          -0.6927,
+          0.4395,
+          -0.5719
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_019",
+        "from": "path_node_010",
+        "to": "path_node_017",
+        "distance_m": 1.0227,
+        "heading_vector": [
+          -0.1462,
+          -0.977,
+          0.155
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_020",
+        "from": "path_node_011",
+        "to": "path_node_012",
+        "distance_m": 0.9294,
+        "heading_vector": [
+          0.9517,
+          0.2766,
+          0.1336
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_021",
+        "from": "path_node_013",
+        "to": "path_node_014",
+        "distance_m": 1.2342,
+        "heading_vector": [
+          0.3609,
+          -0.9326,
+          -0.0086
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_022",
+        "from": "path_node_014",
+        "to": "path_node_015",
+        "distance_m": 1.2045,
+        "heading_vector": [
+          0.9395,
+          -0.3214,
+          0.1181
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_023",
+        "from": "path_node_015",
+        "to": "path_node_016",
+        "distance_m": 0.6077,
+        "heading_vector": [
+          0.7235,
+          0.6716,
+          0.1597
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_024",
+        "from": "path_node_016",
+        "to": "path_node_017",
+        "distance_m": 1.641,
+        "heading_vector": [
+          -0.2721,
+          0.9621,
+          -0.0172
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_025",
+        "from": "path_node_017",
+        "to": "path_node_021",
+        "distance_m": 2.1251,
+        "heading_vector": [
+          -0.945,
+          -0.3253,
+          0.0343
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_026",
+        "from": "path_node_017",
+        "to": "path_node_025",
+        "distance_m": 0.4968,
+        "heading_vector": [
+          -0.9945,
+          0.1042,
+          0.014
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_027",
+        "from": "path_node_017",
+        "to": "path_node_026",
+        "distance_m": 1.1372,
+        "heading_vector": [
+          -0.9221,
+          -0.1728,
+          -0.3463
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_028",
+        "from": "path_node_018",
+        "to": "path_node_019",
+        "distance_m": 0.7387,
+        "heading_vector": [
+          0.7319,
+          -0.5127,
+          0.4488
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_029",
+        "from": "path_node_019",
+        "to": "path_node_020",
+        "distance_m": 1.7567,
+        "heading_vector": [
+          0.6733,
+          -0.738,
+          0.0458
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_030",
+        "from": "path_node_020",
+        "to": "path_node_021",
+        "distance_m": 1.2037,
+        "heading_vector": [
+          0.9387,
+          -0.3425,
+          -0.0394
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_031",
+        "from": "path_node_022",
+        "to": "path_node_023",
+        "distance_m": 1.0916,
+        "heading_vector": [
+          -0.4643,
+          0.8824,
+          -0.0755
+        ],
+        "traversal_count": 2,
+        "bidirectional_observed": true
+      },
+      {
+        "id": "path_edge_032",
+        "from": "path_node_022",
+        "to": "path_node_024",
+        "distance_m": 1.5187,
+        "heading_vector": [
+          0.518,
+          -0.8519,
+          -0.0774
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_033",
+        "from": "path_node_024",
+        "to": "path_node_025",
+        "distance_m": 2.0666,
+        "heading_vector": [
+          0.9947,
+          0.0705,
+          0.0748
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_034",
+        "from": "path_node_026",
+        "to": "path_node_027",
+        "distance_m": 2.1327,
+        "heading_vector": [
+          -0.8077,
+          -0.5874,
+          0.0513
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_035",
+        "from": "path_node_027",
+        "to": "path_node_028",
+        "distance_m": 1.296,
+        "heading_vector": [
+          -0.8761,
+          0.4782,
+          -0.0612
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_036",
+        "from": "path_node_028",
+        "to": "path_node_029",
+        "distance_m": 0.5549,
+        "heading_vector": [
+          -0.3047,
+          0.8679,
+          -0.3923
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      },
+      {
+        "id": "path_edge_037",
+        "from": "path_node_029",
+        "to": "path_node_030",
+        "distance_m": 1.3663,
+        "heading_vector": [
+          0.3912,
+          0.9203,
+          0.0053
+        ],
+        "traversal_count": 1,
+        "bidirectional_observed": false
+      }
+    ],
+    "path_network_length_m": 42.2091,
+    "recorded_trajectory_length_m": 51.516
+  },
+  "path_nearby_objects": [
+    {
+      "object_id": "bed_001",
+      "label": "bed",
+      "nearest_path_node_id": "path_node_001",
+      "nearest_path_edge_id": "path_edge_001",
+      "distance_to_path_network_m": 0.7061,
+      "clearance_to_path_network_m": 0.0,
+      "relation_to_path": "near_path",
+      "risk_level": "high"
+    },
+    {
+      "object_id": "couch_001",
+      "label": "couch",
+      "nearest_path_node_id": "path_node_001",
+      "nearest_path_edge_id": "path_edge_001",
+      "distance_to_path_network_m": 1.2374,
+      "clearance_to_path_network_m": 0.0,
+      "relation_to_path": "near_path",
+      "risk_level": "high"
+    },
+    {
+      "object_id": "refrigerator_005",
+      "label": "refrigerator",
+      "nearest_path_node_id": "path_node_016",
+      "nearest_path_edge_id": "path_edge_024",
+      "distance_to_path_network_m": 0.4828,
+      "clearance_to_path_network_m": 0.1283,
+      "relation_to_path": "near_path",
+      "risk_level": "high"
+    },
+    {
+      "object_id": "bench_002",
+      "label": "bench",
+      "nearest_path_node_id": "path_node_001",
+      "nearest_path_edge_id": "path_edge_001",
+      "distance_to_path_network_m": 0.4235,
+      "clearance_to_path_network_m": 0.2139,
+      "relation_to_path": "near_path",
+      "risk_level": "high"
+    },
+    {
+      "object_id": "traffic_light_001",
+      "label": "traffic light",
+      "nearest_path_node_id": "path_node_016",
+      "nearest_path_edge_id": "path_edge_024",
+      "distance_to_path_network_m": 0.4054,
+      "clearance_to_path_network_m": 0.2818,
+      "relation_to_path": "near_path",
+      "risk_level": "high"
+    },
+    {
+      "object_id": "dining_table_002",
+      "label": "dining table",
+      "nearest_path_node_id": "path_node_030",
+      "nearest_path_edge_id": "path_edge_037",
+      "distance_to_path_network_m": 0.4687,
+      "clearance_to_path_network_m": 0.3258,
+      "relation_to_path": "near_path",
+      "risk_level": "high"
+    },
+    {
+      "object_id": "couch_002",
+      "label": "couch",
+      "nearest_path_node_id": "path_node_030",
+      "nearest_path_edge_id": "path_edge_037",
+      "distance_to_path_network_m": 0.9994,
+      "clearance_to_path_network_m": 0.3769,
+      "relation_to_path": "near_path",
+      "risk_level": "medium"
+    },
+    {
+      "object_id": "bench_001",
+      "label": "bench",
+      "nearest_path_node_id": "path_node_026",
+      "nearest_path_edge_id": "path_edge_027",
+      "distance_to_path_network_m": 1.1972,
+      "clearance_to_path_network_m": 0.444,
+      "relation_to_path": "near_path",
+      "risk_level": "medium"
+    },
+    {
+      "object_id": "suitcase_002",
+      "label": "suitcase",
+      "nearest_path_node_id": "path_node_016",
+      "nearest_path_edge_id": "path_edge_024",
+      "distance_to_path_network_m": 0.8422,
+      "clearance_to_path_network_m": 0.6613,
+      "relation_to_path": "near_path",
+      "risk_level": "medium"
+    },
+    {
+      "object_id": "book_001",
+      "label": "book",
+      "nearest_path_node_id": "path_node_001",
+      "nearest_path_edge_id": "path_edge_001",
+      "distance_to_path_network_m": 1.5773,
+      "clearance_to_path_network_m": 0.6889,
+      "relation_to_path": "near_path",
+      "risk_level": "medium"
+    },
+    {
+      "object_id": "keyboard_001",
+      "label": "keyboard",
+      "nearest_path_node_id": "path_node_006",
+      "nearest_path_edge_id": "path_edge_012",
+      "distance_to_path_network_m": 0.7566,
+      "clearance_to_path_network_m": 0.6958,
+      "relation_to_path": "near_path",
+      "risk_level": "medium"
+    },
+    {
+      "object_id": "suitcase_001",
+      "label": "suitcase",
+      "nearest_path_node_id": "path_node_006",
+      "nearest_path_edge_id": "path_edge_012",
+      "distance_to_path_network_m": 0.8227,
+      "clearance_to_path_network_m": 0.6996,
+      "relation_to_path": "near_path",
+      "risk_level": "medium"
+    },
+    {
+      "object_id": "bed_002",
+      "label": "bed",
+      "nearest_path_node_id": "path_node_002",
+      "nearest_path_edge_id": "path_edge_004",
+      "distance_to_path_network_m": 1.0593,
+      "clearance_to_path_network_m": 0.7961,
+      "relation_to_path": "near_path",
+      "risk_level": "low"
+    },
+    {
+      "object_id": "tv_002",
+      "label": "tv",
+      "nearest_path_node_id": "path_node_014",
+      "nearest_path_edge_id": "path_edge_022",
+      "distance_to_path_network_m": 1.1695,
+      "clearance_to_path_network_m": 0.852,
+      "relation_to_path": "near_path",
+      "risk_level": "low"
+    },
+    {
+      "object_id": "remote_001",
+      "label": "remote",
+      "nearest_path_node_id": "path_node_002",
+      "nearest_path_edge_id": "path_edge_002",
+      "distance_to_path_network_m": 1.5231,
+      "clearance_to_path_network_m": 0.8861,
+      "relation_to_path": "near_path",
+      "risk_level": "low"
+    },
+    {
+      "object_id": "refrigerator_001",
+      "label": "refrigerator",
+      "nearest_path_node_id": "path_node_011",
+      "nearest_path_edge_id": "path_edge_020",
+      "distance_to_path_network_m": 1.5602,
+      "clearance_to_path_network_m": 0.9664,
+      "relation_to_path": "near_path",
+      "risk_level": "low"
+    },
+    {
+      "object_id": "refrigerator_003",
+      "label": "refrigerator",
+      "nearest_path_node_id": "path_node_014",
+      "nearest_path_edge_id": "path_edge_022",
+      "distance_to_path_network_m": 1.9325,
+      "clearance_to_path_network_m": 1.0749,
+      "relation_to_path": "near_path",
+      "risk_level": "low"
+    },
+    {
+      "object_id": "refrigerator_002",
+      "label": "refrigerator",
+      "nearest_path_node_id": "path_node_014",
+      "nearest_path_edge_id": "path_edge_022",
+      "distance_to_path_network_m": 1.3717,
+      "clearance_to_path_network_m": 1.1074,
+      "relation_to_path": "near_path",
+      "risk_level": "low"
+    },
+    {
+      "object_id": "chair_001",
+      "label": "chair",
+      "nearest_path_node_id": "path_node_010",
+      "nearest_path_edge_id": "path_edge_018",
+      "distance_to_path_network_m": 1.3418,
+      "clearance_to_path_network_m": 1.1272,
+      "relation_to_path": "near_path",
+      "risk_level": "low"
+    },
+    {
+      "object_id": "skis_001",
+      "label": "skis",
+      "nearest_path_node_id": "path_node_010",
+      "nearest_path_edge_id": "path_edge_018",
+      "distance_to_path_network_m": 1.374,
+      "clearance_to_path_network_m": 1.148,
+      "relation_to_path": "near_path",
+      "risk_level": "low"
+    },
+    {
+      "object_id": "couch_003",
+      "label": "couch",
+      "nearest_path_node_id": "path_node_002",
+      "nearest_path_edge_id": "path_edge_004",
+      "distance_to_path_network_m": 1.6081,
+      "clearance_to_path_network_m": 1.1589,
+      "relation_to_path": "near_path",
+      "risk_level": "low"
+    },
+    {
+      "object_id": "tie_001",
+      "label": "tie",
+      "nearest_path_node_id": "path_node_005",
+      "nearest_path_edge_id": "path_edge_006",
+      "distance_to_path_network_m": 1.4298,
+      "clearance_to_path_network_m": 1.1878,
+      "relation_to_path": "near_path",
+      "risk_level": "low"
+    }
+  ],
+  "map_quality": {
+    "map_type": "offline_sparse_semantic_map",
+    "has_metric_scale": true,
+    "semantic_source": "offline image segmentation projected to ORB-SLAM3 MapPoints",
+    "path_network_source": "ORB-SLAM3 keyframe trajectory clustered into a traversable path network",
+    "free_space_is_exhaustive": false,
+    "requires_online_localization": true,
+    "requires_realtime_obstacle_avoidance": true,
+    "discarded_low_support_semantic_clusters": 29
+  }
+}

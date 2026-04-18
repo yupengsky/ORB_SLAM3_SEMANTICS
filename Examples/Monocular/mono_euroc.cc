@@ -137,7 +137,7 @@ int main(int argc, char **argv)
 
             // Pass the image to the SLAM system
             // cout << "tframe = " << tframe << endl;
-            SLAM.TrackMonocular(im,tframe); // TODO change to monocular_inertial
+            SLAM.TrackMonocular(im,tframe, vector<ORB_SLAM3::IMU::Point>(), vstrImageFilenames[seq][ni]);
 
     #ifdef COMPILEDWITHC11
             std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
@@ -185,6 +185,13 @@ int main(int argc, char **argv)
     }
     // Stop all threads
     SLAM.Shutdown();
+
+    const char* semanticExportDir = getenv("ORB_SLAM3_SEMANTIC_EXPORT_DIR");
+    if(semanticExportDir && semanticExportDir[0] != '\0')
+    {
+        cout << endl << "Exporting semantic map data to " << semanticExportDir << " ..." << endl;
+        SLAM.ExportSemanticMapData(string(semanticExportDir));
+    }
 
     // Save camera trajectory
     if (bFileName)

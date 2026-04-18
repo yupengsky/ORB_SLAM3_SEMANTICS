@@ -1,0 +1,44 @@
+{
+  "root_dir": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS",
+  "external_dataset_root": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets",
+  "external_output_root": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/ORB_SLAM3_SEMANTICS_outputs",
+  "pangolin_prefix": "/media/yupeng/新加卷/Work/Git/pangolin_install",
+  "semantics_python": "/home/yupeng/miniconda3/envs/semantics/bin/python",
+  "yolo_model": "semantics/checkpoints/yolo26l-seg.pt",
+  "auto_degrade_priority": ["stereo_imu", "stereo", "mono_imu", "mono"],
+  "datasets": {
+    "euroc_v101": {
+      "kind": "euroc",
+      "name": "EuRoC_V101",
+      "path": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/vicon_room1/V1_01_easy",
+      "timestamp_id": "V101"
+    },
+    "euroc_v102": {
+      "kind": "euroc",
+      "name": "EuRoC_V102",
+      "path": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/vicon_room1/V1_02_medium",
+      "timestamp_id": "V102"
+    },
+    "advio_15": {
+      "kind": "advio",
+      "name": "ADVIO_15_iPhone_stride3",
+      "path": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/advio/euroc_like/advio-15-iphone-stride3"
+    }
+  },
+  "advio_packaging": {
+    "source_seq": "/home/yupeng/GitHub/my_vigator/datasets/advio/advio-15",
+    "raw_out": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/advio/raw/advio-15",
+    "package_out": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/advio/euroc_like/advio-15-iphone-stride3",
+    "frame_stride": 3
+  },
+  "test_suite": [
+    {
+      "dataset_key": "euroc_v101",
+      "modes": ["stereo_imu", "mono_imu"]
+    },
+    {
+      "dataset_key": "euroc_v102",
+      "modes": ["stereo_imu", "mono_imu"]
+    }
+  ]
+}

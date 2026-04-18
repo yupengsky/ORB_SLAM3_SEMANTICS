@@ -1,0 +1,47 @@
+{
+  "runs_total": 4,
+  "runs_succeeded": 4,
+  "runs_failed": 0,
+  "runs": [
+    {
+      "dataset_key": "euroc_v101",
+      "dataset_name": "EuRoC_V101",
+      "slam_mode": "stereo_imu",
+      "status": "ok",
+      "return_code": 0,
+      "result_dir": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/ORB_SLAM3_SEMANTICS_outputs/EuRoC_V101_stereo_imu",
+      "final_json_dir": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/EuRoC_V101_stereo_imu",
+      "navigation_json": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/EuRoC_V101_stereo_imu/semantic_navigation_map.json"
+    },
+    {
+      "dataset_key": "euroc_v101",
+      "dataset_name": "EuRoC_V101",
+      "slam_mode": "mono_imu",
+      "status": "ok",
+      "return_code": 0,
+      "result_dir": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/ORB_SLAM3_SEMANTICS_outputs/EuRoC_V101_mono_imu",
+      "final_json_dir": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/EuRoC_V101_mono_imu",
+      "navigation_json": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/EuRoC_V101_mono_imu/semantic_navigation_map.json"
+    },
+    {
+      "dataset_key": "euroc_v102",
+      "dataset_name": "EuRoC_V102",
+      "slam_mode": "stereo_imu",
+      "status": "ok",
+      "return_code": 0,
+      "result_dir": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/ORB_SLAM3_SEMANTICS_outputs/EuRoC_V102_stereo_imu",
+      "final_json_dir": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/EuRoC_V102_stereo_imu",
+      "navigation_json": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/EuRoC_V102_stereo_imu/semantic_navigation_map.json"
+    },
+    {
+      "dataset_key": "euroc_v102",
+      "dataset_name": "EuRoC_V102",
+      "slam_mode": "mono_imu",
+      "status": "ok",
+      "return_code": 0,
+      "result_dir": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/ORB_SLAM3_SEMANTICS_outputs/EuRoC_V102_mono_imu",
+      "final_json_dir": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/EuRoC_V102_mono_imu",
+      "navigation_json": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS/semantics/results/EuRoC_V102_mono_imu/semantic_navigation_map.json"
+    }
+  ]
+}

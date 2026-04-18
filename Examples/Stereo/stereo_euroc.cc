@@ -21,6 +21,7 @@
 #include<fstream>
 #include<iomanip>
 #include<chrono>
+#include<cstdlib>
 
 #include<opencv2/core/core.hpp>
 
@@ -88,7 +89,7 @@ int main(int argc, char **argv)
     cout.precision(17);
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
-    ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::STEREO, true);
+    ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::STEREO, false);
 
     cv::Mat imLeft, imRight;
     for (seq = 0; seq<num_seq; seq++)
@@ -167,6 +168,13 @@ int main(int argc, char **argv)
     }
     // Stop all threads
     SLAM.Shutdown();
+
+    const char* semanticExportDir = getenv("ORB_SLAM3_SEMANTIC_EXPORT_DIR");
+    if(semanticExportDir && semanticExportDir[0] != '\0')
+    {
+        cout << endl << "Exporting semantic map data to " << semanticExportDir << " ..." << endl;
+        SLAM.ExportSemanticMapData(string(semanticExportDir));
+    }
 
     // Save camera trajectory
     if (bFileName)

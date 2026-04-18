@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export DATASET_KEY="${DATASET_KEY:-advio_15}"
+exec "${SCRIPT_DIR}/semantics/scripts/run_dataset.sh" "$@"
