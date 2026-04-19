@@ -268,14 +268,20 @@ def mode_config(args):
 
 
 def check_required_paths(args, cfg):
-    paths = [
-        Path(args.dataset_path),
-        Path(args.vocabulary),
-        Path(cfg["exe"]),
-        Path(cfg["settings"]),
-        Path(cfg["timestamps"]),
-    ]
-    paths.extend(Path(args.dataset_path) / rel for rel in cfg["required"])
+    paths = []
+    if args.run_slam:
+        paths.extend(
+            [
+                Path(args.dataset_path),
+                Path(args.vocabulary),
+                Path(cfg["exe"]),
+                Path(cfg["settings"]),
+                Path(cfg["timestamps"]),
+            ]
+        )
+        paths.extend(Path(args.dataset_path) / rel for rel in cfg["required"])
+    elif args.run_yolo:
+        paths.append(Path(cfg["settings"]))
     if args.run_yolo:
         paths.append(Path(args.yolo_model))
 
@@ -283,7 +289,7 @@ def check_required_paths(args, cfg):
     if missing:
         raise RuntimeError("Missing required path:\n" + "\n".join(missing))
 
-    if not os.access(cfg["exe"], os.X_OK):
+    if args.run_slam and not os.access(cfg["exe"], os.X_OK):
         raise RuntimeError(f"SLAM executable is not executable: {cfg['exe']}")
 
 
@@ -366,7 +372,7 @@ def run_slam(args, cfg, timestamps, export_dir, work_dir, run_name, log_path):
     return 0, "ok"
 
 
-def run_semantic_and_navigation(args, cfg, export_dir, semantic_json, semantic_ply, navigation_json, annotated_dir, map_form):
+def run_semantic_and_navigation(args, cfg, export_dir, semantic_json, semantic_ply, scene_json, sketch_path, llm_view_json, annotated_dir, map_form):
     if args.run_yolo:
         cmd = [
             args.semantics_python,
@@ -407,7 +413,11 @@ def run_semantic_and_navigation(args, cfg, export_dir, semantic_json, semantic_p
             "--export-dir",
             export_dir,
             "--output",
-            navigation_json,
+            scene_json,
+            "--sketch-output",
+            sketch_path,
+            "--llm-view-output",
+            llm_view_json,
             "--cluster-radius",
             str(args.nav_cluster_radius),
             "--min-object-points",
@@ -465,7 +475,66 @@ def summarize_semantic_index(segment_records, output_path, map_form):
     write_json(output_path, {"map_form": map_form, "scene_summary": totals, "segments": segments})
 
 
-def combine_navigation_segments(segment_records, output_path, args, cfg, map_form):
+def write_chunked_scene_sketch(scene, output_path):
+    lines = [
+        f"scene_sketch: {scene.get('dataset_name', '')} / {scene.get('slam_mode', '')}",
+        f"map_form: {scene.get('map_form', '')}",
+        "scale_unit: meter" if scene.get("has_metric_scale") else "scale_unit: uncertain",
+        "projection: unavailable",
+        "note: chunked maps do not share one global coordinate frame, so one ASCII grid would be misleading.",
+        (
+            "summary: "
+            f"segments={scene.get('scene_summary', {}).get('segments_total', 0)}, "
+            f"objects={scene.get('scene_summary', {}).get('semantic_objects_total', 0)}, "
+            f"path_nodes={scene.get('scene_summary', {}).get('path_nodes_total', 0)}, "
+            f"path_edges={scene.get('scene_summary', {}).get('path_edges_total', 0)}"
+        ),
+    ]
+    for segment in scene.get("segments", []):
+        segment_scene = segment.get("scene", {})
+        segment_summary = segment_scene.get("scene_summary", {})
+        lines.append(
+            f"{segment.get('id')}: status={segment.get('status')} "
+            f"frames={segment.get('frame_count')} "
+            f"objects={segment_summary.get('semantic_objects_total', 0)} "
+            f"nodes={segment_summary.get('path_nodes_total', 0)} "
+            f"edges={segment_summary.get('path_edges_total', 0)}"
+        )
+    Path(output_path).write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def write_chunked_llm_view(scene, output_path):
+    summary = scene.get("scene_summary", {})
+    view = {
+        "purpose": "compact chunked map facts for indoor blind-navigation LLM reasoning",
+        "scale_unit": "meter" if scene.get("has_metric_scale") else "uncertain",
+        "map_form": scene.get("map_form"),
+        "segments_share_global_frame": False,
+        "interpretation_notes": [
+            "This is a chunked fallback result; segment coordinates are not one shared global frame.",
+            "Prefer full_map results for navigation when available.",
+            "Use each segment as a local semantic navigation sketch, not as one merged floor plan.",
+        ],
+        "path_network_compact": {
+            "segments_total": summary.get("segments_total", 0),
+            "segments_succeeded": summary.get("segments_succeeded", 0),
+            "path_nodes_total": summary.get("path_nodes_total", 0),
+            "path_edges_total": summary.get("path_edges_total", 0),
+        },
+        "segments": [
+            {
+                "id": segment.get("id"),
+                "status": segment.get("status"),
+                "frame_count": segment.get("frame_count"),
+                "scene_summary": segment.get("scene", {}).get("scene_summary", {}),
+            }
+            for segment in scene.get("segments", [])
+        ],
+    }
+    Path(output_path).write_text(json.dumps(view, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def combine_navigation_segments(segment_records, output_path, sketch_path, llm_view_path, args, cfg, map_form):
     has_metric_scale = cfg["scale_mode"] == "metric"
     segments = []
     summary = {
@@ -534,13 +603,15 @@ def combine_navigation_segments(segment_records, output_path, args, cfg, map_for
         },
     }
     write_json(output_path, output)
+    write_chunked_scene_sketch(output, sketch_path)
+    write_chunked_llm_view(output, llm_view_path)
 
 
 def run_chunked(args, cfg, map_form="chunked_map"):
     print(f"[pipeline] map_form={map_form} dataset={args.dataset_name} slam_mode={args.slam_mode}")
     chunk_root = Path(args.result_dir) / "chunked"
     timestamps_dir = chunk_root / "timestamps"
-    segments_dir = Path(args.final_json_dir) / "segments"
+    segments_dir = Path(args.result_dir) / "intermediate" / "segments"
     logs_dir = Path(args.result_dir) / "logs"
 
     if args.run_slam:
@@ -568,7 +639,9 @@ def run_chunked(args, cfg, map_form="chunked_map"):
         segment_dir = segments_dir / chunk_id
         semantic_json = segment_dir / "semantic_map.json"
         semantic_ply = chunk_root / chunk_id / "semantic_map.ply"
-        navigation_json = segment_dir / "semantic_navigation_map.json"
+        scene_json = segment_dir / "scene.json"
+        sketch_path = segment_dir / "scene_sketch.txt"
+        llm_view_json = segment_dir / "navigation_llm_view.json"
         annotated_dir = Path(args.annotated_dir) / chunk_id if args.annotated_dir else None
         log_path = logs_dir / f"{chunk_id}_slam.log"
 
@@ -580,7 +653,7 @@ def run_chunked(args, cfg, map_form="chunked_map"):
             "reason": reason,
             "export_dir": str(export_dir),
             "semantic_json": str(semantic_json),
-            "navigation_json": str(navigation_json),
+            "navigation_json": str(scene_json),
         }
         if rc == 0 or reason.startswith("export ok"):
             try:
@@ -590,7 +663,9 @@ def run_chunked(args, cfg, map_form="chunked_map"):
                     str(export_dir),
                     str(semantic_json),
                     str(semantic_ply),
-                    str(navigation_json),
+                    str(scene_json),
+                    str(sketch_path),
+                    str(llm_view_json),
                     str(annotated_dir) if annotated_dir else "",
                     map_form,
                 )
@@ -601,9 +676,17 @@ def run_chunked(args, cfg, map_form="chunked_map"):
         print(f"[pipeline] segment={chunk_id} status={record['status']} reason={record['reason']}")
         segment_records.append(record)
 
-    summarize_semantic_index(segment_records, Path(args.final_json_dir) / "semantic_map.json", map_form)
+    summarize_semantic_index(segment_records, Path(args.result_dir) / "intermediate" / "semantic_index.json", map_form)
     if args.run_navigation:
-        combine_navigation_segments(segment_records, Path(args.final_json_dir) / "semantic_navigation_map.json", args, cfg, map_form)
+        combine_navigation_segments(
+            segment_records,
+            Path(args.final_json_dir) / "scene.json",
+            Path(args.final_json_dir) / "scene_sketch.txt",
+            Path(args.final_json_dir) / "navigation_llm_view.json",
+            args,
+            cfg,
+            map_form,
+        )
     return segment_records
 
 
@@ -612,9 +695,11 @@ def run_full(args, cfg):
     export_dir = Path(args.result_dir) / "slam_export"
     work_dir = Path(args.result_dir) / "slam_run"
     logs_dir = Path(args.result_dir) / "logs"
-    semantic_json = Path(args.final_json_dir) / "semantic_map.json"
+    semantic_json = Path(args.result_dir) / "intermediate" / "semantic_map.json"
     semantic_ply = Path(args.result_dir) / "semantic_map.ply"
-    navigation_json = Path(args.final_json_dir) / "semantic_navigation_map.json"
+    scene_json = Path(args.final_json_dir) / "scene.json"
+    sketch_path = Path(args.final_json_dir) / "scene_sketch.txt"
+    llm_view_json = Path(args.final_json_dir) / "navigation_llm_view.json"
     log_path = logs_dir / "full_slam.log"
 
     rc, reason = run_slam(args, cfg, cfg["timestamps"], export_dir, work_dir, args.run_name, log_path)
@@ -629,7 +714,9 @@ def run_full(args, cfg):
             str(export_dir),
             str(semantic_json),
             str(semantic_ply),
-            str(navigation_json),
+            str(scene_json),
+            str(sketch_path),
+            str(llm_view_json),
             args.annotated_dir,
             "full_map",
         )
@@ -709,6 +796,8 @@ def main():
     cfg = mode_config(args)
     check_required_paths(args, cfg)
     Path(args.result_dir).mkdir(parents=True, exist_ok=True)
+    if args.run_navigation:
+        safe_rmtree(args.final_json_dir, args.allowed_roots)
     Path(args.final_json_dir).mkdir(parents=True, exist_ok=True)
 
     if args.force_chunked:

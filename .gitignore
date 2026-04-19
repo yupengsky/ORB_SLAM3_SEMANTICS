@@ -82,6 +82,7 @@ results/
 !semantics/results/
 !semantics/results/**/
 !semantics/results/**/*.json
+!semantics/results/**/*.txt
 semantics/checkpoints/
 
 cmake_modules/

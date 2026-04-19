@@ -1,0 +1,57 @@
+scene_sketch: ADVIO_15_iPhone_stride3 / mono
+map_form: full_map
+scale_unit: uncertain
+projection: horizontal=x vertical=z
+grid_size: 80x36
+cell_size: 0.038 x 0.076
+legend: #=traversable path network, S/E=start/end-ish, X=high-risk obstacle bbox border, +=medium-risk obstacle bbox border
+note: path is drawn last and kept continuous; low-risk objects are omitted from the grid and listed below
+note: obstacle boxes are sparse-SLAM semantic bounding boxes; use as rough navigation context, not exact collision geometry
+summary: objects=8, path_nodes=4, path_edges=4, points=7669, grid_high=4, grid_medium=4, grid_low_omitted=0
++--------------------------------------------------------------------------------+
+|                                                                                |
+|                                                                                |
+|                                                                                |
+|                                             ++++++++++++++++++++++++++++       |
+|                                             +   ++++++++++++++++++++   +       |
+|       XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX+                  +   +       |
+|       X          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX     +   +       |
+|       X          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   +       |
+|       X          XX                         +  X+            X     X   +       |
+|       X          XX                         +  X+            X     X   +       |
+|       X          XX                         +  X+            X     X   +       |
+|       X          XX                         +  X+            X     X   +       |
+|       X          XX                         +  X+            X     X   +       |
+|       X          XX++++++++++++++++         +  X+            X     X   +       |
+|       X          XX               +         +  X+++++++++++++X+++++X   +       |
+|       X          XX               +         +++X+++++++++++++X+++++X++++       |
+|       X          XX               +            X             X     X           |
+|       X          XX               +           XXXXXXXXXXXXXX X     X           |
+|       X          XX               +           XX           X X     X           |
+|       X          XX++++++++++++++++           XX           X X     X           |
+|       X          XX +         +               XX           X X     X           |
+|       X          XX +++++++++++               XX           X X     X           |
+|       X          XX                           XXXXXXXXXXXXXX X     X           |
+|       X          XX                         #  X             X     X           |
+|       X          XX                       ##   X             X     X           |
+|       X          XX                     ##     X             X     X           |
+|       X          XXXXXXXXXXXXXXXXXXXXXX#XXXXXXXXXXXXXXXXXXXXXXXXXXXX           |
+|       X          X    E##            ##        X             X                 |
+|       X          X   #   ######    ##          X             X                 |
+|       XXXXXXXXXXXXXX#XXXXXXXXXX###SXXXXXXXXXXXXX             X                 |
+|                  X##XXXXX######XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                 |
+|                  # ######                                                      |
+|                 ###                                                            |
+|                                                                                |
+|                                                                                |
+|                                                                                |
++--------------------------------------------------------------------------------+
+objects:
+X HIGH chair_001 label=chair footprint_x_by_z=1.68x1.81m height_y=1.08m dist_path=0.44m clearance=0.00m
+X HIGH couch_001 label=couch footprint_x_by_z=1.58x1.84m height_y=0.74m dist_path=0.67m clearance=0.00m
+X HIGH dining_table_001 label=dining table footprint_x_by_z=1.84x1.46m height_y=0.75m dist_path=0.50m clearance=0.00m
+X HIGH potted_plant_001 label=potted plant footprint_x_by_z=0.52x0.41m height_y=0.49m dist_path=0.38m clearance=0.07m
++ MEDIUM book_001 label=book footprint_x_by_z=0.39x0.14m height_y=0.11m dist_path=0.54m clearance=0.45m
++ MEDIUM bed_001 label=bed footprint_x_by_z=0.60x0.50m height_y=0.22m dist_path=0.73m clearance=0.49m
++ MEDIUM car_001 label=car footprint_x_by_z=1.04x0.91m height_y=0.23m dist_path=1.05m clearance=0.60m
++ MEDIUM tv_001 label=tv footprint_x_by_z=0.73x0.80m height_y=0.37m dist_path=1.18m clearance=0.68m

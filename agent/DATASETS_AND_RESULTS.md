@@ -14,9 +14,7 @@
 
 ## 已验证的 EuRoC 结果
 
-测试调度结果保存在：
-
-- `semantics/results/test_suite_summary.json`
+测试调度日志保存在外盘输出目录，工程内只保留最终结果。
 
 当前确认通过的四轮测试：
 
@@ -34,22 +32,17 @@
 - `semantics/results/EuRoC_V102_stereo_imu/`
 - `semantics/results/EuRoC_V102_mono_imu/`
 
-这些目录下都应至少有：
+这些目录下只应有：
 
-- `semantic_map.json`
-- `semantic_navigation_map.json`
+- `scene.json`
+- `scene_sketch.txt`
+- `navigation_llm_view.json`
 
 ## ADVIO 当前结论
 
-ADVIO 相关结果目录：
+ADVIO 最终结果目录：
 
 - `semantics/results/ADVIO_15_iPhone_stride3_auto/`
-- `semantics/results/ADVIO_15_iPhone_stride3_auto_mono/`
-- `semantics/results/ADVIO_15_iPhone_stride3_auto_mono_imu/`
-
-最重要的是：
-
-- `semantics/results/ADVIO_15_iPhone_stride3_auto/auto_degrade_report.json`
 
 当前工程事实：
 
@@ -80,9 +73,8 @@ ADVIO 相关结果目录：
 
 先检查：
 
-- `auto_degrade_report.json` 的 `selected.mode`
+- 外盘 auto degrade 报告中的 `selected.mode`
 - `quality_status`
 - 最终被选中的是否仍然是 `mono`
 
 因为 `mono_imu` 可能偶尔“留下点东西”，但地图太小，不足以给导航使用。
-

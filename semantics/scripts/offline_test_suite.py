@@ -39,7 +39,9 @@ def default_output_paths(config, dataset_name, mode):
     return {
         "result_dir": str(output_root / name),
         "final_json_dir": str(root_dir / "semantics" / "results" / name),
-        "navigation_json": str(root_dir / "semantics" / "results" / name / "semantic_navigation_map.json"),
+        "scene_json": str(root_dir / "semantics" / "results" / name / "scene.json"),
+        "scene_sketch": str(root_dir / "semantics" / "results" / name / "scene_sketch.txt"),
+        "navigation_llm_view": str(root_dir / "semantics" / "results" / name / "navigation_llm_view.json"),
     }
 
 
@@ -100,7 +102,7 @@ def main():
         "runs_failed": sum(1 for item in results if item["status"] != "ok"),
         "runs": results,
     }
-    summary_path = Path(config["root_dir"]) / "semantics" / "results" / "test_suite_summary.json"
+    summary_path = Path(config["external_output_root"]) / "logs" / "test_suite_summary.json"
     summary_path.parent.mkdir(parents=True, exist_ok=True)
     summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"[suite] summary: {summary_path}")

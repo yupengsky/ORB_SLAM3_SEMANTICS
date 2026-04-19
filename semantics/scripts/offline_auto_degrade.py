@@ -85,12 +85,11 @@ def candidate_modes(config, dataset_kind, capabilities):
 
 
 def default_paths(config, dataset_name, mode, suffix):
-    root_dir = Path(config["root_dir"])
     output_root = Path(config["external_output_root"])
     run_name = f"{dataset_name}_{suffix}_{mode}"
     return {
         "result_dir": str(output_root / run_name),
-        "final_json_dir": str(root_dir / "semantics" / "results" / run_name),
+        "final_json_dir": str(output_root / run_name / "final_scene"),
     }
 
 
@@ -129,45 +128,45 @@ def run_pipeline(args, config, dataset_key, dataset_name, mode):
 
     print(f"[auto_degrade] trying mode={mode}")
     rc = subprocess.run(cmd, check=False).returncode
-    semantic_json = Path(paths["final_json_dir"]) / "semantic_map.json"
-    navigation_json = Path(paths["final_json_dir"]) / "semantic_navigation_map.json"
-    ok = rc == 0 and semantic_json.exists() and navigation_json.exists()
+    scene_json = Path(paths["final_json_dir"]) / "scene.json"
+    scene_sketch = Path(paths["final_json_dir"]) / "scene_sketch.txt"
+    llm_view_json = Path(paths["final_json_dir"]) / "navigation_llm_view.json"
+    ok = rc == 0 and scene_json.exists() and scene_sketch.exists() and llm_view_json.exists()
     return {
         "mode": mode,
         "status": "ok" if ok else "failed",
         "return_code": rc,
         "result_dir": paths["result_dir"],
         "final_json_dir": paths["final_json_dir"],
-        "semantic_json": str(semantic_json),
-        "navigation_json": str(navigation_json),
+        "scene_json": str(scene_json),
+        "scene_sketch": str(scene_sketch),
+        "navigation_llm_view": str(llm_view_json),
     }
 
 
 def copy_selected_outputs(selected, final_dir):
     final_dir = Path(final_dir)
     final_dir.mkdir(parents=True, exist_ok=True)
-    for name in ("semantic_json", "navigation_json"):
+    for name in ("scene_json", "scene_sketch", "navigation_llm_view"):
         source = Path(selected[name])
         if source.exists():
-            target_name = "semantic_map.json" if name == "semantic_json" else "semantic_navigation_map.json"
-            shutil.copy2(source, final_dir / target_name)
+            shutil.copy2(source, final_dir / source.name)
 
 
 def validate_attempt_quality(attempt, args):
-    semantic_path = Path(attempt["semantic_json"])
-    navigation_path = Path(attempt["navigation_json"])
-    if not semantic_path.exists() or not navigation_path.exists():
-        return False, "missing semantic or navigation JSON"
+    scene_path = Path(attempt["scene_json"])
+    sketch_path = Path(attempt["scene_sketch"])
+    llm_view_path = Path(attempt["navigation_llm_view"])
+    if not scene_path.exists() or not sketch_path.exists() or not llm_view_path.exists():
+        return False, "missing scene JSON, ASCII sketch, or LLM view JSON"
 
-    semantic = read_json(semantic_path)
-    navigation = read_json(navigation_path)
-    semantic_summary = semantic.get("scene_summary", {})
-    navigation_summary = navigation.get("scene_summary", {})
+    scene = read_json(scene_path)
+    summary = scene.get("scene_summary", {})
 
-    keyframes = int(semantic_summary.get("keyframes_processed", 0))
-    points = int(semantic_summary.get("map_points_total", 0))
-    nodes = int(navigation_summary.get("path_nodes_total", 0))
-    edges = int(navigation_summary.get("path_edges_total", 0))
+    keyframes = int(summary.get("keyframes_processed", summary.get("path_nodes_total", 0)))
+    points = int(summary.get("map_points_total", 0))
+    nodes = int(summary.get("path_nodes_total", 0))
+    edges = int(summary.get("path_edges_total", 0))
 
     if keyframes < args.min_semantic_keyframes:
         return False, f"semantic keyframes too few: {keyframes} < {args.min_semantic_keyframes}"
@@ -218,6 +217,7 @@ def main():
     modes = candidate_modes(config, dataset_kind, capabilities)
 
     final_dir = Path(config["root_dir"]) / "semantics" / "results" / f"{dataset_name}_{args.output_suffix}"
+    report_path = Path(config["external_output_root"]) / f"{dataset_name}_{args.output_suffix}" / "auto_degrade_report.json"
     if final_dir.exists() and not args.dry_run:
         shutil.rmtree(final_dir)
     report = {
@@ -229,6 +229,7 @@ def main():
         "attempts": [],
         "selected": None,
         "final_json_dir": str(final_dir),
+        "report_path": str(report_path),
     }
 
     print(f"[auto_degrade] dataset={args.dataset_key}")
@@ -236,7 +237,7 @@ def main():
     print(f"[auto_degrade] candidates={modes}")
 
     if args.dry_run:
-        write_json(final_dir / "auto_degrade_report.json", report)
+        write_json(report_path, report)
         return
 
     for mode in modes:
@@ -255,10 +256,10 @@ def main():
             break
 
     if report["selected"] is None:
-        write_json(final_dir / "auto_degrade_report.json", report)
+        write_json(report_path, report)
         raise RuntimeError("All detected modes failed; no usable navigation JSON was produced.")
 
-    write_json(final_dir / "auto_degrade_report.json", report)
+    write_json(report_path, report)
     print(f"[auto_degrade] selected_mode={report['selected']['mode']}")
     print(f"[auto_degrade] final_json_dir={final_dir}")
 

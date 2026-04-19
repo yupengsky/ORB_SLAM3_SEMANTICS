@@ -19,9 +19,9 @@ Shutdown()
     ->
 用 2D observation 给 3D MapPoint 投票打标签
     ->
-生成 semantic_map.json
+生成外盘中间语义图 semantic_map.json
     ->
-再生成 semantic_navigation_map.json
+生成最终 scene.json、scene_sketch.txt 与 navigation_llm_view.json
 ```
 
 ## 自动检测与降级逻辑
@@ -88,9 +88,9 @@ full_map / chunked_map 的编排核心在：
 2. 对关键帧图像跑 YOLO-seg
 3. 通过 observation 中的 `(u, v)` 将 2D mask 与 3D MapPoint 关联
 4. 对每个 MapPoint 的标签做投票
-5. 输出 `semantic_map.json`
+5. 输出外盘中间文件 `semantic_map.json`
 
-## 导航 JSON
+## 最终场景输出
 
 导航场景构建在：
 
@@ -98,11 +98,16 @@ full_map / chunked_map 的编排核心在：
 
 主要产物：
 
+- `scene.json`
+- `scene_sketch.txt`
+- `navigation_llm_view.json`
 - `semantic_objects`
 - `spatial_relations`
 - `traversable_path_network`
 - `path_nearby_objects`
 - `scene_summary`
+
+`navigation_llm_view.json` 是从完整 `scene.json` 中提炼出的 LLM 推荐入口，主要包含物体 footprint、路径距离、clearance 和风险等级。
 
 当前 JSON 顶层已经加入：
 
@@ -142,4 +147,3 @@ full_map / chunked_map 的编排核心在：
 - 在 `Shutdown()` 后导出语义所需的最终地图数据
 
 若这些文件再被修改，通常需要重新编译对应 target。
-

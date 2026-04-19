@@ -1,0 +1,1450 @@
+{
+  "purpose": "compact map facts for indoor blind-navigation LLM reasoning",
+  "scale_unit": "meter",
+  "projection_axes": {
+    "horizontal": "y",
+    "vertical": "x",
+    "height": "z"
+  },
+  "interpretation_notes": [
+    "Object sizes come from semantic ORB-SLAM3 sparse MapPoint bounding boxes, not dense CAD geometry.",
+    "Path network is the observed traversable camera trajectory network; it is useful as a conservative preferred route.",
+    "clearance_to_path_network_m is more useful than center distance for obstacle warnings."
+  ],
+  "path_network_compact": {
+    "nodes_total": 30,
+    "edges_total": 37,
+    "path_network_length_m": 42.2091,
+    "recorded_trajectory_length_m": 51.516
+  },
+  "object_footprints": [
+    {
+      "object_id": "bed_001",
+      "label": "bed",
+      "center_3d": [
+        0.0109,
+        -4.9673,
+        -0.5375
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -6.0445,
+          -0.8832
+        ],
+        "max": [
+          -0.4103,
+          3.4031
+        ],
+        "size": [
+          5.6342,
+          4.2863
+        ],
+        "area": 24.1499
+      },
+      "height": 1.6798,
+      "bbox_3d": {
+        "min": [
+          -0.8832,
+          -6.0445,
+          -1.644
+        ],
+        "max": [
+          3.4031,
+          -0.4103,
+          0.0358
+        ]
+      },
+      "extent_3d": [
+        4.2863,
+        5.6342,
+        1.6798
+      ],
+      "distance_to_path_network_m": 0.7061,
+      "clearance_to_path_network_m": 0.0,
+      "risk_level": "high",
+      "support_points": 991
+    },
+    {
+      "object_id": "couch_001",
+      "label": "couch",
+      "center_3d": [
+        -0.0875,
+        -1.969,
+        -0.898
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -3.8321,
+          -3.0123
+        ],
+        "max": [
+          -0.9167,
+          1.8721
+        ],
+        "size": [
+          2.9154,
+          4.8844
+        ],
+        "area": 14.24
+      },
+      "height": 2.4213,
+      "bbox_3d": {
+        "min": [
+          -3.0123,
+          -3.8321,
+          -1.7327
+        ],
+        "max": [
+          1.8721,
+          -0.9167,
+          0.6886
+        ]
+      },
+      "extent_3d": [
+        4.8844,
+        2.9154,
+        2.4213
+      ],
+      "distance_to_path_network_m": 1.2374,
+      "clearance_to_path_network_m": 0.0,
+      "risk_level": "high",
+      "support_points": 991
+    },
+    {
+      "object_id": "refrigerator_005",
+      "label": "refrigerator",
+      "center_3d": [
+        3.0673,
+        -6.4329,
+        0.1749
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -6.5188,
+          2.7103
+        ],
+        "max": [
+          -6.0261,
+          3.246
+        ],
+        "size": [
+          0.4927,
+          0.5357
+        ],
+        "area": 0.2639
+      },
+      "height": 0.8229,
+      "bbox_3d": {
+        "min": [
+          2.7103,
+          -6.5188,
+          -0.4382
+        ],
+        "max": [
+          3.246,
+          -6.0261,
+          0.3847
+        ]
+      },
+      "extent_3d": [
+        0.5357,
+        0.4927,
+        0.823
+      ],
+      "distance_to_path_network_m": 0.4828,
+      "clearance_to_path_network_m": 0.1283,
+      "risk_level": "high",
+      "support_points": 17
+    },
+    {
+      "object_id": "bench_002",
+      "label": "bench",
+      "center_3d": [
+        -0.4994,
+        -4.9043,
+        -0.5378
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -5.7947,
+          -0.8119
+        ],
+        "max": [
+          -4.1943,
+          -0.2083
+        ],
+        "size": [
+          1.6004,
+          0.6036
+        ],
+        "area": 0.966
+      },
+      "height": 0.766,
+      "bbox_3d": {
+        "min": [
+          -0.8119,
+          -5.7947,
+          -1.1248
+        ],
+        "max": [
+          -0.2083,
+          -4.1943,
+          -0.3588
+        ]
+      },
+      "extent_3d": [
+        0.6036,
+        1.6003,
+        0.7661
+      ],
+      "distance_to_path_network_m": 0.4235,
+      "clearance_to_path_network_m": 0.2139,
+      "risk_level": "high",
+      "support_points": 15
+    },
+    {
+      "object_id": "traffic_light_001",
+      "label": "traffic light",
+      "center_3d": [
+        3.1139,
+        -6.4765,
+        0.2639
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -6.5389,
+          2.985
+        ],
+        "max": [
+          -6.3223,
+          3.1686
+        ],
+        "size": [
+          0.2166,
+          0.1836
+        ],
+        "area": 0.0398
+      },
+      "height": 0.2171,
+      "bbox_3d": {
+        "min": [
+          2.985,
+          -6.5389,
+          0.1388
+        ],
+        "max": [
+          3.1686,
+          -6.3223,
+          0.3559
+        ]
+      },
+      "extent_3d": [
+        0.1836,
+        0.2166,
+        0.2171
+      ],
+      "distance_to_path_network_m": 0.4054,
+      "clearance_to_path_network_m": 0.2818,
+      "risk_level": "high",
+      "support_points": 16
+    },
+    {
+      "object_id": "dining_table_002",
+      "label": "dining table",
+      "center_3d": [
+        -0.0399,
+        -4.2598,
+        -0.3777
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -4.3334,
+          -0.2179
+        ],
+        "max": [
+          -4.1137,
+          0.0473
+        ],
+        "size": [
+          0.2197,
+          0.2652
+        ],
+        "area": 0.0583
+      },
+      "height": 0.0027,
+      "bbox_3d": {
+        "min": [
+          -0.2179,
+          -4.3334,
+          -0.3787
+        ],
+        "max": [
+          0.0473,
+          -4.1137,
+          -0.376
+        ]
+      },
+      "extent_3d": [
+        0.2653,
+        0.2198,
+        0.0027
+      ],
+      "distance_to_path_network_m": 0.4687,
+      "clearance_to_path_network_m": 0.3258,
+      "risk_level": "high",
+      "support_points": 5
+    },
+    {
+      "object_id": "couch_002",
+      "label": "couch",
+      "center_3d": [
+        0.3635,
+        -4.8671,
+        -0.642
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -5.578,
+          -0.1073
+        ],
+        "max": [
+          -3.9032,
+          0.6103
+        ],
+        "size": [
+          1.6748,
+          0.7176
+        ],
+        "area": 1.2018
+      },
+      "height": 0.8793,
+      "bbox_3d": {
+        "min": [
+          -0.1073,
+          -5.578,
+          -1.2526
+        ],
+        "max": [
+          0.6103,
+          -3.9032,
+          -0.3733
+        ]
+      },
+      "extent_3d": [
+        0.7176,
+        1.6748,
+        0.8792
+      ],
+      "distance_to_path_network_m": 0.9994,
+      "clearance_to_path_network_m": 0.3769,
+      "risk_level": "medium",
+      "support_points": 40
+    },
+    {
+      "object_id": "bench_001",
+      "label": "bench",
+      "center_3d": [
+        3.4936,
+        -5.9357,
+        -0.719
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -6.4191,
+          2.7052
+        ],
+        "max": [
+          -5.3593,
+          4.812
+        ],
+        "size": [
+          1.0598,
+          2.1068
+        ],
+        "area": 2.2328
+      },
+      "height": 1.0497,
+      "bbox_3d": {
+        "min": [
+          2.7052,
+          -6.4191,
+          -1.2371
+        ],
+        "max": [
+          4.812,
+          -5.3593,
+          -0.1874
+        ]
+      },
+      "extent_3d": [
+        2.1068,
+        1.0598,
+        1.0497
+      ],
+      "distance_to_path_network_m": 1.1972,
+      "clearance_to_path_network_m": 0.444,
+      "risk_level": "medium",
+      "support_points": 106
+    },
+    {
+      "object_id": "suitcase_002",
+      "label": "suitcase",
+      "center_3d": [
+        3.847,
+        -6.2264,
+        -0.2528
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -6.4679,
+          2.9469
+        ],
+        "max": [
+          -5.9967,
+          4.8066
+        ],
+        "size": [
+          0.4712,
+          1.8597
+        ],
+        "area": 0.8763
+      },
+      "height": 0.265,
+      "bbox_3d": {
+        "min": [
+          2.9469,
+          -6.4679,
+          -0.4593
+        ],
+        "max": [
+          4.8066,
+          -5.9967,
+          -0.1943
+        ]
+      },
+      "extent_3d": [
+        1.8596,
+        0.4713,
+        0.265
+      ],
+      "distance_to_path_network_m": 0.8422,
+      "clearance_to_path_network_m": 0.6613,
+      "risk_level": "medium",
+      "support_points": 24
+    },
+    {
+      "object_id": "book_001",
+      "label": "book",
+      "center_3d": [
+        2.1959,
+        -3.3603,
+        -1.2566
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -4.61,
+          -0.6768
+        ],
+        "max": [
+          -2.0052,
+          4.0268
+        ],
+        "size": [
+          2.6048,
+          4.7036
+        ],
+        "area": 12.2519
+      },
+      "height": 0.5278,
+      "bbox_3d": {
+        "min": [
+          -0.6768,
+          -4.61,
+          -1.4646
+        ],
+        "max": [
+          4.0268,
+          -2.0052,
+          -0.9368
+        ]
+      },
+      "extent_3d": [
+        4.7036,
+        2.6048,
+        0.5278
+      ],
+      "distance_to_path_network_m": 1.5773,
+      "clearance_to_path_network_m": 0.6889,
+      "risk_level": "medium",
+      "support_points": 256
+    },
+    {
+      "object_id": "keyboard_001",
+      "label": "keyboard",
+      "center_3d": [
+        0.4724,
+        -4.3487,
+        -0.4587
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -4.4587,
+          0.4068
+        ],
+        "max": [
+          -4.2812,
+          0.6018
+        ],
+        "size": [
+          0.1775,
+          0.195
+        ],
+        "area": 0.0346
+      },
+      "height": 0.1341,
+      "bbox_3d": {
+        "min": [
+          0.4068,
+          -4.4587,
+          -0.5549
+        ],
+        "max": [
+          0.6018,
+          -4.2812,
+          -0.4208
+        ]
+      },
+      "extent_3d": [
+        0.195,
+        0.1775,
+        0.1342
+      ],
+      "distance_to_path_network_m": 0.7566,
+      "clearance_to_path_network_m": 0.6958,
+      "risk_level": "medium",
+      "support_points": 6
+    },
+    {
+      "object_id": "suitcase_001",
+      "label": "suitcase",
+      "center_3d": [
+        0.4494,
+        -4.4515,
+        -0.5103
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -4.5559,
+          0.2821
+        ],
+        "max": [
+          -4.336,
+          0.6038
+        ],
+        "size": [
+          0.2199,
+          0.3217
+        ],
+        "area": 0.0707
+      },
+      "height": 0.4774,
+      "bbox_3d": {
+        "min": [
+          0.2821,
+          -4.5559,
+          -0.9025
+        ],
+        "max": [
+          0.6038,
+          -4.336,
+          -0.4251
+        ]
+      },
+      "extent_3d": [
+        0.3217,
+        0.2199,
+        0.4775
+      ],
+      "distance_to_path_network_m": 0.8227,
+      "clearance_to_path_network_m": 0.6996,
+      "risk_level": "medium",
+      "support_points": 30
+    },
+    {
+      "object_id": "bed_002",
+      "label": "bed",
+      "center_3d": [
+        -1.8504,
+        -4.7273,
+        -0.5475
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -5.0606,
+          -2.0567
+        ],
+        "max": [
+          -4.3717,
+          -1.6711
+        ],
+        "size": [
+          0.6889,
+          0.3856
+        ],
+        "area": 0.2656
+      },
+      "height": 0.0673,
+      "bbox_3d": {
+        "min": [
+          -2.0567,
+          -5.0606,
+          -0.5824
+        ],
+        "max": [
+          -1.6711,
+          -4.3717,
+          -0.5151
+        ]
+      },
+      "extent_3d": [
+        0.3856,
+        0.6889,
+        0.0673
+      ],
+      "distance_to_path_network_m": 1.0593,
+      "clearance_to_path_network_m": 0.7961,
+      "risk_level": "low",
+      "support_points": 15
+    },
+    {
+      "object_id": "tv_002",
+      "label": "tv",
+      "center_3d": [
+        2.317,
+        -8.0361,
+        -0.3911
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -8.3303,
+          2.0353
+        ],
+        "max": [
+          -7.807,
+          2.601
+        ],
+        "size": [
+          0.5233,
+          0.5657
+        ],
+        "area": 0.296
+      },
+      "height": 0.3627,
+      "bbox_3d": {
+        "min": [
+          2.0353,
+          -8.3303,
+          -0.6037
+        ],
+        "max": [
+          2.601,
+          -7.807,
+          -0.241
+        ]
+      },
+      "extent_3d": [
+        0.5657,
+        0.5232,
+        0.3626
+      ],
+      "distance_to_path_network_m": 1.1695,
+      "clearance_to_path_network_m": 0.852,
+      "risk_level": "low",
+      "support_points": 34
+    },
+    {
+      "object_id": "remote_001",
+      "label": "remote",
+      "center_3d": [
+        -1.6545,
+        -3.0548,
+        -1.2627
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -3.5231,
+          -1.9177
+        ],
+        "max": [
+          -1.9814,
+          -0.7509
+        ],
+        "size": [
+          1.5417,
+          1.1668
+        ],
+        "area": 1.7989
+      },
+      "height": 0.3865,
+      "bbox_3d": {
+        "min": [
+          -1.9177,
+          -3.5231,
+          -1.4156
+        ],
+        "max": [
+          -0.7509,
+          -1.9814,
+          -1.0291
+        ]
+      },
+      "extent_3d": [
+        1.1668,
+        1.5417,
+        0.3865
+      ],
+      "distance_to_path_network_m": 1.5231,
+      "clearance_to_path_network_m": 0.8861,
+      "risk_level": "low",
+      "support_points": 105
+    },
+    {
+      "object_id": "refrigerator_001",
+      "label": "refrigerator",
+      "center_3d": [
+        2.5823,
+        -2.5891,
+        -0.3447
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -3.0009,
+          1.7874
+        ],
+        "max": [
+          -1.7992,
+          3.1803
+        ],
+        "size": [
+          1.2017,
+          1.3929
+        ],
+        "area": 1.6738
+      },
+      "height": 1.9356,
+      "bbox_3d": {
+        "min": [
+          1.7874,
+          -3.0009,
+          -1.2847
+        ],
+        "max": [
+          3.1803,
+          -1.7992,
+          0.6509
+        ]
+      },
+      "extent_3d": [
+        1.393,
+        1.2017,
+        1.9356
+      ],
+      "distance_to_path_network_m": 1.5602,
+      "clearance_to_path_network_m": 0.9664,
+      "risk_level": "low",
+      "support_points": 81
+    },
+    {
+      "object_id": "refrigerator_003",
+      "label": "refrigerator",
+      "center_3d": [
+        4.0344,
+        -9.0505,
+        0.1716
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -9.8507,
+          3.6549
+        ],
+        "max": [
+          -8.2948,
+          4.4945
+        ],
+        "size": [
+          1.5559,
+          0.8396
+        ],
+        "area": 1.3063
+      },
+      "height": 1.5084,
+      "bbox_3d": {
+        "min": [
+          3.6549,
+          -9.8507,
+          -0.3889
+        ],
+        "max": [
+          4.4945,
+          -8.2948,
+          1.1195
+        ]
+      },
+      "extent_3d": [
+        0.8396,
+        1.5559,
+        1.5085
+      ],
+      "distance_to_path_network_m": 1.9325,
+      "clearance_to_path_network_m": 1.0749,
+      "risk_level": "low",
+      "support_points": 26
+    },
+    {
+      "object_id": "refrigerator_002",
+      "label": "refrigerator",
+      "center_3d": [
+        2.3743,
+        -7.8985,
+        -0.8134
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -8.2161,
+          2.1116
+        ],
+        "max": [
+          -7.7697,
+          2.5806
+        ],
+        "size": [
+          0.4464,
+          0.469
+        ],
+        "area": 0.2094
+      },
+      "height": 0.641,
+      "bbox_3d": {
+        "min": [
+          2.1116,
+          -8.2161,
+          -1.242
+        ],
+        "max": [
+          2.5806,
+          -7.7697,
+          -0.601
+        ]
+      },
+      "extent_3d": [
+        0.469,
+        0.4463,
+        0.641
+      ],
+      "distance_to_path_network_m": 1.3717,
+      "clearance_to_path_network_m": 1.1074,
+      "risk_level": "low",
+      "support_points": 27
+    },
+    {
+      "object_id": "chair_001",
+      "label": "chair",
+      "center_3d": [
+        2.4251,
+        -3.7587,
+        -1.2575
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -4.1288,
+          1.9747
+        ],
+        "max": [
+          -3.1124,
+          3.2823
+        ],
+        "size": [
+          1.0164,
+          1.3076
+        ],
+        "area": 1.329
+      },
+      "height": 0.1837,
+      "bbox_3d": {
+        "min": [
+          1.9747,
+          -4.1288,
+          -1.3552
+        ],
+        "max": [
+          3.2823,
+          -3.1124,
+          -1.1715
+        ]
+      },
+      "extent_3d": [
+        1.3076,
+        1.0163,
+        0.1838
+      ],
+      "distance_to_path_network_m": 1.3418,
+      "clearance_to_path_network_m": 1.1272,
+      "risk_level": "low",
+      "support_points": 21
+    },
+    {
+      "object_id": "skis_001",
+      "label": "skis",
+      "center_3d": [
+        3.5546,
+        -3.428,
+        -1.2431
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -3.7995,
+          2.8974
+        ],
+        "max": [
+          -3.0913,
+          4.4359
+        ],
+        "size": [
+          0.7082,
+          1.5385
+        ],
+        "area": 1.0896
+      },
+      "height": 0.128,
+      "bbox_3d": {
+        "min": [
+          2.8974,
+          -3.7995,
+          -1.2828
+        ],
+        "max": [
+          4.4359,
+          -3.0913,
+          -1.1548
+        ]
+      },
+      "extent_3d": [
+        1.5386,
+        0.7082,
+        0.1279
+      ],
+      "distance_to_path_network_m": 1.374,
+      "clearance_to_path_network_m": 1.148,
+      "risk_level": "low",
+      "support_points": 43
+    },
+    {
+      "object_id": "couch_003",
+      "label": "couch",
+      "center_3d": [
+        -2.9515,
+        -4.251,
+        -0.8086
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -4.4024,
+          -3.1217
+        ],
+        "max": [
+          -3.618,
+          -2.7353
+        ],
+        "size": [
+          0.7844,
+          0.3864
+        ],
+        "area": 0.3031
+      },
+      "height": 0.8702,
+      "bbox_3d": {
+        "min": [
+          -3.1217,
+          -4.4024,
+          -1.2373
+        ],
+        "max": [
+          -2.7353,
+          -3.618,
+          -0.3671
+        ]
+      },
+      "extent_3d": [
+        0.3864,
+        0.7843,
+        0.8702
+      ],
+      "distance_to_path_network_m": 1.6081,
+      "clearance_to_path_network_m": 1.1589,
+      "risk_level": "low",
+      "support_points": 24
+    },
+    {
+      "object_id": "tie_001",
+      "label": "tie",
+      "center_3d": [
+        1.318,
+        -3.2732,
+        -1.261
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -3.6644,
+          0.7361
+        ],
+        "max": [
+          -2.6727,
+          1.7345
+        ],
+        "size": [
+          0.9917,
+          0.9984
+        ],
+        "area": 0.9901
+      },
+      "height": 0.1079,
+      "bbox_3d": {
+        "min": [
+          0.7361,
+          -3.6644,
+          -1.3059
+        ],
+        "max": [
+          1.7345,
+          -2.6727,
+          -1.198
+        ]
+      },
+      "extent_3d": [
+        0.9985,
+        0.9917,
+        0.1079
+      ],
+      "distance_to_path_network_m": 1.4298,
+      "clearance_to_path_network_m": 1.1878,
+      "risk_level": "low",
+      "support_points": 35
+    },
+    {
+      "object_id": "dining_table_001",
+      "label": "dining table",
+      "center_3d": [
+        3.5236,
+        -3.4472,
+        -1.2557
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -3.5647,
+          3.353
+        ],
+        "max": [
+          -3.2624,
+          3.8328
+        ],
+        "size": [
+          0.3023,
+          0.4798
+        ],
+        "area": 0.145
+      },
+      "height": 0.082,
+      "bbox_3d": {
+        "min": [
+          3.353,
+          -3.5647,
+          -1.2888
+        ],
+        "max": [
+          3.8328,
+          -3.2624,
+          -1.2068
+        ]
+      },
+      "extent_3d": [
+        0.4799,
+        0.3023,
+        0.082
+      ],
+      "distance_to_path_network_m": 1.3782,
+      "clearance_to_path_network_m": 1.2876,
+      "risk_level": "low",
+      "support_points": 8
+    },
+    {
+      "object_id": "remote_002",
+      "label": "remote",
+      "center_3d": [
+        0.6122,
+        -2.4863,
+        -1.2617
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -2.6339,
+          0.4379
+        ],
+        "max": [
+          -2.2004,
+          0.821
+        ],
+        "size": [
+          0.4335,
+          0.3831
+        ],
+        "area": 0.1661
+      },
+      "height": 0.1678,
+      "bbox_3d": {
+        "min": [
+          0.4379,
+          -2.6339,
+          -1.329
+        ],
+        "max": [
+          0.821,
+          -2.2004,
+          -1.1612
+        ]
+      },
+      "extent_3d": [
+        0.3831,
+        0.4334,
+        0.1679
+      ],
+      "distance_to_path_network_m": 1.6371,
+      "clearance_to_path_network_m": 1.4195,
+      "risk_level": "low",
+      "support_points": 10
+    },
+    {
+      "object_id": "remote_003",
+      "label": "remote",
+      "center_3d": [
+        0.6133,
+        -4.5886,
+        -1.2699
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -4.802,
+          0.5454
+        ],
+        "max": [
+          -4.5163,
+          0.6837
+        ],
+        "size": [
+          0.2857,
+          0.1383
+        ],
+        "area": 0.0395
+      },
+      "height": 0.047,
+      "bbox_3d": {
+        "min": [
+          0.5454,
+          -4.802,
+          -1.2894
+        ],
+        "max": [
+          0.6837,
+          -4.5163,
+          -1.2424
+        ]
+      },
+      "extent_3d": [
+        0.1383,
+        0.2857,
+        0.047
+      ],
+      "distance_to_path_network_m": 1.5064,
+      "clearance_to_path_network_m": 1.4342,
+      "risk_level": "low",
+      "support_points": 10
+    },
+    {
+      "object_id": "refrigerator_004",
+      "label": "refrigerator",
+      "center_3d": [
+        4.0449,
+        -2.2198,
+        -0.4974
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -2.3562,
+          3.9796
+        ],
+        "max": [
+          -1.9528,
+          4.2765
+        ],
+        "size": [
+          0.4034,
+          0.2969
+        ],
+        "area": 0.1198
+      },
+      "height": 1.7403,
+      "bbox_3d": {
+        "min": [
+          3.9796,
+          -2.3562,
+          -1.2212
+        ],
+        "max": [
+          4.2765,
+          -1.9528,
+          0.5191
+        ]
+      },
+      "extent_3d": [
+        0.2969,
+        0.4034,
+        1.7404
+      ],
+      "distance_to_path_network_m": 1.7347,
+      "clearance_to_path_network_m": 1.4912,
+      "risk_level": "low",
+      "support_points": 25
+    },
+    {
+      "object_id": "chair_002",
+      "label": "chair",
+      "center_3d": [
+        -2.1539,
+        -8.2554,
+        -0.7441
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -8.3621,
+          -2.2876
+        ],
+        "max": [
+          -8.1328,
+          -2.0889
+        ],
+        "size": [
+          0.2293,
+          0.1987
+        ],
+        "area": 0.0456
+      },
+      "height": 0.7695,
+      "bbox_3d": {
+        "min": [
+          -2.2876,
+          -8.3621,
+          -1.106
+        ],
+        "max": [
+          -2.0889,
+          -8.1328,
+          -0.3365
+        ]
+      },
+      "extent_3d": [
+        0.1987,
+        0.2293,
+        0.7695
+      ],
+      "distance_to_path_network_m": 2.64,
+      "clearance_to_path_network_m": 2.4047,
+      "risk_level": "low",
+      "support_points": 9
+    },
+    {
+      "object_id": "tv_001",
+      "label": "tv",
+      "center_3d": [
+        -3.3063,
+        -8.5416,
+        0.2887
+      ],
+      "projection_axes": {
+        "horizontal": "y",
+        "vertical": "x",
+        "height": "z"
+      },
+      "footprint_2d": {
+        "min": [
+          -9.1243,
+          -3.8972
+        ],
+        "max": [
+          -7.9846,
+          -2.9954
+        ],
+        "size": [
+          1.1397,
+          0.9018
+        ],
+        "area": 1.0278
+      },
+      "height": 0.6363,
+      "bbox_3d": {
+        "min": [
+          -3.8972,
+          -9.1243,
+          -0.0766
+        ],
+        "max": [
+          -2.9954,
+          -7.9846,
+          0.5597
+        ]
+      },
+      "extent_3d": [
+        0.9018,
+        1.1397,
+        0.6364
+      ],
+      "distance_to_path_network_m": 3.4845,
+      "clearance_to_path_network_m": 2.8794,
+      "risk_level": "low",
+      "support_points": 38
+    }
+  ]
+}

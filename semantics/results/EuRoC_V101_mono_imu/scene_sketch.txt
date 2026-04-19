@@ -1,0 +1,75 @@
+scene_sketch: EuRoC_V101 / mono_imu
+map_form: full_map
+scale_unit: meter
+projection: horizontal=y vertical=x
+grid_size: 80x36
+cell_size: 0.128 x 0.285
+legend: #=traversable path network, S/E=start/end-ish, X=high-risk obstacle bbox border, +=medium-risk obstacle bbox border
+note: path is drawn last and kept continuous; low-risk objects are omitted from the grid and listed below
+note: obstacle boxes are sparse-SLAM semantic bounding boxes; use as rough navigation context, not exact collision geometry
+summary: objects=26, path_nodes=37, path_edges=46, points=9878, grid_high=8, grid_medium=3, grid_low_omitted=15
++--------------------------------------------------------------------------------+
+|                                                                                |
+|                                                                                |
+|                    +++++++++               XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX     |
+|                    +       +            XXXXXXXXXXXXX                    X     |
+|                    +       +            X  X        X                    X     |
+|                    ++++++XXXXXXXXXXXXXXXX  X        X                    X     |
+|                 XXXXXXXXXXXXXXX###XXXX XX  X        X                    X     |
+|                 X        ######   ## X XXXXXXXXXXXXXX                    X     |
+|                 X     ###XXXXXX++++ ## X   X   ###                       X     |
+|                 X      # XX+  X   +  X#########  #                       X     |
+|                 X       #XXXXXXXXXXXX#X#X####X###XXXXXXXXXXXXXXXXXX      X     |
+|                +X+++++  #X     X    #X ##  # #                    X      X     |
+|                +XXXXXXXXX##XXXXXXXX####XX####XXXXXXXXXXX          X      X     |
+|                +     +     ##  X  ######XX#XX##XXXXXXXXXXXXXXXXXXXXXX    X     |
+|                +++++++       ################ #        X          X X    X     |
+|                             ## X# # X      X## #       X          X X    X     |
+|                           ##   #  # X      X ## #      X          X X    X     |
+|                          #     X# X##      X # ##      X          X X    X     |
+|                          #     X# X X##    X  #  #     X          X X    X     |
+|                           #    X #X XXX##XXXXX#XXX##XXXX          X X    X     |
+|                           #    X  ##     ###XX#XXXXX#XXXXXXXXXXXXXXXXXXXXX     |
+|                            ##  X  X #    ##E## #  ## #            X X          |
+|                              ##X  X######     ####    #           X X          |
+|                                ####XXX##XXXXXXS#########XXXXXXXXXXX X          |
+|                                   X     ######                      X          |
+|                                   X          #                      X          |
+|                                   X          #                      X          |
+|                                   X                                 X          |
+|                                   X                                 X          |
+|                                   X                                 X          |
+|                                   X                                 X          |
+|                                   X                                 X          |
+|                                   X                                 X          |
+|                                   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX          |
+|                                                                                |
+|                                                                                |
++--------------------------------------------------------------------------------+
+objects:
+X HIGH bed_001 label=bed footprint_y_by_x=4.44x3.77m height_z=1.58m dist_path=1.01m clearance=0.00m
+X HIGH couch_001 label=couch footprint_y_by_x=4.39x5.53m height_z=2.97m dist_path=1.00m clearance=0.00m
+X HIGH refrigerator_001 label=refrigerator footprint_y_by_x=3.72x5.02m height_z=2.56m dist_path=1.42m clearance=0.00m
+X HIGH bench_001 label=bench footprint_y_by_x=1.86x1.90m height_z=1.35m dist_path=1.27m clearance=0.08m
+X HIGH couch_002 label=couch footprint_y_by_x=2.75x1.99m height_z=1.08m dist_path=1.42m clearance=0.11m
+X HIGH book_001 label=book footprint_y_by_x=2.39x2.14m height_z=0.96m dist_path=0.99m clearance=0.18m
+X HIGH traffic_light_003 label=traffic light footprint_y_by_x=0.56x0.45m height_z=0.45m dist_path=0.77m clearance=0.28m
+X HIGH traffic_light_001 label=traffic light footprint_y_by_x=1.51x1.02m height_z=1.38m dist_path=1.42m clearance=0.29m
++ MEDIUM refrigerator_002 label=refrigerator footprint_y_by_x=0.78x0.45m height_z=0.64m dist_path=0.82m clearance=0.35m
++ MEDIUM refrigerator_003 label=refrigerator footprint_y_by_x=0.84x0.85m height_z=1.01m dist_path=1.55m clearance=0.68m
++ MEDIUM traffic_light_002 label=traffic light footprint_y_by_x=1.03x0.65m height_z=0.49m dist_path=1.32m clearance=0.68m
+. LOW traffic_light_004 label=traffic light footprint_y_by_x=1.59x0.78m height_z=0.24m dist_path=1.39m clearance=0.83m
+. LOW chair_001 label=chair footprint_y_by_x=0.59x0.45m height_z=0.71m dist_path=1.37m clearance=0.92m
+. LOW suitcase_001 label=suitcase footprint_y_by_x=0.57x0.64m height_z=0.67m dist_path=1.48m clearance=0.96m
+. LOW bed_005 label=bed footprint_y_by_x=0.37x0.63m height_z=0.55m dist_path=1.42m clearance=0.99m
+. LOW bed_002 label=bed footprint_y_by_x=0.46x0.63m height_z=0.64m dist_path=1.50m clearance=1.18m
+. LOW tv_001 label=tv footprint_y_by_x=0.34x0.42m height_z=0.25m dist_path=1.41m clearance=1.23m
+. LOW bench_003 label=bench footprint_y_by_x=0.33x0.35m height_z=0.99m dist_path=1.69m clearance=1.24m
+. LOW tie_001 label=tie footprint_y_by_x=0.62x0.42m height_z=0.09m dist_path=1.46m clearance=1.27m
+. LOW couch_003 label=couch footprint_y_by_x=0.14x0.11m height_z=0.06m dist_path=1.65m clearance=1.55m
+. LOW bed_003 label=bed footprint_y_by_x=0.17x0.21m height_z=0.04m dist_path=1.68m clearance=1.62m
+. LOW bench_002 label=bench footprint_y_by_x=1.34x0.52m height_z=0.26m dist_path=2.36m clearance=1.68m
+. LOW bed_004 label=bed footprint_y_by_x=0.16x0.31m height_z=0.36m dist_path=2.40m clearance=2.16m
+. LOW couch_004 label=couch footprint_y_by_x=0.67x0.32m height_z=0.21m dist_path=2.48m clearance=2.29m
+. LOW traffic_light_005 label=traffic light footprint_y_by_x=0.05x0.31m height_z=0.40m dist_path=2.45m clearance=2.35m
+. LOW tv_002 label=tv footprint_y_by_x=1.05x0.58m height_z=0.71m dist_path=3.29m clearance=2.70m
