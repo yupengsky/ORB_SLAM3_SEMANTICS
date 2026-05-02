@@ -30,6 +30,45 @@ def read_jsonl(path):
     return rows
 
 
+def resolve_render_inputs(run_dir, result_dir, segment_id=""):
+    full_semantic = run_dir / "intermediate" / "semantic_map.json"
+    if full_semantic.exists():
+        return {
+            "semantic_map": full_semantic,
+            "keyframes": run_dir / "slam_export" / "keyframes.jsonl",
+            "observations": run_dir / "slam_export" / "observations.jsonl",
+            "scene": result_dir / "scene.json",
+            "label": "full_map",
+        }
+
+    segments_dir = run_dir / "intermediate" / "segments"
+    if segment_id:
+        candidates = [segments_dir / segment_id]
+    else:
+        candidates = sorted(path for path in segments_dir.glob("*") if path.is_dir())
+
+    for segment_dir in candidates:
+        semantic_map = segment_dir / "semantic_map.json"
+        scene = segment_dir / "scene.json"
+        export_dir = run_dir / "chunked" / segment_dir.name / "slam_export"
+        keyframes = export_dir / "keyframes.jsonl"
+        observations = export_dir / "observations.jsonl"
+        if semantic_map.exists() and scene.exists() and keyframes.exists() and observations.exists():
+            return {
+                "semantic_map": semantic_map,
+                "keyframes": keyframes,
+                "observations": observations,
+                "scene": scene,
+                "label": f"chunked_map:{segment_dir.name}",
+            }
+
+    raise FileNotFoundError(
+        "Could not find renderable full-map or chunked-map outputs under "
+        f"{run_dir}. Expected intermediate/semantic_map.json or "
+        "intermediate/segments/<chunk_id>/semantic_map.json."
+    )
+
+
 def color_for_label(label):
     palette = {
         "unknown": (0.45, 0.47, 0.50),
@@ -299,10 +338,12 @@ def semantic_panel_text(objects, max_items):
 def render(args):
     run_dir = Path(args.run_dir)
     result_dir = Path(args.result_dir)
-    semantic_map = read_json(run_dir / "intermediate" / "semantic_map.json")
-    keyframes = read_jsonl(run_dir / "slam_export" / "keyframes.jsonl")
-    observations = read_jsonl(run_dir / "slam_export" / "observations.jsonl")
-    scene = read_json(result_dir / "scene.json")
+    inputs = resolve_render_inputs(run_dir, result_dir, args.segment_id)
+    print(f"[render] input={inputs['label']}")
+    semantic_map = read_json(inputs["semantic_map"])
+    keyframes = read_jsonl(inputs["keyframes"])
+    observations = read_jsonl(inputs["observations"])
+    scene = read_json(inputs["scene"])
 
     points = semantic_map["points"]
     positions = np.array([point["position"] for point in points], dtype=np.float64)
@@ -574,6 +615,7 @@ def parse_args():
     parser.add_argument("--run-dir", required=True, help="External pipeline run dir containing slam_export/ and intermediate/.")
     parser.add_argument("--result-dir", required=True, help="Final semantics/results/<run_name> dir containing scene.json.")
     parser.add_argument("--output", required=True)
+    parser.add_argument("--segment-id", default="", help="For chunked outputs, render a specific chunk id such as chunk_000.")
     parser.add_argument("--title", default="Video -> ORB-SLAM3 sparse map -> semantic navigation map")
     parser.add_argument("--width", type=int, default=1920)
     parser.add_argument("--height", type=int, default=1080)

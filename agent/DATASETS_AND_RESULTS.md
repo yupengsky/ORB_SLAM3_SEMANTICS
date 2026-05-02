@@ -2,9 +2,13 @@
 
 ## 数据集配置文件
 
-统一配置在：
+提交版配置模板在：
 
 - `semantics/scripts/dataset_config.json`
+
+每个开发者的真实路径放在：
+
+- `local/dataset_config.json`
 
 当前已配置的数据集键值：
 
@@ -14,7 +18,7 @@
 
 ## 已验证的 EuRoC 结果
 
-测试调度日志保存在外盘输出目录，工程内只保留最终结果。
+测试调度日志保存在 `external_output_root` 指向的本地输出目录，最终结果也建议放在 ignored 的本地目录。
 
 当前确认通过的四轮测试：
 
@@ -25,7 +29,7 @@
 | EuRoC_V102 | stereo_imu | ok | full_map |
 | EuRoC_V102 | mono_imu | ok | full_map |
 
-当前已有结果目录：
+历史验证结果目录：
 
 - `semantics/results/EuRoC_V101_stereo_imu/`
 - `semantics/results/EuRoC_V101_mono_imu/`
@@ -73,7 +77,7 @@ ADVIO 最终结果目录：
 
 先检查：
 
-- 外盘 auto degrade 报告中的 `selected.mode`
+- `external_output_root` 下 auto degrade 报告中的 `selected.mode`
 - `quality_status`
 - 最终被选中的是否仍然是 `mono`
 

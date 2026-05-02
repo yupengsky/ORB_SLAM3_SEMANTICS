@@ -16,6 +16,20 @@
 **/__pycache__/
 *.pyc
 
+# Local-only configuration, datasets, generated outputs, and model weights.
+local/
+datasets/
+data/
+outputs/
+semantics_outputs/
+.venv/
+venv/
+*.bag
+*.pth
+*.pt
+*.onnx
+*.engine
+
 CMakeLists.txt.user
 CMakeLists_modified.txt
 
@@ -79,11 +93,12 @@ build/
 lib/
 
 results/
+semantics/results/**
 !semantics/results/
-!semantics/results/**/
-!semantics/results/**/*.json
-!semantics/results/**/*.txt
-semantics/checkpoints/
+!semantics/results/README.md
+semantics/checkpoints/**
+!semantics/checkpoints/
+!semantics/checkpoints/README.md
 
 cmake_modules/
 cmake-build-debug/

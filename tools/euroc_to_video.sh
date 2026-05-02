@@ -2,16 +2,30 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-EXTERNAL_DATASET_ROOT="${EXTERNAL_DATASET_ROOT:-/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets}"
 
-DATASET_PATH="${DATASET_PATH:-/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/vicon_room1/V1_01_easy}"
-OUTPUT_DIR="${OUTPUT_DIR:-${EXTERNAL_DATASET_ROOT}/ORB_SLAM3_SEMANTICS_outputs/videos}"
+DATASET_PATH="${DATASET_PATH:-}"
+if [[ -z "${DATASET_PATH}" ]]; then
+  echo "Set DATASET_PATH to a EuRoC ASL sequence path, for example:" >&2
+  echo "  DATASET_PATH=<YOUR_EUROC_V1_01_EASY_ASL_PATH> MODE=stereo ./tools/euroc_to_video.sh" >&2
+  exit 2
+fi
+
+OUTPUT_DIR="${OUTPUT_DIR:-${ROOT_DIR}/local/outputs/videos}"
 FPS="${FPS:-20}"
 MODE="${MODE:-stereo}"
 SEQUENCE_NAME="${SEQUENCE_NAME:-$(basename "${DATASET_PATH}")}"
 
 CAM0_DIR="${DATASET_PATH}/mav0/cam0/data"
 CAM1_DIR="${DATASET_PATH}/mav0/cam1/data"
+
+if [[ ! -d "${CAM0_DIR}" ]]; then
+  echo "Missing EuRoC cam0 image directory: ${CAM0_DIR}" >&2
+  exit 2
+fi
+if [[ "${MODE}" == "stereo" && ! -d "${CAM1_DIR}" ]]; then
+  echo "Missing EuRoC cam1 image directory: ${CAM1_DIR}" >&2
+  exit 2
+fi
 
 mkdir -p "${OUTPUT_DIR}"
 TMP_DIR="$(mktemp -d "${OUTPUT_DIR}/.video_tmp_${SEQUENCE_NAME}_XXXXXX")"

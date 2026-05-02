@@ -22,9 +22,9 @@
 ## 现在的主目录约定
 
 - `semantics/checkpoints/`
-  - 语义模型权重。
+  - 语义模型权重目录。权重本身被 Git 忽略。
 - `semantics/results/`
-  - 已生成的结果 JSON。
+  - 生成结果目录。结果文件被 Git 忽略。
 - `semantics/scripts/`
   - 所有正式脚本、配置、调度逻辑。
 - `agent/`
@@ -52,9 +52,13 @@
 
 - `semantics/scripts/run_test_suite.sh`
 
-配置文件：
+提交版配置模板：
 
 - `semantics/scripts/dataset_config.json`
+
+真实本地配置：
+
+- `local/dataset_config.json`
 
 兼容性 wrapper 仍然存在于仓库根目录：
 
@@ -77,4 +81,3 @@
 - 导航 JSON 顶层已经明确写入物理尺度状态：
   - `"physical_scale_unit": "米"`
   - 或 `"physical_scale_unit": "不确定"`
-

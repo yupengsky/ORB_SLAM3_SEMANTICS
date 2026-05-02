@@ -54,6 +54,10 @@ def config_get(config, name, default=None):
     return default if value is None or value == "" else value
 
 
+def is_placeholder(value):
+    return isinstance(value, str) and "<YOUR_" in value
+
+
 def safe_rmtree(path, allowed_roots):
     path = Path(path).resolve()
     if not path.exists():
@@ -183,7 +187,12 @@ def apply_config(args, config):
     args.timestamp_id = args.timestamp_id or "V101"
     args.dataset_name = args.dataset_name or args.dataset_key or "dataset"
 
-    output_root = Path(config_get(config, "external_output_root", str(Path(args.root_dir) / "semantics_outputs")))
+    output_root = Path(
+        resolve_config_path(
+            config_get(config, "external_output_root", "local/outputs"),
+            args.root_dir,
+        )
+    )
     default_result_name = f"{args.dataset_name}_{args.slam_mode}"
     args.run_name = args.run_name or f"{args.dataset_name}_{args.slam_mode}_semantic"
     args.result_dir = args.result_dir or str(output_root / default_result_name)
@@ -199,7 +208,10 @@ def apply_config(args, config):
     args.semantics_python = args.semantics_python or config_get(config, "semantics_python", sys.executable)
 
     missing = []
-    for field in ("dataset_kind", "dataset_path", "slam_mode", "pangolin_prefix", "yolo_model"):
+    required_fields = ["dataset_kind", "dataset_path", "slam_mode"]
+    if args.run_yolo:
+        required_fields.append("yolo_model")
+    for field in required_fields:
         if not getattr(args, field, None):
             missing.append(field)
     if missing:
@@ -269,6 +281,7 @@ def mode_config(args):
 
 def check_required_paths(args, cfg):
     paths = []
+    placeholders = []
     if args.run_slam:
         paths.extend(
             [
@@ -284,6 +297,16 @@ def check_required_paths(args, cfg):
         paths.append(Path(cfg["settings"]))
     if args.run_yolo:
         paths.append(Path(args.yolo_model))
+
+    for path in paths:
+        if is_placeholder(str(path)):
+            placeholders.append(str(path))
+    if placeholders:
+        raise RuntimeError(
+            "Configuration still contains placeholder path(s). "
+            "Copy semantics/scripts/dataset_config.json to local/dataset_config.json and fill them in:\n"
+            + "\n".join(placeholders)
+        )
 
     missing = [str(path) for path in paths if not path.exists()]
     if missing:
@@ -328,8 +351,9 @@ def build_env(args, export_dir):
         root / "lib",
         root / "Thirdparty/DBoW2/lib",
         root / "Thirdparty/g2o/lib",
-        Path(args.pangolin_prefix) / "lib",
     ]
+    if args.pangolin_prefix:
+        library_paths.append(Path(args.pangolin_prefix) / "lib")
     existing = env.get("LD_LIBRARY_PATH", "")
     env["LD_LIBRARY_PATH"] = ":".join(str(path) for path in library_paths if path.exists())
     if existing:
@@ -788,7 +812,8 @@ def main():
     args.vocabulary = str(Path(args.vocabulary).resolve())
     args.semantic_script = str(Path(args.semantic_script).resolve())
     args.navigation_script = str(Path(args.navigation_script).resolve())
-    args.yolo_model = str(Path(args.yolo_model).resolve())
+    args.pangolin_prefix = str(Path(args.pangolin_prefix).expanduser().resolve()) if args.pangolin_prefix else ""
+    args.yolo_model = str(Path(args.yolo_model).resolve()) if args.yolo_model else ""
     args.semantics_python = str(Path(args.semantics_python).resolve()) if args.semantics_python else sys.executable
     args.allowed_roots = [Path(args.result_dir).resolve(), Path(args.final_json_dir).resolve()]
 

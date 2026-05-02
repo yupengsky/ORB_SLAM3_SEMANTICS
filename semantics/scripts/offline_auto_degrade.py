@@ -22,6 +22,37 @@ def write_json(path, data):
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def repo_root():
+    return Path(__file__).resolve().parents[2]
+
+
+def config_get(config, name, default=None):
+    value = config.get(name)
+    return default if value is None or value == "" else value
+
+
+def resolve_root_dir(config):
+    root = Path(config_get(config, "root_dir", str(repo_root()))).expanduser()
+    if root.is_absolute():
+        return root.resolve()
+    return (repo_root() / root).resolve()
+
+
+def resolve_config_path(value, root_dir):
+    path = Path(value).expanduser()
+    if path.is_absolute():
+        return path.resolve()
+    return (root_dir / path).resolve()
+
+
+def output_root(config):
+    return resolve_config_path(config_get(config, "external_output_root", "local/outputs"), resolve_root_dir(config))
+
+
+def is_placeholder(value):
+    return isinstance(value, str) and "<YOUR_" in value
+
+
 def bool_arg(enabled, name):
     return f"--{name}" if enabled else f"--no-{name}"
 
@@ -85,11 +116,11 @@ def candidate_modes(config, dataset_kind, capabilities):
 
 
 def default_paths(config, dataset_name, mode, suffix):
-    output_root = Path(config["external_output_root"])
+    root = output_root(config)
     run_name = f"{dataset_name}_{suffix}_{mode}"
     return {
-        "result_dir": str(output_root / run_name),
-        "final_json_dir": str(output_root / run_name / "final_scene"),
+        "result_dir": str(root / run_name),
+        "final_json_dir": str(root / run_name / "final_scene"),
     }
 
 
@@ -213,11 +244,18 @@ def main():
     dataset = datasets[args.dataset_key]
     dataset_name = dataset.get("name", args.dataset_key)
     dataset_kind = dataset.get("kind", "euroc")
+    if is_placeholder(dataset.get("path", "")):
+        raise RuntimeError(
+            "Dataset path is still a placeholder. "
+            "Copy semantics/scripts/dataset_config.json to local/dataset_config.json and fill in "
+            f"datasets.{args.dataset_key}.path."
+        )
     capabilities = detect_capabilities(dataset["path"])
     modes = candidate_modes(config, dataset_kind, capabilities)
 
-    final_dir = Path(config["root_dir"]) / "semantics" / "results" / f"{dataset_name}_{args.output_suffix}"
-    report_path = Path(config["external_output_root"]) / f"{dataset_name}_{args.output_suffix}" / "auto_degrade_report.json"
+    root_dir = resolve_root_dir(config)
+    final_dir = root_dir / "semantics" / "results" / f"{dataset_name}_{args.output_suffix}"
+    report_path = output_root(config) / f"{dataset_name}_{args.output_suffix}" / "auto_degrade_report.json"
     if final_dir.exists() and not args.dry_run:
         shutil.rmtree(final_dir)
     report = {

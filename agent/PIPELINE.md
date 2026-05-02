@@ -19,7 +19,7 @@ Shutdown()
     ->
 用 2D observation 给 3D MapPoint 投票打标签
     ->
-生成外盘中间语义图 semantic_map.json
+生成本地输出目录中的中间语义图 semantic_map.json
     ->
 生成最终 scene.json、scene_sketch.txt 与 navigation_llm_view.json
 ```
@@ -88,7 +88,7 @@ full_map / chunked_map 的编排核心在：
 2. 对关键帧图像跑 YOLO-seg
 3. 通过 observation 中的 `(u, v)` 将 2D mask 与 3D MapPoint 关联
 4. 对每个 MapPoint 的标签做投票
-5. 输出外盘中间文件 `semantic_map.json`
+5. 输出本地中间文件 `semantic_map.json`
 
 ## 最终场景输出
 

@@ -17,11 +17,11 @@ SLAM.Shutdown()
   ->
 offline_semantic_mapper.py 给稀疏 MapPoint 投票添加语义
   ->
-生成外盘中间语义点云 semantic_map.json
+生成本地输出目录中的中间语义点云 semantic_map.json
   ->
 navigation_scene_builder.py 聚类、建路径网、计算风险
   ->
-生成工程内最终 scene.json、scene_sketch.txt 和 navigation_llm_view.json
+生成最终 scene.json、scene_sketch.txt 和 navigation_llm_view.json
 ```
 
 最终交付物保存在：
@@ -74,7 +74,7 @@ semantics/scripts/offline_test_suite.py
 semantics/scripts/dataset_config.json
 ```
 
-这里集中保存数据集路径、外盘输出目录、YOLO 模型路径、conda/python 解释器路径、测试列表等，避免脚本内部硬编码路径。
+提交版文件只保存待填写模板。每个开发者应复制到 `local/dataset_config.json`，在 ignored 的本地配置里保存数据集路径、输出目录、YOLO 模型路径、Python 解释器路径和测试列表。
 
 ## 3. offline_pipeline.py 做什么
 
@@ -98,7 +98,7 @@ run_navigation / scene building
 ORB_SLAM3_SEMANTIC_EXPORT_DIR=<slam_export_dir>
 ```
 
-ORB-SLAM3 示例程序结束后会读取这个环境变量，把最终地图数据导出到外盘输出目录。
+ORB-SLAM3 示例程序结束后会读取这个环境变量，把最终地图数据导出到本地输出目录。
 
 导出的中间数据包括：
 
@@ -171,7 +171,7 @@ for map_point:
     label = argmax(votes[map_point])
 ```
 
-输出是外盘中间文件：
+输出是本地中间文件：
 
 ```text
 semantic_map.json

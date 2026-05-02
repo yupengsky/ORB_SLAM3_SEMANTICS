@@ -1,34 +1,34 @@
 {
-  "root_dir": "/home/yupeng/GitHub/ORB_SLAM3_SEMANTICS",
-  "external_dataset_root": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets",
-  "external_output_root": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/ORB_SLAM3_SEMANTICS_outputs",
-  "pangolin_prefix": "/media/yupeng/新加卷/Work/Git/pangolin_install",
-  "semantics_python": "/home/yupeng/miniconda3/envs/semantics/bin/python",
+  "root_dir": ".",
+  "external_dataset_root": "<YOUR_DATASET_ROOT>",
+  "external_output_root": "local/outputs",
+  "pangolin_prefix": "",
+  "semantics_python": "",
   "yolo_model": "semantics/checkpoints/yolo26l-seg.pt",
   "auto_degrade_priority": ["stereo_imu", "stereo", "mono_imu", "mono"],
   "datasets": {
     "euroc_v101": {
       "kind": "euroc",
       "name": "EuRoC_V101",
-      "path": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/vicon_room1/V1_01_easy",
+      "path": "<YOUR_EUROC_V1_01_EASY_ASL_PATH>",
       "timestamp_id": "V101"
     },
     "euroc_v102": {
       "kind": "euroc",
       "name": "EuRoC_V102",
-      "path": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/vicon_room1/V1_02_medium",
+      "path": "<YOUR_EUROC_V1_02_MEDIUM_ASL_PATH>",
       "timestamp_id": "V102"
     },
     "advio_15": {
       "kind": "advio",
       "name": "ADVIO_15_iPhone_stride3",
-      "path": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/advio/euroc_like/advio-15-iphone-stride3"
+      "path": "<YOUR_PACKAGED_ADVIO_15_EUROC_LIKE_PATH>"
     }
   },
   "advio_packaging": {
-    "source_seq": "/home/yupeng/GitHub/my_vigator/datasets/advio/advio-15",
-    "raw_out": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/advio/raw/advio-15",
-    "package_out": "/media/yupeng/新加卷/Work/Git/ORB_SLAM_Datasets/advio/euroc_like/advio-15-iphone-stride3",
+    "source_seq": "<YOUR_RAW_ADVIO_15_PATH>",
+    "raw_out": "<YOUR_ADVIO_RAW_CACHE_PATH>",
+    "package_out": "<YOUR_PACKAGED_ADVIO_15_EUROC_LIKE_PATH>",
     "frame_stride": 3
   },
   "test_suite": [
