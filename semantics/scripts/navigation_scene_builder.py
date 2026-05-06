@@ -79,6 +79,7 @@ def label_counts(points):
 
 
 def grid_cell(position, radius):
+    # 把 3D 空间划分成边长为 radius 的立方体网格，返回一个整数坐标表示 position 落在哪个网格里。
     return tuple(np.floor(position / radius).astype(np.int64).tolist())
 
 
@@ -90,20 +91,25 @@ def neighbor_cells(cell):
 
 
 def connected_components(points, radius):
+    # 没有输入点时没有任何连通簇。
     if not points:
         return []
 
+    # 提前取出所有 3D 坐标；后续只在坐标数组上做距离计算。
     positions = [as_vec(point["position"]) for point in points]
+    # 用半径大小划分 3D 网格，把点放进网格桶里，避免每个点都和全体点暴力比较。
     cells = defaultdict(list)
     for index, position in enumerate(positions):
         cells[grid_cell(position, radius)].append(index)
 
+    # visited 标记点是否已经被归入某个簇；components 保存每个簇包含的点索引。
     visited = [False] * len(points)
     components = []
     for start in range(len(points)):
         if visited[start]:
             continue
 
+        # 从一个未访问点开始做 BFS，所有在 radius 内连通的点都会被归入同一簇。
         visited[start] = True
         queue = deque([start])
         component = []
@@ -112,20 +118,24 @@ def connected_components(points, radius):
             current = queue.popleft()
             component.append(current)
             current_position = positions[current]
+            # 只检查当前点所在网格及周围 26 个相邻网格；半径内邻居不可能出现在更远网格。
             for cell in neighbor_cells(grid_cell(current_position, radius)):
                 for candidate in cells.get(cell, []):
                     if visited[candidate]:
                         continue
+                    # 两点距离小于等于 radius，就认为它们在空间上连通，并加入 BFS 队列继续扩张。
                     if vector_norm(current_position - positions[candidate]) <= radius:
                         visited[candidate] = True
                         queue.append(candidate)
 
+        # component 存的是 points 的索引列表，上层会用这些索引取回真实 MapPoint。
         components.append(component)
 
     return components
 
 
 def build_semantic_objects(semantic_points, cluster_radius, min_object_points, max_objects_per_label):
+    # 先按语义类别分桶；unknown 点和缺少 3D 坐标的点无法形成可导航物体实例。
     points_by_label = defaultdict(list)
     for point in semantic_points:
         label = str(point.get("label", "unknown"))
@@ -135,34 +145,44 @@ def build_semantic_objects(semantic_points, cluster_radius, min_object_points, m
             continue
         points_by_label[label].append(point)
 
+    # objects 是最终保留下来的语义物体实例，discarded_clusters 记录被过滤掉的低可信簇数量。
     objects = []
     discarded_clusters = 0
     per_label_index = defaultdict(int)
 
+    # 每个类别单独聚类，避免把不同语义标签的点合并成同一个物体。
     for label in sorted(points_by_label):
         label_points = points_by_label[label]
+        # 使用空间连通性把同类 MapPoint 聚成候选物体实例。
         components = connected_components(label_points, cluster_radius)
+        # 大簇通常更稳定，优先保留；后续 max_objects_per_label 也会先留下支撑点更多的对象。
         components.sort(key=len, reverse=True)
 
         kept_for_label = 0
         for component in components:
+            # 点数太少的簇容易是误检或噪声，不进入最终导航对象。
             if len(component) < min_object_points:
                 discarded_clusters += 1
                 continue
+            # 限制每个类别输出对象数量，防止某一类产生过多小对象让 scene.json 失控。
             if kept_for_label >= max_objects_per_label:
                 discarded_clusters += 1
                 continue
 
+            # 取出该聚类里的所有 MapPoint，并基于它们的 3D 坐标计算对象几何属性。
             member_points = [label_points[index] for index in component]
             coords = np.vstack([as_vec(point["position"]) for point in member_points])
             bbox_min = coords.min(axis=0)
             bbox_max = coords.max(axis=0)
+            # 聚合语义证据：命中次数表示这个对象被多少次 2D mask 观测支持。
             semantic_hits = sum(int(point.get("semantic_observation_hits", 0)) for point in member_points)
             point_confidences = []
             for point in member_points:
+                # 单点置信度用累计语义得分除以命中次数，避免多次观测的点天然分数更大。
                 hits = max(int(point.get("semantic_observation_hits", 0)), 1)
                 point_confidences.append(min(1.0, float(point.get("score", 0.0)) / hits))
 
+            # 给同一类别下的对象稳定编号，并写入中心、包围盒、尺寸、置信度和支撑点数量。
             per_label_index[label] += 1
             kept_for_label += 1
             objects.append(
@@ -181,17 +201,20 @@ def build_semantic_objects(semantic_points, cluster_radius, min_object_points, m
                 }
             )
 
+    # 输出前按 label/id 排序，保证同一输入下 scene.json 的对象顺序稳定。
     objects.sort(key=lambda item: (item["label"], item["id"]))
     return objects, discarded_clusters
 
 
 def build_traversable_path_network(keyframes, node_radius, nearby_radius, objects):
+    # 从关键帧中提取相机中心；这些中心表示 SLAM 实际走过/拍摄过的轨迹点。
     valid = []
     for keyframe in sorted(keyframes, key=lambda kf: (float(kf.get("timestamp", 0.0)), int(kf["keyframe_id"]))):
         center = camera_center_from_keyframe(keyframe)
         if center is not None:
             valid.append(center)
 
+    # 如果没有有效相机位姿，就无法构造路径网络，返回空图结构。
     if not valid:
         return {
             "nodes": [],
@@ -200,10 +223,13 @@ def build_traversable_path_network(keyframes, node_radius, nearby_radius, object
             "recorded_trajectory_length_m": 0.0,
         }
 
+    # 原始轨迹长度按相邻关键帧相机中心的折线距离累加，保留 SLAM 记录的实际运动长度。
     recorded_trajectory_length = sum(vector_norm(curr - prev) for prev, curr in zip(valid, valid[1:]))
+    # node_accumulators 用来把相近关键帧合并成一个路径节点，assignments 记录每个关键帧归属哪个节点。
     node_accumulators = []
     assignments = []
 
+    # 顺着时间顺序遍历相机轨迹，把距离已有节点中心不超过 node_radius 的关键帧合并到该节点。
     for position in valid:
         best_index = None
         best_distance = math.inf
@@ -214,6 +240,7 @@ def build_traversable_path_network(keyframes, node_radius, nearby_radius, object
                 best_index = index
                 best_distance = distance
 
+        # 没有足够近的已有节点时创建新节点；否则更新已有节点的坐标均值累加器。
         if best_index is None:
             best_index = len(node_accumulators)
             node_accumulators.append({"sum": position.copy(), "count": 1})
@@ -222,7 +249,9 @@ def build_traversable_path_network(keyframes, node_radius, nearby_radius, object
             node_accumulators[best_index]["count"] += 1
         assignments.append(best_index)
 
+    # 每个路径节点的位置取其包含关键帧相机中心的平均值。
     node_positions = [node["sum"] / node["count"] for node in node_accumulators]
+    # 根据关键帧归属序列统计节点之间的实际转移，形成路径边和被观测到的通行方向。
     edge_stats = {}
     observed_directions = defaultdict(set)
     for previous, current in zip(assignments, assignments[1:]):
@@ -232,6 +261,7 @@ def build_traversable_path_network(keyframes, node_radius, nearby_radius, object
         edge_stats[pair] = edge_stats.get(pair, 0) + 1
         observed_directions[pair].add((previous, current))
 
+    # 预取语义对象中心，用于给每个路径节点标注附近可作为路标的对象。
     object_centers = [(obj["id"], obj["label"], as_vec(obj["center"])) for obj in objects]
     nodes = []
     for index, position in enumerate(node_positions):
@@ -246,6 +276,7 @@ def build_traversable_path_network(keyframes, node_radius, nearby_radius, object
                         "distance_m": round_float(distance),
                     }
                 )
+        # 每个节点只保留最近的一批对象，避免 scene.json 中单个路径节点过于臃肿。
         nearby_objects.sort(key=lambda item: (item["distance_m"], item["object_id"]))
         nodes.append(
             {
@@ -256,6 +287,7 @@ def build_traversable_path_network(keyframes, node_radius, nearby_radius, object
             }
         )
 
+    # 把节点转移统计写成边；边表示相机轨迹中确实从一个路径节点移动到过另一个路径节点。
     edges = []
     for edge_index, ((left, right), traversal_count) in enumerate(sorted(edge_stats.items()), start=1):
         left_position = node_positions[left]
@@ -274,6 +306,7 @@ def build_traversable_path_network(keyframes, node_radius, nearby_radius, object
             }
         )
 
+    # 路径网络长度是压缩后的节点边长度总和，通常小于或等于原始关键帧折线轨迹长度。
     path_network_length = sum(edge["distance_m"] for edge in edges)
     return {
         "nodes": nodes,
@@ -364,14 +397,20 @@ def nearest_path_clearance(bbox_min, bbox_max, path_network):
 
 
 def annotate_objects_with_path(objects, path_network):
+    # 给每个语义对象补充它与路径网络的关系，方便后续判断哪些对象靠近可通行轨迹。
     for obj in objects:
+        # center 用于估计对象中心到路径的距离，bbox 用于估计对象实体边界到路径的 clearance。
         center = as_vec(obj["center"])
         bbox_min = as_vec(obj["bbox_3d"]["min"])
         bbox_max = as_vec(obj["bbox_3d"]["max"])
+        # center 距离描述对象中心离路径多远，适合做排序和“靠近路径”判断。
         distance, node_id, edge_id = nearest_path_distance(center, path_network)
+        # clearance 距离描述对象包围盒离路径多近，更接近避障意义上的最小间隙。
         clearance, clearance_node_id, clearance_edge_id = nearest_path_clearance(bbox_min, bbox_max, path_network)
+        # 将路径相关属性直接写回对象，后续 scene、LLM view 和草图都会复用这些字段。
         obj["distance_to_path_network_m"] = round_float(distance)
         obj["clearance_to_path_network_m"] = round_float(clearance)
+        # 最近节点/边优先使用 clearance 的结果，因为它考虑了对象体积；没有时退回中心距离结果。
         obj["nearest_path_node_id"] = clearance_node_id or node_id
         obj["nearest_path_edge_id"] = clearance_edge_id or edge_id
 
@@ -395,8 +434,11 @@ def risk_from_clearance(clearance):
 
 
 def build_spatial_relations(objects, max_neighbors, max_distance):
+    # 构建语义对象之间的近邻关系；结果用于描述场景中物体彼此的空间邻接。
     relations = {}
+    # 只用对象中心点估计对象间距离，避免把完整 bbox 几何引入关系计算。
     centers = [(obj["id"], as_vec(obj["center"])) for obj in objects]
+    # 对每个对象单独寻找 max_distance 范围内最近的若干邻居。
     for object_id, center in centers:
         distances = []
         for other_id, other_center in centers:
@@ -405,11 +447,14 @@ def build_spatial_relations(objects, max_neighbors, max_distance):
             distance = vector_norm(other_center - center)
             if distance <= max_distance:
                 distances.append((distance, other_id))
+        # 先按距离、再按对象 id 排序，保证近邻选择稳定可复现。
         distances.sort(key=lambda item: (item[0], item[1]))
         for distance, other_id in distances[:max_neighbors]:
+            # 空间关系是无向的，A-B 和 B-A 只保留一条记录。
             left, right = sorted((object_id, other_id))
             relations[(left, right)] = round_float(distance)
 
+    # 将去重后的关系字典转换成 JSON 友好的列表，并附上粗粒度 near/medium/far 关系标签。
     return [
         {
             "from": left,
@@ -422,11 +467,14 @@ def build_spatial_relations(objects, max_neighbors, max_distance):
 
 
 def build_path_nearby_objects(objects, path_nearby_radius):
+    # 抽取离路径网络足够近的对象；这些对象更可能作为导航路标或潜在障碍物。
     nearby = []
     for obj in objects:
+        # clearance 使用对象包围盒到路径的最小距离，比中心点距离更适合判断是否贴近路径。
         clearance = obj.get("clearance_to_path_network_m")
         if clearance is None or clearance > path_nearby_radius:
             continue
+        # 只保留导航需要的精简字段，避免重复塞入完整 semantic_objects。
         nearby.append(
             {
                 "object_id": obj["id"],
@@ -440,6 +488,7 @@ def build_path_nearby_objects(objects, path_nearby_radius):
             }
         )
 
+    # 越贴近路径的对象越靠前；同距离时按 id 排序保证输出稳定。
     nearby.sort(key=lambda item: (item["clearance_to_path_network_m"], item["object_id"]))
     return nearby
 
@@ -452,13 +501,17 @@ def object_label_counts(objects):
 
 
 def build_global_bounds(objects, path_network, max_object_path_distance):
+    # 全局边界先包含路径节点，保证场景范围至少覆盖相机实际走过的轨迹。
     vectors = [as_vec(node["position"]) for node in path_network["nodes"]]
+    # 再加入路径附近对象的 3D 包围盒，避免离导航路径很远的误检对象把整体边界拉得过大。
     for obj in objects:
         distance = obj.get("distance_to_path_network_m")
         if distance is not None and distance > max_object_path_distance:
             continue
+        # 用 bbox 的 min/max 两个角点扩展边界，就能覆盖该对象的完整空间范围。
         vectors.append(as_vec(obj["bbox_3d"]["min"]))
         vectors.append(as_vec(obj["bbox_3d"]["max"]))
+    # 返回 min/max/extent，供草图投影、LLM 视图和 scene 元信息复用。
     return map_bounds(vectors)
 
 
@@ -504,10 +557,14 @@ def build_object_footprint(obj, axes):
 
 
 def build_navigation_llm_view(scene):
+    # 根据全局边界选择跨度最大的两个轴做 2D 投影，便于把 3D 对象压缩成平面 footprint。
     axes = projection_axes_from_bounds(scene.get("global_bounds") or {})
+    # 从完整 scene 中取出路径网络和语义对象；这里不重新构图，只生成精简视图。
     path = scene.get("traversable_path_network", {})
     objects = scene.get("semantic_objects", [])
+    # 将每个 3D 语义对象转换成包含 2D footprint、路径 clearance 和风险等级的紧凑表示。
     footprints = [build_object_footprint(obj, axes) for obj in objects]
+    # 优先排列最贴近路径的对象，因为它们对导航提示和障碍风险最重要。
     footprints.sort(
         key=lambda item: (
             item.get("clearance_to_path_network_m") is None,
@@ -516,6 +573,7 @@ def build_navigation_llm_view(scene):
             item["object_id"],
         )
     )
+    # 返回面向 LLM/下游应用的轻量地图事实：投影轴、解释说明、路径摘要和对象 footprint。
     return {
         "purpose": "compact map facts for indoor blind-navigation LLM reasoning",
         "scale_unit": "meter" if scene.get("has_metric_scale") else "uncertain",
@@ -540,25 +598,31 @@ def build_navigation_llm_view(scene):
 
 
 def build_scene(args):
+    # 读取语义融合阶段的主产物：points 是带语义标签的 3D MapPoint，summary 是上游处理统计。
     semantic_map = read_json(args.semantic_map)
     semantic_points = semantic_map.get("points", [])
     semantic_summary = semantic_map.get("scene_summary", {})
+    # 读取 SLAM 导出的关键帧轨迹，后续会把相机运动轨迹压缩成导航路径网络。
     export_dir = Path(args.export_dir)
     keyframes = read_jsonl(export_dir / "keyframes.jsonl")
 
+    # 将离散的语义 MapPoint 按 label 和空间距离聚类成“物体实例”，并丢弃点数不足的低可信簇。
     semantic_objects, discarded_clusters = build_semantic_objects(
         semantic_points,
         args.cluster_radius,
         args.min_object_points,
         args.max_objects_per_label,
     )
+    # 将关键帧相机中心聚合成路径节点/边，形成一个近似的可通行轨迹网络。
     traversable_path_network = build_traversable_path_network(
         keyframes,
         args.path_node_radius,
         args.node_nearby_radius,
         semantic_objects,
     )
+    # 给每个语义对象补充它到路径网络的距离、最近路径节点和通行风险等导航相关属性。
     annotate_objects_with_path(semantic_objects, traversable_path_network)
+    # 优先展示靠近路径的对象；这些对象通常更适合做导航路标或避障参考。
     semantic_objects.sort(
         key=lambda item: (
             item.get("distance_to_path_network_m") is None,
@@ -568,15 +632,20 @@ def build_scene(args):
         )
     )
 
+    # 构建对象之间的近邻空间关系，例如某个对象附近有哪些其他对象。
     spatial_relations = build_spatial_relations(
         semantic_objects,
         args.spatial_relation_neighbors,
         args.spatial_relation_radius,
     )
+    # 抽取路径附近的对象列表，方便下游快速找到可作为导航参照物的语义对象。
     path_nearby_objects = build_path_nearby_objects(semantic_objects, args.path_nearby_radius)
+    # 估计场景全局边界，用于投影草图、空间归一化和导航结果的整体范围描述。
     global_bounds = build_global_bounds(semantic_objects, traversable_path_network, args.bounds_object_path_radius)
 
+    # scale_mode 决定输出距离能否被解释为米；单目 arbitrary scale 下只能表示相对尺度。
     has_metric_scale = args.scale_mode == "metric"
+    # 组装最终导航场景：同时保留元信息、统计摘要、语义对象、空间关系和路径网络。
     scene = {
         "physical_scale_unit": "米" if has_metric_scale else "不确定",
         "has_metric_scale": has_metric_scale,
@@ -621,6 +690,7 @@ def build_scene(args):
             "discarded_low_support_semantic_clusters": discarded_clusters,
         },
     }
+    # 在完整 scene 基础上派生一份更轻量的 LLM 导航视图，供 main() 选择内嵌或单独写出。
     scene["navigation_llm_view"] = build_navigation_llm_view(scene)
     return scene
 
@@ -895,47 +965,78 @@ def build_ascii_grid(scene, width=80, height=36, max_objects=48):
 
 
 def parse_args():
+    # 定义导航场景生成脚本的命令行参数入口。
     parser = argparse.ArgumentParser(description="Build a semantic navigation map from offline ORB-SLAM3 semantic outputs.")
+    # 输入的语义地图 JSON，由 offline_semantic_mapper.py 生成。
     parser.add_argument("--semantic-map", required=True)
+    # SLAM 导出目录，用于读取关键帧、地图点和轨迹等几何信息。
     parser.add_argument("--export-dir", required=True)
+    # 完整导航场景 JSON 的输出路径。
     parser.add_argument("--output", required=True)
+    # ASCII 场景草图输出路径；为空时不生成草图。
     parser.add_argument("--sketch-output", default="")
+    # 面向 LLM 或下游应用的精简导航视图 JSON 输出路径；为空时嵌入主 scene。
     parser.add_argument("--llm-view-output", default="")
+    # ASCII 草图宽度，单位是字符列数。
     parser.add_argument("--sketch-width", type=int, default=80)
+    # ASCII 草图高度，单位是字符行数。
     parser.add_argument("--sketch-height", type=int, default=36)
+    # ASCII 草图中最多绘制的语义对象数量，避免草图过密。
     parser.add_argument("--sketch-max-objects", type=int, default=48)
+    # 同类语义点聚成一个物体实例时使用的空间半径。
     parser.add_argument("--cluster-radius", type=float, default=0.75)
+    # 一个语义物体实例至少需要包含的 MapPoint 数量。
     parser.add_argument("--min-object-points", type=int, default=5)
+    # 每个语义类别最多保留的物体实例数量，防止单类对象过多压垮导航 JSON。
     parser.add_argument("--max-objects-per-label", type=int, default=40)
+    # 将相机关键帧轨迹压缩成导航路径节点时使用的合并半径。
     parser.add_argument("--path-node-radius", type=float, default=0.5)
+    # 判断语义对象是否靠近某个路径节点时使用的半径。
     parser.add_argument("--node-nearby-radius", type=float, default=2.0)
+    # 判断语义对象是否靠近整条导航路径时使用的半径。
     parser.add_argument("--path-nearby-radius", type=float, default=1.25)
+    # 每个语义对象最多记录多少个空间邻居关系。
     parser.add_argument("--spatial-relation-neighbors", type=int, default=3)
+    # 计算物体之间空间关系时的最大邻居搜索距离。
     parser.add_argument("--spatial-relation-radius", type=float, default=3.0)
+    # 构建全局边界时，路径周围多远以内的对象会被纳入边界估计。
     parser.add_argument("--bounds-object-path-radius", type=float, default=8.0)
+    # SLAM 地图尺度类型：metric 表示米制尺度，arbitrary 表示单目等不确定尺度。
     parser.add_argument("--scale-mode", choices=("metric", "arbitrary"), default="metric")
+    # 地图形态标记，用于区分全量地图和分块地图生成的导航结果。
     parser.add_argument("--map-form", choices=("full_map", "chunked_map"), default="full_map")
+    # 本次运行的 SLAM 模式，写入输出 JSON 作为元信息。
     parser.add_argument("--slam-mode", default="")
+    # 数据集名称，写入输出 JSON 作为元信息。
     parser.add_argument("--dataset-name", default="")
+    # 兼容旧参数的隐藏选项；当前构图逻辑不对用户展示。
     parser.add_argument("--graph-stride", type=int, default=None, help=argparse.SUPPRESS)
+    # 返回解析后的命令行参数对象。
     return parser.parse_args()
 
 
 def main():
+    # 导航场景生成入口：读取语义地图和 SLAM 导出，聚类语义对象并构建路径/空间关系。
     args = parse_args()
+    # build_scene 是核心构图函数，返回完整导航场景，包括 objects、path network、relations 和 LLM view。
     scene = build_scene(args)
+    # LLM 视图是从完整 scene 中抽出的轻量结构，便于下游语言模型或导航应用直接消费。
     llm_view = scene.get("navigation_llm_view", {})
     scene_output = dict(scene)
+    # 如果单独指定 llm_view_output，则主 scene.json 不再内嵌 navigation_llm_view，避免重复存储。
     if args.llm_view_output:
         scene_output.pop("navigation_llm_view", None)
 
+    # 写出完整导航场景 JSON：这是后续程序读取的主产物。
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(scene_output, ensure_ascii=False, indent=2), encoding="utf-8")
+    # 如指定 LLM 视图路径，则额外写出一个面向语言模型的精简导航 JSON。
     if args.llm_view_output:
         llm_view_path = Path(args.llm_view_output)
         llm_view_path.parent.mkdir(parents=True, exist_ok=True)
         llm_view_path.write_text(json.dumps(llm_view, ensure_ascii=False, indent=2), encoding="utf-8")
+    # 如指定草图路径，则把 3D 场景投影成 ASCII 网格，方便快速人工检查物体和路径布局。
     if args.sketch_output:
         sketch_path = Path(args.sketch_output)
         sketch_path.parent.mkdir(parents=True, exist_ok=True)
@@ -943,6 +1044,7 @@ def main():
             build_ascii_grid(scene, args.sketch_width, args.sketch_height, args.sketch_max_objects),
             encoding="utf-8",
         )
+    # 打印导航构图摘要，快速确认对象数量、路径节点/边数量和路径附近对象数量。
     print(
         "[scene_builder] finished: "
         f"{scene['scene_summary']['semantic_objects_total']} objects, "
