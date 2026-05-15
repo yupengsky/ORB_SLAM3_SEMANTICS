@@ -28,6 +28,7 @@
 #include <limits>
 #include <cerrno>
 #include <cmath>
+#include <cstdlib>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <openssl/md5.h>
@@ -101,6 +102,30 @@ string BaseName(const string &path)
     if(pos == string::npos)
         return path;
     return path.substr(pos + 1);
+}
+
+string DirName(const string &path)
+{
+    const size_t pos = path.find_last_of("/\\");
+    if(pos == string::npos)
+        return "";
+    if(pos == 0)
+        return path.substr(0, 1);
+    return path.substr(0, pos);
+}
+
+void TimelineColor(const int frameIndex, const int frameCount, int &r, int &g, int &b)
+{
+    const float denom = frameCount > 1 ? static_cast<float>(frameCount - 1) : 1.0f;
+    float t = static_cast<float>(frameIndex) / denom;
+    if(t < 0.0f)
+        t = 0.0f;
+    if(t > 1.0f)
+        t = 1.0f;
+
+    r = static_cast<int>(60.0f + 180.0f * t);
+    g = static_cast<int>(180.0f - 100.0f * std::fabs(t - 0.5f));
+    b = static_cast<int>(235.0f - 175.0f * t);
 }
 
 string JsonEscape(const string &value)
@@ -1468,6 +1493,151 @@ void System::ExportSemanticMapData(const string &outputDir)
          << nExportedKFs << " keyframes, "
          << vValidMPs.size() << " map points, "
          << nExportedObs << " left-camera observations." << endl;
+}
+
+void System::ExportPointCloudTimeline(const string &outputPath)
+{
+    cout << endl << "Exporting SLAM point cloud timeline to " << outputPath << " ..." << endl;
+
+    const string outputDir = DirName(outputPath);
+    if(!outputDir.empty() && !EnsureDirectory(outputDir))
+    {
+        cerr << "ERROR: could not create point cloud output directory: " << outputDir << endl;
+        return;
+    }
+
+    vector<Map*> vpMaps = mpAtlas->GetAllMaps();
+    Map* pMap = SelectLargestUsableMap(vpMaps);
+    if(!pMap)
+    {
+        cerr << "ERROR: no usable map for point cloud export." << endl;
+        return;
+    }
+
+    vector<KeyFrame*> vpKFs = pMap->GetAllKeyFrames();
+    vector<MapPoint*> vpMPs = pMap->GetAllMapPoints();
+    sort(vpKFs.begin(), vpKFs.end(), [](KeyFrame* a, KeyFrame* b) {
+        if(!a || !b)
+            return a < b;
+        if(a->mTimeStamp == b->mTimeStamp)
+            return a->mnId < b->mnId;
+        return a->mTimeStamp < b->mTimeStamp;
+    });
+    sort(vpMPs.begin(), vpMPs.end(), [](MapPoint* a, MapPoint* b) {
+        if(!a || !b)
+            return a < b;
+        return a->mnId < b->mnId;
+    });
+
+    vector<KeyFrame*> vValidKFs;
+    map<KeyFrame*, int> keyframeToIndex;
+    map<long unsigned int, int> keyframeIdToIndex;
+    for(KeyFrame* pKF : vpKFs)
+    {
+        if(!pKF || pKF->isBad())
+            continue;
+        const int index = static_cast<int>(vValidKFs.size());
+        vValidKFs.push_back(pKF);
+        keyframeToIndex[pKF] = index;
+        keyframeIdToIndex[pKF->mnId] = index;
+    }
+
+    struct TimelinePoint
+    {
+        long unsigned int id;
+        Eigen::Vector3f position;
+        int firstFrameIndex;
+        double firstTimestamp;
+    };
+
+    vector<TimelinePoint> points;
+    points.reserve(vpMPs.size());
+
+    for(MapPoint* pMP : vpMPs)
+    {
+        if(!pMP || pMP->isBad())
+            continue;
+
+        const Eigen::Vector3f pos = pMP->GetWorldPos();
+        if(!std::isfinite(pos(0)) || !std::isfinite(pos(1)) || !std::isfinite(pos(2)))
+            continue;
+
+        int firstIndex = std::numeric_limits<int>::max();
+        const map<KeyFrame*, tuple<int,int> > observations = pMP->GetObservations();
+        for(map<KeyFrame*, tuple<int,int> >::const_iterator it = observations.begin(); it != observations.end(); ++it)
+        {
+            KeyFrame* pKF = it->first;
+            if(!pKF || pKF->isBad() || pKF->GetMap() != pMap)
+                continue;
+            map<KeyFrame*, int>::const_iterator found = keyframeToIndex.find(pKF);
+            if(found != keyframeToIndex.end() && found->second < firstIndex)
+                firstIndex = found->second;
+        }
+
+        if(firstIndex == std::numeric_limits<int>::max())
+        {
+            map<long unsigned int, int>::const_iterator byId = keyframeIdToIndex.find(static_cast<long unsigned int>(pMP->mnFirstKFid));
+            if(byId != keyframeIdToIndex.end())
+                firstIndex = byId->second;
+        }
+
+        if(firstIndex == std::numeric_limits<int>::max())
+            firstIndex = 0;
+
+        double timestamp = 0.0;
+        if(!vValidKFs.empty() && firstIndex >= 0 && firstIndex < static_cast<int>(vValidKFs.size()))
+            timestamp = vValidKFs[firstIndex]->mTimeStamp;
+
+        TimelinePoint point;
+        point.id = pMP->mnId;
+        point.position = pos;
+        point.firstFrameIndex = firstIndex;
+        point.firstTimestamp = timestamp;
+        points.push_back(point);
+    }
+
+    ofstream f(outputPath.c_str());
+    if(!f.is_open())
+    {
+        cerr << "ERROR: could not open point cloud output file: " << outputPath << endl;
+        return;
+    }
+
+    f << fixed << setprecision(9);
+    f << "ply" << endl;
+    f << "format ascii 1.0" << endl;
+    f << "comment ORB-SLAM3 mono point cloud timeline" << endl;
+    f << "comment vertex property first_seen_frame_index drives replay and pause controls" << endl;
+    f << "element vertex " << points.size() << endl;
+    f << "property float x" << endl;
+    f << "property float y" << endl;
+    f << "property float z" << endl;
+    f << "property uchar red" << endl;
+    f << "property uchar green" << endl;
+    f << "property uchar blue" << endl;
+    f << "property int first_seen_frame_index" << endl;
+    f << "property double first_seen_timestamp" << endl;
+    f << "property uint map_point_id" << endl;
+    f << "end_header" << endl;
+
+    for(const TimelinePoint &point : points)
+    {
+        int r = 180;
+        int g = 180;
+        int b = 180;
+        TimelineColor(point.firstFrameIndex, static_cast<int>(vValidKFs.size()), r, g, b);
+        f << point.position(0) << " "
+          << point.position(1) << " "
+          << point.position(2) << " "
+          << r << " " << g << " " << b << " "
+          << point.firstFrameIndex << " "
+          << point.firstTimestamp << " "
+          << point.id << endl;
+    }
+
+    cout << "SLAM point cloud timeline export finished: "
+         << vValidKFs.size() << " keyframes, "
+         << points.size() << " map points." << endl;
 }
 
 /*void System::SaveTrajectoryKITTI(const string &filename)

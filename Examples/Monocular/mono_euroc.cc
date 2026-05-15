@@ -186,11 +186,23 @@ int main(int argc, char **argv)
     // Stop all threads
     SLAM.Shutdown();
 
+    const char* pointCloudTimelinePath = getenv("ORB_SLAM3_POINTCLOUD_TIMELINE_PATH");
+    if(pointCloudTimelinePath && pointCloudTimelinePath[0] != '\0')
+    {
+        SLAM.ExportPointCloudTimeline(string(pointCloudTimelinePath));
+    }
+
     const char* semanticExportDir = getenv("ORB_SLAM3_SEMANTIC_EXPORT_DIR");
     if(semanticExportDir && semanticExportDir[0] != '\0')
     {
         cout << endl << "Exporting semantic map data to " << semanticExportDir << " ..." << endl;
         SLAM.ExportSemanticMapData(string(semanticExportDir));
+    }
+
+    const char* pointCloudOnly = getenv("ORB_SLAM3_POINTCLOUD_ONLY");
+    if(pointCloudOnly && string(pointCloudOnly) == "1")
+    {
+        return 0;
     }
 
     // Save camera trajectory

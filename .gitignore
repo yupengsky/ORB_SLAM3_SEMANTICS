@@ -7,21 +7,16 @@
 # Unignore all dirs
 !*/
 
-!off-line_test
-!off-line_test_advio
-!off-line_auto_degrade
-
 # Local agent/tooling metadata
 .codex
 **/__pycache__/
 *.pyc
 
-# Local-only configuration, datasets, generated outputs, and model weights.
+# Local-only configuration, datasets, and generated outputs.
 local/
 datasets/
 data/
 outputs/
-semantics_outputs/
 .venv/
 venv/
 *.bag
@@ -93,12 +88,6 @@ build/
 lib/
 
 results/
-semantics/results/**
-!semantics/results/
-!semantics/results/README.md
-semantics/checkpoints/**
-!semantics/checkpoints/
-!semantics/checkpoints/README.md
 
 cmake_modules/
 cmake-build-debug/
