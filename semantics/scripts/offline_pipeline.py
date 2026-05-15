@@ -207,6 +207,7 @@ def apply_config(args, config):
     args.vocabulary = args.vocabulary or str(Path(args.root_dir) / "Vocabulary" / "ORBvoc.txt")
     args.semantic_script = args.semantic_script or str(script_dir / "offline_semantic_mapper.py")
     args.navigation_script = args.navigation_script or str(script_dir / "navigation_scene_builder.py")
+    args.pointcloud_history_script = args.pointcloud_history_script or str(script_dir / "build_pointcloud_history.py")
     args.pangolin_prefix = args.pangolin_prefix or config_get(config, "pangolin_prefix", "")
     args.yolo_model = args.yolo_model or resolve_config_path(config_get(config, "yolo_model", ""), args.root_dir)
     args.semantics_python = args.semantics_python or config_get(config, "semantics_python", sys.executable)
@@ -301,6 +302,8 @@ def check_required_paths(args, cfg):
         paths.append(Path(cfg["settings"]))
     if args.run_yolo:
         paths.append(Path(args.yolo_model))
+    if args.pointcloud_history:
+        paths.append(Path(args.pointcloud_history_script))
 
     for path in paths:
         if is_placeholder(str(path)):
@@ -490,6 +493,33 @@ def run_semantic_and_navigation(args, cfg, export_dir, semantic_json, semantic_p
         ]
         # 导航阶段失败同样直接抛异常，让 full_map 被拒绝或让分块片段记录失败原因。
         subprocess.run([str(part) for part in cmd], check=True)
+
+
+def run_pointcloud_history(args, export_dir, semantic_json, output_json, output_ply, map_form, segment_id=""):
+    if not args.pointcloud_history:
+        return
+
+    cmd = [
+        args.semantics_python,
+        args.pointcloud_history_script,
+        "--export-dir",
+        export_dir,
+        "--output",
+        output_json,
+        "--history-ply",
+        output_ply,
+        "--metadata",
+        f"dataset_name={args.dataset_name}",
+        "--metadata",
+        f"slam_mode={args.slam_mode}",
+        "--metadata",
+        f"map_form={map_form}",
+    ]
+    if segment_id:
+        cmd.extend(["--metadata", f"segment_id={segment_id}"])
+    if semantic_json and Path(semantic_json).exists():
+        cmd.extend(["--semantic-map", semantic_json])
+    subprocess.run([str(part) for part in cmd], check=True)
 
 
 def summarize_semantic_index(segment_records, output_path, map_form):
@@ -704,6 +734,8 @@ def run_chunked(args, cfg, map_form="chunked_map"):
         segment_dir = segments_dir / chunk_id
         semantic_json = segment_dir / "semantic_map.json"
         semantic_ply = chunk_root / chunk_id / "semantic_map.ply"
+        history_json = chunk_root / chunk_id / "pointcloud_history.json"
+        history_ply = chunk_root / chunk_id / "pointcloud_history.ply"
         scene_json = segment_dir / "scene.json"
         sketch_path = segment_dir / "scene_sketch.txt"
         llm_view_json = segment_dir / "navigation_llm_view.json"
@@ -738,9 +770,20 @@ def run_chunked(args, cfg, map_form="chunked_map"):
                     str(annotated_dir) if annotated_dir else "",
                     map_form,
                 )
+                run_pointcloud_history(
+                    args,
+                    str(export_dir),
+                    str(semantic_json),
+                    str(history_json),
+                    str(history_ply),
+                    map_form,
+                    chunk_id,
+                )
                 # 当前分块完整通过后，记录为成功；最终合并阶段只会消费成功 segment。
                 record["status"] = "ok"
                 record["reason"] = "ok"
+                record["pointcloud_history_json"] = str(history_json)
+                record["pointcloud_history_ply"] = str(history_ply)
             except Exception as exc:
                 # 单个分块语义/导航失败不会中断整个 chunked 流程，只记录失败原因并继续处理后续分块。
                 record["reason"] = f"semantic/navigation failed: {exc}"
@@ -773,6 +816,8 @@ def run_full(args, cfg):
     logs_dir = Path(args.result_dir) / "logs"
     semantic_json = Path(args.result_dir) / "intermediate" / "semantic_map.json"
     semantic_ply = Path(args.result_dir) / "semantic_map.ply"
+    history_json = Path(args.result_dir) / "pointcloud_history.json"
+    history_ply = Path(args.result_dir) / "pointcloud_history.ply"
     scene_json = Path(args.final_json_dir) / "scene.json"
     sketch_path = Path(args.final_json_dir) / "scene_sketch.txt"
     llm_view_json = Path(args.final_json_dir) / "navigation_llm_view.json"
@@ -800,6 +845,14 @@ def run_full(args, cfg):
             str(llm_view_json),
             args.annotated_dir,
             # 标记这批语义/导航结果来自 full_map，方便最终 JSON 和日志区分全量流程与分块流程。
+            "full_map",
+        )
+        run_pointcloud_history(
+            args,
+            str(export_dir),
+            str(semantic_json),
+            str(history_json),
+            str(history_ply),
             "full_map",
         )
     except Exception as exc:
@@ -844,6 +897,8 @@ def parse_args():
     parser.add_argument("--semantic-script", default="")
     # 导航图生成脚本路径；为空时使用工程内默认导航脚本。
     parser.add_argument("--navigation-script", default="")
+    # 从 SLAM 导出的 observation 中重建“地图点最早在哪个关键帧出现”的点云历史文件。
+    parser.add_argument("--pointcloud-history-script", default="")
     # YOLO 模型权重路径或模型名，用于离线目标检测。
     parser.add_argument("--yolo-model", default="")
     # Pangolin 安装前缀，用于定位运行 ORB-SLAM3 时需要的动态库。
@@ -864,6 +919,8 @@ def parse_args():
     parser.add_argument("--run-yolo", action=argparse.BooleanOptionalAction, default=True)
     # 是否运行最终导航图生成阶段。
     parser.add_argument("--run-navigation", action=argparse.BooleanOptionalAction, default=True)
+    # 是否额外保存可回放点云生成过程的 pointcloud_history.{json,ply}。
+    parser.add_argument("--pointcloud-history", action=argparse.BooleanOptionalAction, default=True)
     # 全量离线融合失败或质量不足时，是否自动退回到分块处理。
     parser.add_argument("--fallback-to-chunks", action=argparse.BooleanOptionalAction, default=True)
     # 是否跳过全量融合，直接使用分块离线语义融合流程。
